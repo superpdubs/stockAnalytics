@@ -20,7 +20,7 @@ https://www.youtube.com/watch?v=MwZwr5Tvyxo&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUx
 flask_sqlalchemy based on (MYSQL / SQlite )
 
 # how to set up flask_sqlalchemy:
-pip install flask_sqlalchemy
+pip3 install flask_sqlalchemy
 
 
 
