@@ -4,7 +4,7 @@
 Twitter/Stock price analytics
 
 # Language:
-Python2.7.X
+Python3
 
 # Development framework:
 Python/Flask(MVC)
