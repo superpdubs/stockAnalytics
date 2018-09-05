@@ -65,7 +65,6 @@ button {
 
 button:hover {
     background-color: rgba(12,12,13,0.2);
-    transition: all 0.25s ease-in-out;
 }
 
 input {
@@ -82,14 +81,18 @@ input {
     transition: all 0.25s ease-in-out;
 }
 
-input:focus {
-    background-color: rgba(255,255,255,0.9);
-    transition: all 0.25s ease-in-out;
-}
-
 header>a {
     color: white;
     text-decoration: none;
+}
+
+#header-search {
+    color: white;
+}
+
+#header-search:focus {
+    background-color: rgba(255,255,255,0.9);
+    color: black;
 }
 
 @media (width < 40em ) {
