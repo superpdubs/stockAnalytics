@@ -1,10 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-</head>
-<body>
-    <h1>This is index page</h1>
-</body>
-</html>
+<!-- Index page -->
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+
+    .center {
+      margin: auto;
+      width: 50%;
+      border: 3px solid #fafafa;
+      padding: 10px;
+    }
+
+    .input {
+      min-width: 150px;
+      width: 25vw;
+      height: 30px;
+    }
+
+  </style>
+{% endblock %}
+{% block content %}
+  <h1>Fetch</h1>
+  <p>
+    Welcome to Fetch.
+  </p>
+  <div class="center">
+    <input class="input" placeholder="input your stock ticker here" type="text" autofocus/>
+    <button>Go Fetch!</button>
+  </div>
+
+{% endblock %}
