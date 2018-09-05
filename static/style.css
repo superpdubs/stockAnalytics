@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+header {
+    display: flex;
+    padding: 1rem 5rem;
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: white;
+    background: linear-gradient(45deg, rgba(47,186,204,1) 0%, rgba(73,214,181,1) 100%);
+    justify-content: space-between;
+}
+
+.container {
+    display: flex;
+}
+
+.content {
+    max-width: 55rem;
+    margin-left: 5%;
+}
+
+.sidebar {
+    width: 12rem;
+    flex-shrink: 0;
+}
+
+.profile {
+    flex: 1;
+    padding: 0 5rem;
+}
+
+.feed {
+    flex: 1;
+}
+
+.vert-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    font-family: inherit;
+}
+
+button {
+    border: none;
+    background-color: rgba(12,12,13,0.15);
+    border-radius: 0.125rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-family: inherit;
+    white-space: nowrap;
+    color: inherit;
+    transition: all 0.25s ease-in-out;
+}
+
+button:hover {
+    background-color: rgba(12,12,13,0.2);
+    transition: all 0.25s ease-in-out;
+}
+
+input {
+    border: none;
+    background-color: rgba(12,12,13,0.1);
+    border-radius: 0.125rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-family: inherit;
+    white-space: nowrap;
+    color: inherit;
+    transition: all 0.25s ease-in-out;
+}
+
+input:focus {
+    background-color: rgba(255,255,255,0.9);
+    transition: all 0.25s ease-in-out;
+}
+
+header>a {
+    color: white;
+    text-decoration: none;
+}
+
+@media (width < 40em ) {
+    .content {
+        margin-left: 0;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
+

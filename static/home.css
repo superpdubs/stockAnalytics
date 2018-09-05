@@ -1,0 +1,21 @@
+h1, h2, p, label, button {
+	color: white;
+	font-family: sans-serif;
+}
+
+input {
+    color: white;
+}
+
+input:focus {
+    color: black;
+}
+
+body {
+    background: linear-gradient(45deg, rgba(47,186,204,1) 0%, rgba(73,214,181,1) 100%);
+}
+
+.vert-container {
+	min-height: 100vh;
+    justify-content: center;
+}
