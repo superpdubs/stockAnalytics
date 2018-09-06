@@ -7,10 +7,10 @@
 
 {% block body_contents %}
 		<div class=sidebar>
-			<div class=name><h1>Alphabet</h1>
-			<h2>GOOGL</h2></div>
-			<h1>$XXX.XX</h1>
-			<span>X.XX%</span>
+			<div class=name><h1>{{ stock_name }}</h1>
+			<h2>{{ stock_ticker }}</h2></div>
+			<h1>${{ stock_value }}</h1>
+			<span>{{ stock_change }}%</span>
 		</div>
 		<div class=feed>
 			.

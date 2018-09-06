@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, request, url_for
 app = Flask(__name__)
 
 
@@ -8,7 +8,8 @@ def index():
 
 @app.route('/stock', methods=['GET','POST'])
 def stock():
-    return render_template('stock.html')
+    ticker = request.args['ticker'].upper();
+    return render_template('stock.html', stock_name="Contoso Ltd.", stock_ticker=ticker, stock_value="XX.XX", stock_change="X.XX")
 
 @app.route('/page')
 def page():
