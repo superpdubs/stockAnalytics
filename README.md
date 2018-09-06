@@ -9,6 +9,8 @@ Python3
 # Development framework:
 Python/Flask(MVC)
 
+# Set up your package install:
+pip install -r requirements.txt
 
 # How to set up VirtualEnv and flask for your project:
 http://flask.pocoo.org/docs/1.0/installation/
