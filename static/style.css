@@ -29,13 +29,9 @@ header {
     flex-shrink: 0;
 }
 
-.profile {
+.column {
     flex: 1;
     padding: 0 5rem;
-}
-
-.feed {
-    flex: 1;
 }
 
 .vert-container {
