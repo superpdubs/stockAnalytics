@@ -1,10 +1,5 @@
-h1, h2, p, label, button {
+body {
 	color: white;
-	font-family: sans-serif;
-}
-
-input {
-    color: white;
 }
 
 input:focus {

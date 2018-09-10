@@ -1,6 +1,7 @@
 body {
     margin: 0;
-    font-family: sans-serif;
+    font-family: 'GlacialIndifferenceRegular', sans-serif;
+    color: rgba(30,30,30,1);
 }
 
 header {
@@ -9,7 +10,6 @@ header {
     text-align: center;
     font-size: x-large;
     font-weight: bold;
-    font-family: sans-serif;
     color: white;
     background: linear-gradient(45deg, rgba(47,186,204,1) 0%, rgba(73,214,181,1) 100%);
     justify-content: space-between;
