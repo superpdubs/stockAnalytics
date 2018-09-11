@@ -72,18 +72,16 @@ input {
     padding-right: .5rem;
     padding-top: .25rem;
     padding-bottom: .25rem;
-    font-family: inherit;
     white-space: nowrap;
-    color: inherit;
     transition: all 0.25s ease-in-out;
 }
 
-header>a {
+header > a {
     color: white;
     text-decoration: none;
 }
 
-header>form {
+header > form {
     margin-top: -0.25rem;
 }
 
@@ -107,7 +105,7 @@ header>form {
 }
 
 @media (width < 30em ) {
-    header>form {
+    header > form {
         display:none;
     }
 }
