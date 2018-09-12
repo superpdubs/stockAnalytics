@@ -94,6 +94,12 @@ header > form {
     color: black;
 }
 
+@media (width < 50em ) {
+    .column {
+        padding: 0 2rem;
+    }
+}
+
 @media (width < 40em ) {
     .content {
         margin-left: 0;
@@ -107,5 +113,9 @@ header > form {
 @media (width < 30em ) {
     header > form {
         display:none;
+    }
+
+    .container {
+        flex-direction: column;
     }
 }
