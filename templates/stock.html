@@ -7,8 +7,10 @@
 
 {% block body_contents %}
 		<div class=column>
-			<div class=name><h1>{{ stock_name }}</h1>
-			<h2>{{ stock_ticker }}</h2></div>
+			<div class=name>
+				<h1>{{ stock_name }}</h1>
+				<h2>{{ stock_ticker }}</h2>
+			</div>
 			<h1>${{ stock_value }}</h1>
 			<span>{{ stock_change }}%</span>
 			<div class=graph>
