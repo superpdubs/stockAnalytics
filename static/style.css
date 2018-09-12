@@ -40,7 +40,13 @@ header {
 
 .column {
     flex: 1;
-    padding: 0 5rem;
+    padding: 0 0 0 5%;
+    transition: padding 0.25s ease-in-out;
+}
+
+.container:last-child {
+    padding-right: 5%;
+    transition: padding-right 0.25s ease-in-out;
 }
 
 .vert-container {
@@ -102,9 +108,22 @@ header > form {
     color: black;
 }
 
+.graph {
+    background-color: red;
+    color: white;
+    width: 100%;
+    height: 20rem;
+    text-align: center;
+    margin: 2rem 0;
+}
+
 @media (width < 50em ) {
     .column {
-        padding: 0 2rem;
+        padding: 0 0 1rem 1rem;
+    }
+
+    .container:last-child {
+        padding-right: 1rem;
     }
 }
 
@@ -116,14 +135,14 @@ header > form {
     .sidebar {
         display: none;
     }
+
+    .container {
+        flex-direction: column;
+    }
 }
 
 @media (width < 30em ) {
     header > form {
         display:none;
-    }
-
-    .container {
-        flex-direction: column;
     }
 }
