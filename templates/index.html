@@ -1,34 +1,15 @@
-<!-- Index page -->
 {% extends "base.html" %}
-{% block title %}Index{% endblock %}
-{% block head %}
-  {{ super() }}
-  <style type="text/css">
-    .important { color: #336699; }
 
-    .center {
-      margin: auto;
-      width: 50%;
-      border: 3px solid #fafafa;
-      padding: 10px;
-    }
+{% block head %}<link href="{{url_for('static', filename='home.css')}}") rel="stylesheet">{% endblock %}
 
-    .input {
-      min-width: 150px;
-      width: 25vw;
-      height: 30px;
-    }
+{% block title %}Home{% endblock %}
 
-  </style>
-{% endblock %}
-{% block content %}
-  <h1>Fetch</h1>
-  <p>
-    Welcome to Fetch.
-  </p>
-  <div class="center">
-    <input class="input" placeholder="input your stock ticker here" type="text" autofocus/>
-    <button>Go Fetch!</button>
-  </div>
-
-{% endblock %}
+{% block body_contents %}
+		<div class=vert-container>
+			<h1>fetch</h1>
+			<h2>_insert flavour text here_</h2>
+			<form method="GET" action="stock">
+				<input type="search" name="ticker" id="search">
+				<button type="submit">Go fetch!</button>
+			</form>
+		</div>{% endblock %}
