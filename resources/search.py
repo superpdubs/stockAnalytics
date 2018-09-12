@@ -4,6 +4,8 @@ import twitter
 import apiKey
 from _datetime import datetime, timedelta
 from newsapi import NewsApiClient
+import pyEX
+import json
 
 ########
 # init API key Settings
@@ -56,5 +58,27 @@ def newsApiEverythingSearch(query):
     print(results.get('articles'))
 
 
-print(newsApiEverythingSearch(query="Apple"))
+# print(newsApiEverythingSearch(query="Apple"))
+
+def pyEXTest(query):
+    result = pyEX.ohlc(query);
+    return result
+
+# print(pyEXTest("AAPL"))
+
+def pyEXStockInfo(query):
+
+    queryResult = pyEX.ohlc(query);
+
+    if (queryResult.get('open').get('time') >= queryResult.get('close').get('time')):
+        queryResult.update({'live': True})
+
+    if (queryResult.get('open').get('time') < queryResult.get('close').get('time')):
+        queryResult.update({'live': False})
+
+    print(json.dumps(queryResult))
+    return queryResult
+
+
+print(pyEXStockInfo("AAPL"))
 
