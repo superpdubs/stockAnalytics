@@ -1,13 +1,9 @@
 #encoding: utf-8
+
 DEBUG = True
 
-DIALECT = ''
-DRIVER = ''
-HOST = '127.0.0.1'
-PORT = ''
-USER = ''
-PASSWORD = ''
-DATABASE = ''
+SQLALCHEMY_DATABASE_URI = 'sqlite:///db/myfetch.db'
 
-SQLALCHEMY_DATABASE_URI = "{}+{}://{}:{}@{}:{}/{}?charset=utf8".format(DIALECT, DRIVER, USER, PASSWORD, HOST, PORT, DATABASE)
+SQLALCHEMY_COMMIT_TEARDOWN = True
+
 SQLALCHEMY_TRACK_MODIFICATIONS = False

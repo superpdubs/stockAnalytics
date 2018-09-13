@@ -1,15 +1,14 @@
 #encoding: utf-8
 from flask import Flask, redirect, url_for, render_template
-from db_sqlalchemy import db
 from models import *
 import config
 
 app = Flask(__name__)
-# app.config.from_object(config)
-# db.init_app(app)
+app.config.from_object(config)
+db.init_app(app)
 
-# with app.app_context():
-#     db.create_all()
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/')
