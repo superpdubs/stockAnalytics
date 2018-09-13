@@ -1,0 +1,17 @@
+body {
+	color: white;
+}
+
+input:focus {
+    background-color: rgba(255,255,255,0.9);
+    color: black;
+}
+
+body {
+    background: linear-gradient(45deg, rgba(47,186,204,1) 0%, rgba(73,214,181,1) 100%);
+}
+
+.vert-container {
+	min-height: 100vh;
+    justify-content: center;
+}
