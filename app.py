@@ -56,6 +56,10 @@ def stock(stockname):
 def feature():
     return render_template('feature.html')
 
+@app.route('/sources')
+def sources():
+    otherStickerForm = StickerForm()
+    return render_template('sources.html', thisform=otherStickerForm)
 
 if __name__ == '__main__':
     app.run(debug=True)
