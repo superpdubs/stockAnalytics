@@ -116,11 +116,11 @@ header > form {
     margin-top: -0.25rem;
 }
 
-#header-search {
+.symbol-search > input {
     color: white;
 }
 
-#header-search:focus {
+.symbol-search > input:focus {
     background-color: rgba(255,255,255,0.9);
     color: black;
 }
