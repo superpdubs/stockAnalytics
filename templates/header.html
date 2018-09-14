@@ -1,13 +1,7 @@
 	<header>
 		<a href="/">fetch</a>
-{#		<form method="GET" action="stock">#}
-{#			<input type="search" name="ticker" id="header-search">#}
-{#			<button type="submit">Go fetch!</button>#}
-{#		</form>#}
-
-        <form name='myStickerForm' method="POST" action="{{ url_for("index") }}" >
-                {{ thisform.sticker }}
-                <button type="submit">Go fetch!</button>
-
+		<form name="myStickerForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
+            {{ thisform.sticker }}
+            <button type="submit">Go fetch!</button>
         </form>
 	</header>
