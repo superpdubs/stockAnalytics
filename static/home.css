@@ -3,6 +3,11 @@ body {
     background: linear-gradient(45deg, rgba(47,186,204,1) 0%, rgba(73,214,181,1) 100%);
 }
 
+h1 {
+	font-size: 4rem;
+	font-weight: normal;
+}
+
 input:focus {
     background-color: rgba(255,255,255,0.9);
     color: black;
