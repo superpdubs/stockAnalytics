@@ -1,6 +1,6 @@
 *.pyc
 
-.idea/workspace.xml
+.idea/
 __pycache__/
 
 apiKey.py
