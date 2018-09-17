@@ -73,7 +73,7 @@ def pyEXStockInfo(query):
 
     currentPrice = pyEX.price(query)
 
-    logo = pyEX.logo(query)
+    # logo = pyEX.logo(query)
 
     if (queryResult.get('open').get('time') >= queryResult.get('close').get('time')):
         queryResult.update({'live': True})
@@ -82,11 +82,18 @@ def pyEXStockInfo(query):
         queryResult.update({'live': False})
 
     queryResult.update({'currentPrice': currentPrice})
-    queryResult.update({'logo': logo})
+    # queryResult.update({'logo': logo})
 
     # print(json.dumps(queryResult))
     # return json.dumps(queryResult)
     return queryResult
 
 
-print(pyEXStockInfo("AAPL"))
+# print(pyEXStockInfo("AAPL"))
+
+def pyEXNews(query):
+
+    newsResult = pyEX.news(query, count=10)
+    return newsResult
+
+print(pyEXNews("AAPL"))

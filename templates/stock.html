@@ -31,4 +31,22 @@
 			<div class=graph>
 				News placeholder
 			</div>
-		</div>{% endblock %}
+            <table style="width:100%">
+            {% for newsItem in tickerNews %}
+                <tr>
+{#                <td>#}
+{#                    <img src="{{ newsItem.image }}"/>#}
+{#                </td>#}
+                    <td>
+                        <div>
+                            <h3>{{ newsItem.source }}</h3>
+                            <a href="{{ newsItem.url }}" ><h1>{{ newsItem.headline }}</h1></a>
+                            <h2>{{ newsItem.summary }}</h2>
+                            <p>{{ newsItem.datetime }}</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+		</div>
+{% endblock %}
