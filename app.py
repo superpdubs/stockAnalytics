@@ -54,7 +54,7 @@ def stock(stockname):
     # .....to implement.........
     tickerInfo = search.pyEXStockInfo(stockname)
     otherStickerForm = StickerForm()
-    return render_template('stock.html', stock_name=stockname, thisform=otherStickerForm, tickerInfo = tickerInfo)
+    return render_template('stock.html', stock_ticker=stockname, thisform=otherStickerForm, tickerInfo = tickerInfo)
 
 @app.route('/feature')
 def feature():
