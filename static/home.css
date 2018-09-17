@@ -1,11 +1,11 @@
 body {
-	color: white;
+    color: white;
     background: linear-gradient(45deg, rgba(47,186,204,1) 0%, rgba(73,214,181,1) 100%);
 }
 
 h1 {
-	font-size: 4rem;
-	font-weight: normal;
+    font-size: 4rem;
+    font-weight: normal;
 }
 
 input:focus {
@@ -14,10 +14,10 @@ input:focus {
 }
 
 .vert-container {
-	min-height: calc(100vh - 3.5rem);
+    min-height: calc(100vh - 3.5rem);
     justify-content: center;
 }
 
 footer {
-	background: none;
+    background: none;
 }

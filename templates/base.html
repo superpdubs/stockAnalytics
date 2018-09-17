@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link href="{{url_for('static', filename='style.css')}}") rel="stylesheet">
-	{% block head %}{% endblock %}
-	<title>{% block title %}{% endblock %} - fetch</title>
+  <link href="{{url_for('static', filename='style.css')}}") rel="stylesheet">
+  {% block head %}{% endblock %}
+  <title>{% block title %}{% endblock %} - fetch</title>
 </head>
 <body>
 {% block header %}{% endblock %}
-	<div class=container>
+  <div class=container>
 {% block sidebar %}{% endblock %}
 {% block body_contents %}{% endblock %}
-	</div>
+  </div>
 {% include 'footer.html' %}
 </body>
 </html>
