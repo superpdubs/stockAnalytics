@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ stock_ticker }} - {{ stock_name }}{% endblock %}
+{% block title %}{{ tickerInfo.companyDetails.symbol }} - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
 {% endblock %}
@@ -8,7 +8,7 @@
 {% block body_contents %}
     <div class=column>
       <div class=name>
-        <p style="margin-bottom: -12px;">{{ tickerInfo.companyDetails.symbol }} </p>
+        <p style="margin-bottom: -12px;">{{ tickerInfo.companyDetails.symbol }}</p>
         <h1>{{ tickerInfo.companyDetails.companyName }}</h1>
         <p style="margin-top: -12px;">Exchange: {{ tickerInfo.companyDetails.exchange }}</p>
       </div>
