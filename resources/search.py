@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import twitter
-import apiKey
+# import apiKey
+from resources import apiKey
 from _datetime import datetime, timedelta
 from newsapi import NewsApiClient
 import pyEX
@@ -68,7 +69,11 @@ def pyEXTest(query):
 
 def pyEXStockInfo(query):
 
-    queryResult = pyEX.ohlc(query);
+    queryResult = pyEX.ohlc(query)
+
+    currentPrice = pyEX.price(query)
+
+    logo = pyEX.logo(query)
 
     if (queryResult.get('open').get('time') >= queryResult.get('close').get('time')):
         queryResult.update({'live': True})
@@ -76,9 +81,12 @@ def pyEXStockInfo(query):
     if (queryResult.get('open').get('time') < queryResult.get('close').get('time')):
         queryResult.update({'live': False})
 
-    print(json.dumps(queryResult))
+    queryResult.update({'currentPrice': currentPrice})
+    queryResult.update({'logo': logo})
+
+    # print(json.dumps(queryResult))
+    # return json.dumps(queryResult)
     return queryResult
 
 
 print(pyEXStockInfo("AAPL"))
-
