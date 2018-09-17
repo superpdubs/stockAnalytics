@@ -24,8 +24,8 @@ flask_sqlalchemy based on (MYSQL / SQlite )
 # how to set up flask_sqlalchemy:
 pip3 install flask_sqlalchemy
 
-
-
+# matplotlib on a headless install
+Change the backend to a "hardcopy" one as described here https://matplotlib.org/faq/usage_faq.html#wx-backends
 
 
 
