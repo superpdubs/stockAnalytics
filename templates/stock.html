@@ -52,28 +52,24 @@
                 <h1>Twitter</h1>
             <table>
                 {% for tweet in twitter %}
-                    <p>{{ tweet }}</p>
-                        <tr>
-        {#                <td>#}
-        {#                    <img src="{{ newsItem.image }}"/>#}
-        {#                </td>#}
-                            <td style="width: 40%;">
-                                <img src="{{ tweet.user.profile_image_url_https }}"/>
-                                <a href="{{ tweet.user.url }}" ><p>@{{ tweet.user.screen_name }}</p></a>
-                                <p>{{ tweet.user.name }}</p>
-                                <p>{{ tweet.user.location }}</p>
-                                <p>{{ tweet.user.description }}</p>
-                            </td>
-                            <td style="width: 60%;">
-                                <div>
-                                    <p>{{ tweet.text }}</p>
-                                    <p>{{ tweet.created_at }}</p>
-                                    <p>Favourited: {{ tweet.favorite_count }} Retweeted: {{ tweet.retweet_count }}</p>
-                                    <a href="{{ tweet.urls.url }}"><p>View Online</p></a>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                    <tr>
+                        <td style="width: 40%;">
+                            <img src="{{ tweet.user.profile_image_url_https }}"/>
+                            <a href="{{ tweet.user.url }}" ><p>@{{ tweet.user.screen_name }}</p></a>
+                            <p>{{ tweet.user.name }}</p>
+                            <p>{{ tweet.user.location }}</p>
+                            <p>{{ tweet.user.description }}</p>
+                        </td>
+                        <td style="width: 60%;">
+                            <div>
+                                <p>{{ tweet.text }}</p>
+                                <p>{{ tweet.created_at }}</p>
+                                <p>Favourited: {{ tweet.favorite_count }} Retweeted: {{ tweet.retweet_count }}</p>
+                                <a href="{{ tweet.urls.url }}"><p>View Online</p></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
             </table>
             </div>
 		</div>
