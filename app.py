@@ -3,6 +3,8 @@ from flask import Flask, redirect, url_for, render_template, request
 from models import *
 import config
 from myform import *
+from stockPlot import plotStock
+import time
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -10,7 +12,6 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
-
 
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -20,6 +21,7 @@ def index():
     # set csrf_token : OFF in config.py
     if stickerform.validate_on_submit():
         this_sticker = stickerform.sticker.data
+        plotStock(this_sticker)
         return redirect(url_for('stock',stockname=this_sticker))
 
     return render_template('index.html', thisform=stickerform)
@@ -60,6 +62,14 @@ def feature():
 def sources():
     otherStickerForm = StickerForm()
     return render_template('sources.html', thisform=otherStickerForm)
+
+# disable caching
+@app.after_request
+def add_header(r):
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    return r
 
 if __name__ == '__main__':
     app.run(debug=True)
