@@ -4,6 +4,7 @@ from models import *
 import config
 from myform import *
 from stockPlot import plotStock
+from resources import search
 import time
 
 app = Flask(__name__)
@@ -51,8 +52,9 @@ def stock(stockname):
     # Search any stock market info by this stock name
     # then show them in the following template
     # .....to implement.........
+    tickerInfo = search.pyEXStockInfo(stockname)
     otherStickerForm = StickerForm()
-    return render_template('stock.html', stock_name=stockname, thisform=otherStickerForm)
+    return render_template('stock.html', stock_name=stockname, thisform=otherStickerForm, tickerInfo = tickerInfo)
 
 @app.route('/feature')
 def feature():

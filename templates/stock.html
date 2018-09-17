@@ -10,11 +10,18 @@
       <div class=name>
         <h1>{{ stock_name }}</h1>
         <h2>{{ stock_ticker }}</h2>
+        <h2>{{ tickerInfo }}</h2>
       </div>
-      <h1>${{ stock_value }}</h1>
-      <span>{{ stock_change }}%</span>
+      <h3 style="margin-bottom: -24px;">Price: </h3>
+      <h1>{{ "$%.2f"|format(tickerInfo.currentPrice)}}</h1>
+      <span>Opened: {{ "$%.2f"|format(tickerInfo.open.price)}}</span>
+{% if tickerInfo.live == true %}
+      <p> - Currently Live and Trading</p>
+{% else %}
+      <span>Closed: {{ "$%.2f"|format(tickerInfo.close.price)}}</span>
+{% endif %}
       <div class=graph>
-        <img src="/static/img/temp.png">
+{#}      <img src="/static/img/temp.png">#}
       </div>
     </div>
     <div class="column feed">
