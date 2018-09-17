@@ -8,9 +8,9 @@
 {% block body_contents %}
     <div class=column>
       <div class=name>
-        <h1>{{ stock_name }}</h1>
-        <h2>{{ stock_ticker }}</h2>
-        <h2>{{ tickerInfo }}</h2>
+        <p style="margin-bottom: -12px;">{{ tickerInfo.companyDetails.symbol }} </p>
+        <h1>{{ tickerInfo.companyDetails.companyName }}</h1>
+        <p style="margin-top: -12px;">Exchange: {{ tickerInfo.companyDetails.exchange }}</p>
       </div>
       <h3 style="margin-bottom: -24px;">Price: </h3>
       <h1>{{ "$%.2f"|format(tickerInfo.currentPrice)}}</h1>
@@ -21,7 +21,7 @@
       <span>Closed: {{ "$%.2f"|format(tickerInfo.close.price)}}</span>
 {% endif %}
       <div class=graph>
-{#}      <img src="/static/img/temp.png">#}
+{#        <img src="/static/img/temp.png">#}
       </div>
     </div>
     <div class="column feed">
@@ -29,6 +29,16 @@
         Twitter placeholder
       </div>
       <div class=graph>
-        News placeholder
+{% for newsItem in tickerNews %}
+{#            <td>#}
+{#              <img src="{{ newsItem.image }}"/>#}
+{#            </td>#}
+        <div>
+          <h2><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h2>
+          <p>{{ newsItem.source }} <time datetime="{{ newsItem.datetime }}">{{ newsItem.datetime }}</time></p>
+          <p>{{ newsItem.summary }}</p>
+        </div>
+{% endfor %}
+        </table>
       </div>
     </div>{% endblock %}
