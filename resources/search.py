@@ -40,6 +40,8 @@ def twitterAdvancedSearch(query, resultType, count):
     results = api.GetSearch(raw_query=queryString)
     return results
 
+print(twitterAdvancedSearch(query="AAPL", resultType="popular", count=10))
+
 # print([r for r in twitterAdvancedSearch(query="Microsoft",
 #                                      resultType="recent",
 #                                      count="5")])
@@ -56,7 +58,7 @@ def newsApiEverythingSearch(query):
                                      from_param=date_fortnightAgo,
                                      to=date_now)
 
-    print(results.get('articles'))
+    # print(results.get('articles'))
 
 
 # print(newsApiEverythingSearch(query="Apple"))
@@ -94,4 +96,9 @@ def pyEXNews(query):
     newsResult = pyEX.news(query, count=10)
     return newsResult
 
-print(pyEXNews("AAPL"))
+# print(pyEXNews("AAPL"))
+
+def pyEXLivePrice(query):
+
+    livePrice = pyEX.price(query)
+    return livePrice

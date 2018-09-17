@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tickerInfo.companyDetails.symbol }} - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
+{% block title %}{{ tickerInfo.companyDetails.symbol }} {{ "$%.2f"|format(tickerInfo.currentPrice)}} - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
 {% endblock %}
@@ -29,24 +29,41 @@
         </div>
       </div>
       <div class=graph>
-{#        <img src="/static/img/temp.png">#}
+        <img src="/static/img/temp.png">
       </div>
     </div>
     <div class="column feed">
       <div class=graph>
-        Twitter placeholder
+{% for tweet in twitter %}
+        <div class="tweet">
+          <div>
+            <a href="{{ tweet.user.url }}" target="_blank" >
+              <img src="{{ tweet.user.profile_image_url_https }}"/>
+              <span>{{ tweet.user.name }}</span>
+              <span>@{{ tweet.user.screen_name }}</span>
+            </a>
+            <span>{{ tweet.created_at }}</span>
+          </div>
+          <div>
+            <span>{{ tweet.text }}</span>
+          </div>
+          <div>
+            <span>Favourited: {{ tweet.favorite_count }}</span>
+            <span>Retweeted: {{ tweet.retweet_count }}</span>
+            <a href="{{ tweet.urls }}">Permalink</a>
+          </div>
+        </div>
+        <!-- <p>{{ tweet.user.location }}</p> -->
+        <!-- <p>{{ tweet.user.description }}</p> -->
+{% endfor %}
       </div>
       <div class=graph>
 {% for newsItem in tickerNews %}
-{#            <td>#}
-{#              <img src="{{ newsItem.image }}"/>#}
-{#            </td>#}
-        <div>
+        <div class="article">
           <h2><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h2>
           <p>{{ newsItem.source }} <time datetime="{{ newsItem.datetime }}">{{ newsItem.datetime }}</time></p>
           <p>{{ newsItem.summary }}</p>
         </div>
 {% endfor %}
-        </table>
       </div>
     </div>{% endblock %}

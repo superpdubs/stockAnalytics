@@ -1,8 +1,9 @@
 import matplotlib.pyplot as plt
 from alpha_vantage.timeseries import TimeSeries
+from resources import apiKey
 
 def plotStock(ticker):
-    ts = TimeSeries(key='TQ7BPG6XJANGKSNS', output_format='pandas')
+    ts = TimeSeries(key=apiKey.timeSeries_Key, output_format='pandas')
     data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
     data = data.tail(30)
     data['4. close'].plot()
