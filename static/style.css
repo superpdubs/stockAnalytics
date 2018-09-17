@@ -59,7 +59,7 @@ footer > a:hover {
 
 .column {
     flex: 1;
-    padding: 0 0 0 5%;
+    padding: 1rem 0 0 5%;
 }
 
 .feed {
@@ -138,6 +138,10 @@ header > form {
     padding: 0.5rem;
 }
 
+.graph > img {
+    width: 100%;
+}
+
 .symbol {
     font-size: 1.75rem;
 }
@@ -184,9 +188,13 @@ header > form {
     .column {
         padding: 0 1rem;
     }
+
+    header {
+        padding: 0 1rem;
+    }
 }
 
-@media (width < 30em ) {
+@media (width < 23em ) {
     header > form {
         display:none;
     }
