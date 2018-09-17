@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ stock_ticker }} - {{ stock_name }}{% endblock %}
+{% block title %}{{ tickerInfo.companyDetails.symbol }} / {{ "$%.2f"|format(tickerInfo.currentPrice)}}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
 {% endblock %}
