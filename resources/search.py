@@ -97,3 +97,8 @@ def pyEXNews(query):
     return newsResult
 
 # print(pyEXNews("AAPL"))
+
+def pyEXLivePrice(query):
+
+    livePrice = pyEX.price(query)
+    return livePrice

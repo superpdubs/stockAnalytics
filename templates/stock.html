@@ -40,7 +40,7 @@
                     <td>
                         <div>
                             <h3>{{ newsItem.source }}</h3>
-                            <a href="{{ newsItem.url }}" ><h1>{{ newsItem.headline }}</h1></a>
+                            <a href="{{ newsItem.url }}" target="_blank" ><h1>{{ newsItem.headline }}</h1></a>
                             <h2>{{ newsItem.summary }}</h2>
                             <p>{{ newsItem.datetime }}</p>
                         </div>
@@ -55,7 +55,7 @@
                     <tr>
                         <td style="width: 40%;">
                             <img src="{{ tweet.user.profile_image_url_https }}"/>
-                            <a href="{{ tweet.user.url }}" ><p>@{{ tweet.user.screen_name }}</p></a>
+                            <a href="{{ tweet.user.url }}" target="_blank" ><p>@{{ tweet.user.screen_name }}</p></a>
                             <p>{{ tweet.user.name }}</p>
                             <p>{{ tweet.user.location }}</p>
                             <p>{{ tweet.user.description }}</p>
@@ -65,7 +65,8 @@
                                 <p>{{ tweet.text }}</p>
                                 <p>{{ tweet.created_at }}</p>
                                 <p>Favourited: {{ tweet.favorite_count }} Retweeted: {{ tweet.retweet_count }}</p>
-                                <a href="{{ tweet.urls.url }}"><p>View Online</p></a>
+{#                                <a href="{{ tweet.media.url }}" target="_blank"><p>View Online</p></a>#}
+{#                                <p>{{ tweet.urls }}</p>#}
                             </div>
                         </td>
                     </tr>
