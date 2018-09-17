@@ -138,6 +138,26 @@ header > form {
     padding: 0.5rem;
 }
 
+.symbol {
+    font-size: 1.75rem;
+}
+
+.company {
+    font-size: 1.75rem;
+}
+
+.exchange {
+    font-size: 0.75rem;
+}
+
+.value {
+    font-size: 3rem;
+}
+
+.currency {
+    font-size: 1rem;
+}
+
 @media (width < 50em ) {
     .column {
         padding: 0 0 1rem 1rem;

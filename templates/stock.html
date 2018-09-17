@@ -7,19 +7,27 @@
 
 {% block body_contents %}
     <div class=column>
-      <div class=name>
-        <p style="margin-bottom: -12px;">{{ tickerInfo.companyDetails.symbol }}</p>
-        <h1>{{ tickerInfo.companyDetails.companyName }}</h1>
-        <p style="margin-top: -12px;">Exchange: {{ tickerInfo.companyDetails.exchange }}</p>
-      </div>
-      <h3 style="margin-bottom: -24px;">Price: </h3>
-      <h1>{{ "$%.2f"|format(tickerInfo.currentPrice)}}</h1>
-      <span>Opened: {{ "$%.2f"|format(tickerInfo.open.price)}}</span>
+      <div class="stock-info">
+        <div>
+          <span class="company">{{ tickerInfo.companyDetails.companyName }}</span>
+          <span class="symbol">{{ tickerInfo.companyDetails.symbol }}</span>
+        </div>
+        <div>
+          <span class="exchange">{{ tickerInfo.companyDetails.exchange }}</span>
+        </div>
+        <div>
+          <span class="value">{{ "%.2f"|format(tickerInfo.currentPrice)}}</span>
+          <span class=currency>USD</span>
+        </div>
+        <div>
+          <span class="opening-value">Opened: {{ "%.2f"|format(tickerInfo.open.price)}}</span>
 {% if tickerInfo.live == true %}
-      <p> - Currently Live and Trading</p>
+          <span> - Currently live and trading</span>
 {% else %}
-      <span>Closed: {{ "$%.2f"|format(tickerInfo.close.price)}}</span>
+          <span>Closed: {{ "$%.2f"|format(tickerInfo.close.price)}}</span>
 {% endif %}
+        </div>
+      </div>
       <div class=graph>
 {#        <img src="/static/img/temp.png">#}
       </div>
