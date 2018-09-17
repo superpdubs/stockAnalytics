@@ -11,3 +11,6 @@ newsAPI_Key = "key"
 
 ## Alpha Vantage Key
 alphaVantage_Key = "key"
+
+## Time Series Key
+timeSeries_Key = "key"

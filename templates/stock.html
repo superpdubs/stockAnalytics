@@ -21,7 +21,7 @@
                 <span>Closed: {{ "$%.2f"|format(tickerInfo.close.price)}}</span>
             {% endif %}
 			<div class=graph>
-{#				<img src="/static/img/temp.png">#}
+				<img src="/static/img/temp.png">
 			</div>
 		</div>
 		<div class="column feed">
@@ -34,9 +34,6 @@
             <table style="width:100%">
             {% for newsItem in tickerNews %}
                 <tr>
-{#                <td>#}
-{#                    <img src="{{ newsItem.image }}"/>#}
-{#                </td>#}
                     <td>
                         <div>
                             <h3>{{ newsItem.source }}</h3>
