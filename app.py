@@ -22,11 +22,9 @@ def index():
     # set csrf_token : OFF in config.py
     if stickerform.validate_on_submit():
         this_sticker = stickerform.sticker.data
-        plotStock(this_sticker)
         return redirect(url_for('stock',stockname=this_sticker))
 
     return render_template('index.html', thisform=stickerform)
-
 
 @app.route('/login')
 def login():
@@ -46,17 +44,16 @@ def register():
         return ('register successfully')
     return render_template('register.html',thisform=registerform)
 
-
 @app.route('/stock/<stockname>')
 def stock(stockname):
-    # Search any stock market info by this stock name
-    # then show them in the following template
-    # .....to implement.........
+    # TODO: serverside validation of stock symbol
+    # cleanup graph images somehow
     tickerInfo = search.pyEXStockInfo(stockname)
     tickerNews = search.pyEXNews(stockname)
+    rand = plotStock(stockname)
     otherStickerForm = StickerForm()
     twitter = search.twitterAdvancedSearch(query=stockname, resultType="popular", count=10)
-    return render_template('stock.html', thisform=otherStickerForm, tickerInfo = tickerInfo, tickerNews=tickerNews, twitter=twitter)
+    return render_template('stock.html', thisform=otherStickerForm, tickerInfo = tickerInfo, tickerNews=tickerNews, twitter=twitter, graph=rand)
 
 @app.route('/feature')
 def feature():
