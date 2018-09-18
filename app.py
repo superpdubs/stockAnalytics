@@ -21,7 +21,7 @@ def line():
     price, date = search.pyEXChart("AAPL")
     line_labels=date[-7:]
     line_values=price[-7:]
-    return render_template('line_chart.html', title='AAPL', max=300, labels=line_labels, values=line_values)
+    return render_template('line_chart.html', title='AAPL', max=500, labels=line_labels, values=line_values)
 
 
 @app.route('/',methods=['GET','POST'])
@@ -63,11 +63,18 @@ def stock(stockname):
     # rand = plotStock(stockname)
     otherStickerForm = StickerForm()
     twitter = search.twitterAdvancedSearch(query=stockname, resultType="popular", count=20)
+    price, date = search.pyEXChart(stockname)
+    line_labels=date[-7:]
+    line_values=price[-7:]
     return render_template('stock.html',
                            thisform=otherStickerForm,
                            tickerInfo=tickerInfo,
                            tickerNews=tickerNews,
-                           twitter=twitter)
+                           twitter=twitter,
+                           labels=line_labels,
+                           values=line_values,
+                           max=tickerInfo['currentPrice']*1.5
+                           )
                            # graph=rand)
 
 @app.route('/feature')
