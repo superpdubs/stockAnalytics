@@ -44,6 +44,12 @@ footer > a:hover {
   display: flex;
   flex-wrap: wrap;
   min-height: calc(100vh - 7rem);
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  padding: 0 5rem;
 }
 
 .content {
@@ -130,7 +136,7 @@ header > form {
 
 .graph {
   width: 100%;
-  margin: 2rem 0;
+  /*margin: 2rem 0;*/
   overflow: auto;
   padding: 0.5rem;
 }
@@ -162,7 +168,7 @@ header > form {
 
 .source {
   display: block;
-  margin-top: -0.7rem;
+  margin-top: -1rem;
   font-size: 0.75rem;
 }
 
@@ -175,9 +181,17 @@ header > form {
   text-decoration: underline;
 }
 
+.stock-info {
+  padding-left: 0;
+}
+
+.twitter {
+  padding-left: 3rem;
+}
+
 @media (width < 50em ) {
   .column {
-    padding: 0 0 1rem 1rem;
+    padding: 1rem 0 1rem 1rem;
   }
 
   .feed {
@@ -199,7 +213,7 @@ header > form {
   }
 
   .column {
-    padding: 0 1rem;
+    padding: 1rem 1rem;
   }
 
   header {
