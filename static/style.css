@@ -177,7 +177,7 @@ header > form {
 
 @media (width < 50em ) {
   .column {
-    padding: 0 0 1rem 1rem;
+    padding: 1rem 0 1rem 1rem;
   }
 
   .feed {
@@ -199,7 +199,7 @@ header > form {
   }
 
   .column {
-    padding: 0 1rem;
+    padding: 1rem 1rem;
   }
 
   header {
