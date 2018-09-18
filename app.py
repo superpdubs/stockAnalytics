@@ -57,7 +57,6 @@ def register():
 @app.route('/stock/<stockname>')
 def stock(stockname):
     # TODO: serverside validation of stock symbol
-    # cleanup graph images somehow
     tickerInfo = search.pyEXStockInfo(stockname)
     tickerNews = search.pyEXNews(stockname)
     # rand = plotStock(stockname)

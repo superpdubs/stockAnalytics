@@ -176,4 +176,8 @@ footer > a:hover {
   .row {
     flex-direction: column;
   }
+
+  .column {
+    flex: unset;
+  }
 }
