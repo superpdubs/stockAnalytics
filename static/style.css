@@ -134,6 +134,11 @@ header > form {
   color: black;
 }
 
+.chart {
+  width: 100%;
+  text-align: center;
+}
+
 .graph {
   width: 100%;
   /*margin: 2rem 0;*/
