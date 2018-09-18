@@ -128,9 +128,9 @@ def pyEXChart(query):
 
 
 
-    # print(price)
-    # print(date)
+    print(price)
+    print(date)
 
     return price, date
 
-# pyEXChart("AAPL")
+pyEXChart("AAPL")
