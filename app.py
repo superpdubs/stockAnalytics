@@ -82,7 +82,7 @@ def stock(stockname):
                            diff=diff,
                            labels=line_labels,
                            values=line_values,
-                           max=tickerInfo['currentPrice']*1.5)
+                           max=tickerInfo['close']['price']*1.5)
                            # graph=rand)
 
 @app.route('/feature')

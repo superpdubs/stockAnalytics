@@ -132,6 +132,11 @@ footer > a:hover {
   color: rgb(245,10,33);
 }
 
+/*Graph styles*/
+.chart {
+  text-align: center;
+}
+
 /*News display styles*/
 .source {
   display: block;

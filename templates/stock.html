@@ -28,7 +28,8 @@
 {#      <div class="graph column">#}
 {#        <img src="/static/graph/{{ graph }}.png">#}
 {#      </div>#}
-      <div class="graph column">
+      <div class="chart column">
+        <h4 style="text-align: center">7 Day Performance</h4>
         <canvas id="chart" width="600" height="400"></canvas>
         <script>
 
@@ -84,6 +85,7 @@
     </div>
     <div class="row">
       <div class="graph column">
+        <h2>Latest News</h2>
 {% for newsItem in tickerNews %}
         <div class="article">
           <h3><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h3>
@@ -94,6 +96,7 @@
       </div>
 
       <div class="graph column twitter">
+      <h2>Twitter</h2>
 {% for tweet in twitter %}
   {% if tweet.urls[0] %}
         <div>
