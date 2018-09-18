@@ -13,7 +13,6 @@
         <span class="exchange">{{ tickerInfo.companyDetails.exchange }}</span>
         <span class="value">{{ "%.2f"|format(tickerInfo.currentPrice)}}</span>
         <span class=currency>USD</span>
-        <span class="source"><a href="https://iextrading.com/developer">IEX Real-Time Price</a></span>
         <div>
           <span class="opening-value">Opened: {{ "%.2f"|format(tickerInfo.open.price)}}</span>
 {% if tickerInfo.live == true %}
@@ -55,7 +54,7 @@
       <div class=graph>
 {% for newsItem in tickerNews %}
         <div class="article">
-          <h2><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h2>
+          <h3><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h3>
           <span class="source">{{ newsItem.source }} <time datetime="{{ newsItem.datetime }}">{{ newsItem.datetime }}</time></span>
           <p>{{ newsItem.summary }}</p>
         </div>
