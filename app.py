@@ -76,11 +76,20 @@ def stock(stockname):
     # rand = plotStock(stockname)
     otherStickerForm = StickerForm()
     twitter = search.twitterAdvancedSearch(query=stockname, resultType="popular", count=20)
+    delta = tickerInfo.get('currentPrice') - tickerInfo.get('open').get('price')
+    percentage = delta / tickerInfo.get('open').get('price') * 100
+    diff = 'loss'
+    if delta > 0:
+        delta = '+{:.2f}'.format(delta)
+        diff = 'gain'
     return render_template('stock.html',
                            thisform=otherStickerForm,
                            tickerInfo=tickerInfo,
                            tickerNews=tickerNews,
-                           twitter=twitter)
+                           twitter=twitter,
+                           delta=delta,
+                           percentage=percentage,
+                           diff=diff)
                            # graph=rand)
 
 @app.route('/feature')

@@ -9,10 +9,12 @@
     <div class=row>
       <div class="stock-info column">
         <span class="company">{{ tickerInfo.companyDetails.companyName }}</span>
-        <span class="symbol">{{ tickerInfo.companyDetails.symbol }}</span>
+        <span class="symbol">({{ tickerInfo.companyDetails.symbol }})</span>
         <span class="exchange">{{ tickerInfo.companyDetails.exchange }}</span>
         <span class="value">{{ "%.2f"|format(tickerInfo.currentPrice)}}</span>
         <span class=currency>USD</span>
+        <span class="delta {{ diff }}">{{ delta }}</span>
+        <span class="percentage {{ diff }}">({{ "%.2f%%"|format(percentage)}})</span>
         <div>
           <span class="opening-value">Opened: {{ "$%.2f"|format(tickerInfo.open.price)}}</span>
 {% if tickerInfo.live == true %}
