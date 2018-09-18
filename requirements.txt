@@ -8,4 +8,3 @@ pyEX==0.1.0
 matplotlib
 pandas
 alpha_vantage
-
