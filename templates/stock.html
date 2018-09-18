@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block body_contents %}
-    <div class=column>
-      <div class="stock-info">
+    <div class=row>
+      <div class="stock-info column">
         <span class="company">{{ tickerInfo.companyDetails.companyName }}</span>
         <span class="symbol">{{ tickerInfo.companyDetails.symbol }}</span>
         <span class="exchange">{{ tickerInfo.companyDetails.exchange }}</span>
@@ -22,56 +22,31 @@
 {% endif %}
         </div>
       </div>
-      <div class=graph>
-{#        <img src="/static/graph/{{ graph }}.png">#}
-      </div>
-    </div>
-    <div class="column feed">
-      <div class=graph>
-{% for tweet in twitter %}
-{#    <p>{{ tweet }}</p>#}
-    {% if tweet.urls[0] %}
-{#        <p>url sources</p>#}
-{#        <p>{{ tweet.urls[0].url}}</p>#}
-{#        <p>{{ tweet.id }}</p>#}
-        <div>
-            {{ twitterEmbed(tweet.id, tweet.urls[0].url).html | safe}}
-        </div>
 
-{#    {% else if tweet %}#}
-{#        <p>{{ tweet.media}}</p>#}
-    {%  endif %}
-{#        <div class="tweet">#}
-{#          <div>#}
-{#            <a href="{{ tweet.user.url }}" target="_blank" >#}
-{#              <img src="{{ tweet.user.profile_image_url_https }}"/>#}
-{#              <span>{{ tweet.user.name }}</span>#}
-{#              <span>@{{ tweet.user.screen_name }}</span>#}
-{#            </a>#}
-{#            <span>{{ tweet.created_at }}</span>#}
-{#          </div>#}
-{#          <div>#}
-{#            <span>{{ tweet.text }}</span>#}
-{#          </div>#}
-{#          <div>#}
-{#            <span>Favourited: {{ tweet.favorite_count }}</span>#}
-{#            <span>Retweeted: {{ tweet.retweet_count }}</span>#}
-{#            <a href="{{ tweet.urls }}">Permalink</a>#}
-{#          </div>#}
-{#        </div>#}
-        <!-- <p>{{ tweet.user.location }}</p> -->
-        <!-- <p>{{ tweet.user.description }}</p> -->
-{% endfor %}
+      <div class="graph column">
+        <img src="/static/graph/{{ graph }}.png">
       </div>
-    <div>
+
+
     </div>
-      <div class=graph>
+    <div class="row">
+      <div class="graph column">
 {% for newsItem in tickerNews %}
         <div class="article">
           <h3><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h3>
           <span class="source">{{ newsItem.source }} <time datetime="{{ newsItem.datetime }}">{{ newsItem.datetime }}</time></span>
           <p>{{ newsItem.summary }}</p>
         </div>
+{% endfor %}
+      </div>
+
+      <div class="graph column twitter">
+{% for tweet in twitter %}
+  {% if tweet.urls[0] %}
+        <div>
+            {{ twitterEmbed(tweet.id, tweet.urls[0].url).html | safe}}
+        </div>
+  {%  endif %}
 {% endfor %}
       </div>
     </div>{% endblock %}

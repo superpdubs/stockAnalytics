@@ -48,7 +48,7 @@ def twitterAdvancedSearch(query, resultType, count):
 
 
 def twitterEmbed(status_id, url):
-    result = api.GetStatusOembed(status_id=status_id, url=url)
+    result = api.GetStatusOembed(status_id=status_id, url=url, hide_media=True)
     return result
 
 # print(twitterEmbed(status_id=1037962403370225664, url="https://t.co/qvUU30HkJM"))
