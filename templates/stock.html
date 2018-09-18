@@ -14,7 +14,7 @@
         <span class="value">{{ "%.2f"|format(tickerInfo.currentPrice)}}</span>
         <span class=currency>USD</span>
         <div>
-          <span class="opening-value">Opened: {{ "%.2f"|format(tickerInfo.open.price)}}</span>
+          <span class="opening-value">Opened: {{ "$%.2f"|format(tickerInfo.open.price)}}</span>
 {% if tickerInfo.live == true %}
           <span> - Currently live and trading</span>
 {% else %}
@@ -23,34 +23,48 @@
         </div>
       </div>
       <div class=graph>
-        <img src="/static/graph/{{ graph }}.png">
+{#        <img src="/static/graph/{{ graph }}.png">#}
       </div>
     </div>
     <div class="column feed">
       <div class=graph>
 {% for tweet in twitter %}
-        <div class="tweet">
-          <div>
-            <a href="{{ tweet.user.url }}" target="_blank" >
-              <img src="{{ tweet.user.profile_image_url_https }}"/>
-              <span>{{ tweet.user.name }}</span>
-              <span>@{{ tweet.user.screen_name }}</span>
-            </a>
-            <span>{{ tweet.created_at }}</span>
-          </div>
-          <div>
-            <span>{{ tweet.text }}</span>
-          </div>
-          <div>
-            <span>Favourited: {{ tweet.favorite_count }}</span>
-            <span>Retweeted: {{ tweet.retweet_count }}</span>
-            <a href="{{ tweet.urls }}">Permalink</a>
-          </div>
+{#    <p>{{ tweet }}</p>#}
+    {% if tweet.urls[0] %}
+{#        <p>url sources</p>#}
+{#        <p>{{ tweet.urls[0].url}}</p>#}
+{#        <p>{{ tweet.id }}</p>#}
+        <div>
+            {{ twitterEmbed(tweet.id, tweet.urls[0].url).html | safe}}
         </div>
+
+{#    {% else if tweet %}#}
+{#        <p>{{ tweet.media}}</p>#}
+    {%  endif %}
+{#        <div class="tweet">#}
+{#          <div>#}
+{#            <a href="{{ tweet.user.url }}" target="_blank" >#}
+{#              <img src="{{ tweet.user.profile_image_url_https }}"/>#}
+{#              <span>{{ tweet.user.name }}</span>#}
+{#              <span>@{{ tweet.user.screen_name }}</span>#}
+{#            </a>#}
+{#            <span>{{ tweet.created_at }}</span>#}
+{#          </div>#}
+{#          <div>#}
+{#            <span>{{ tweet.text }}</span>#}
+{#          </div>#}
+{#          <div>#}
+{#            <span>Favourited: {{ tweet.favorite_count }}</span>#}
+{#            <span>Retweeted: {{ tweet.retweet_count }}</span>#}
+{#            <a href="{{ tweet.urls }}">Permalink</a>#}
+{#          </div>#}
+{#        </div>#}
         <!-- <p>{{ tweet.user.location }}</p> -->
         <!-- <p>{{ tweet.user.description }}</p> -->
 {% endfor %}
       </div>
+    <div>
+    </div>
       <div class=graph>
 {% for newsItem in tickerNews %}
         <div class="article">
