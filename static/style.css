@@ -44,6 +44,12 @@ footer > a:hover {
   display: flex;
   flex-wrap: wrap;
   min-height: calc(100vh - 7rem);
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  padding: 0 5rem;
 }
 
 .content {
@@ -128,9 +134,14 @@ header > form {
   color: black;
 }
 
+.chart {
+  width: 100%;
+  text-align: center;
+}
+
 .graph {
   width: 100%;
-  margin: 2rem 0;
+  /*margin: 2rem 0;*/
   overflow: auto;
   padding: 0.5rem;
 }
@@ -140,7 +151,9 @@ header > form {
 }
 
 .symbol {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
+  /*padding-left: 1rem;*/
+  margin-top: -0.5rem;
 }
 
 .company {
@@ -160,9 +173,27 @@ header > form {
   font-size: 1rem;
 }
 
+.gain {
+  color: rgb(0, 196, 107);
+}
+
+.loss {
+  color: rgb(245, 10, 33);
+}
+
+.delta {
+  font-size: 2rem;
+  margin-top: -0.5rem;
+}
+
+.percentage {
+  font-size: 2rem;
+  margin-top: -0.5rem;
+}
+
 .source {
   display: block;
-  margin-top: -0.7rem;
+  margin-top: -1rem;
   font-size: 0.75rem;
 }
 
@@ -175,9 +206,18 @@ header > form {
   text-decoration: underline;
 }
 
+.stock-info {
+  padding-left: 0;
+  padding-top: 2rem;
+}
+
+.twitter {
+  padding-left: 3rem;
+}
+
 @media (width < 50em ) {
   .column {
-    padding: 0 0 1rem 1rem;
+    padding: 1rem 0 1rem 1rem;
   }
 
   .feed {
@@ -199,7 +239,7 @@ header > form {
   }
 
   .column {
-    padding: 0 1rem;
+    padding: 1rem 1rem;
   }
 
   header {

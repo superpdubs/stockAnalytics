@@ -40,11 +40,22 @@ def twitterAdvancedSearch(query, resultType, count):
     results = api.GetSearch(raw_query=queryString)
     return results
 
-print(twitterAdvancedSearch(query="AAPL", resultType="popular", count=10))
+# print(twitterAdvancedSearch(query="AAPL", resultType="popular", count=10))
 
 # print([r for r in twitterAdvancedSearch(query="Microsoft",
 #                                      resultType="recent",
 #                                      count="5")])
+
+
+def twitterEmbed(status_id, url):
+    result = api.GetStatusOembed(status_id=status_id, url=url, hide_media=True)
+    return result
+
+# print(twitterEmbed(status_id=1037962403370225664, url="https://t.co/qvUU30HkJM"))
+
+# print(twitterEmbed(status_id=1041699384151498754, url="https://t.co/bwQz4nOJHd"))
+
+
 
 # Everything search, gets the last 2 weeks of most recent news
 def newsApiEverythingSearch(query):
@@ -102,3 +113,24 @@ def pyEXLivePrice(query):
 
     livePrice = pyEX.price(query)
     return livePrice
+
+def pyEXChart(query):
+
+    chartData = pyEX.chart(symbol=query, timeframe='6m')
+    print(len(chartData))
+
+    price = []
+    date = []
+
+    for x in chartData:
+        price.append(x['close'])
+        date.append(x['date'])
+
+
+
+    print(price)
+    print(date)
+
+    return price, date
+
+pyEXChart("AAPL")

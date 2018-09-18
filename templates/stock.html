@@ -3,19 +3,21 @@
 {% block title %}{{ tickerInfo.companyDetails.symbol }} {{ "$%.2f"|format(tickerInfo.currentPrice)}} - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 {% endblock %}
 
 {% block body_contents %}
-    <div class=column>
-      <div class="stock-info">
+    <div class=row>
+      <div class="stock-info column">
         <span class="company">{{ tickerInfo.companyDetails.companyName }}</span>
-        <span class="symbol">{{ tickerInfo.companyDetails.symbol }}</span>
+        <span class="symbol">({{ tickerInfo.companyDetails.symbol }})</span>
         <span class="exchange">{{ tickerInfo.companyDetails.exchange }}</span>
         <span class="value">{{ "%.2f"|format(tickerInfo.currentPrice)}}</span>
         <span class=currency>USD</span>
-        <span class="source"><a href="https://iextrading.com/developer">IEX Real-Time Price</a></span>
+        <span class="delta {{ diff }}">{{ delta }}</span>
+        <span class="percentage {{ diff }}">({{ "%.2f%%"|format(percentage)}})</span>
         <div>
-          <span class="opening-value">Opened: {{ "%.2f"|format(tickerInfo.open.price)}}</span>
+          <span class="opening-value">Opened: {{ "$%.2f"|format(tickerInfo.open.price)}}</span>
 {% if tickerInfo.live == true %}
           <span> - Currently live and trading</span>
 {% else %}
@@ -23,42 +25,84 @@
 {% endif %}
         </div>
       </div>
-      <div class=graph>
-        <img src="/static/graph/{{ graph }}.png">
+{#      <div class="graph column">#}
+{#        <img src="/static/graph/{{ graph }}.png">#}
+{#      </div>#}
+      <div class="chart column">
+        <h4 style="text-align: center">7 Day Performance</h4>
+        <canvas id="chart" width="600" height="400"></canvas>
+        <script>
+
+          // bar chart data
+          var barData = {
+            labels : [
+              {% for item in labels %}
+                "{{ item }}",
+              {% endfor %}
+            ],
+            datasets : [{
+              fillColor: "rgba(151,187,205,0.2)",
+              strokeColor: "rgba(151,187,205,1)",
+              pointColor: "rgba(151,187,205,1)",
+              pointStrokeColor: "#fff",
+              pointHighlightFill: "#fff",
+              pointHighlightStroke: "rgba(151,187,205,1)",
+              bezierCurve : false,
+              data : [
+            {% for item in values %}
+                  {{ item }},
+                {% endfor %}]
+              }
+            ]
+          }
+          Chart.defaults.global.animationSteps = 50;
+          Chart.defaults.global.tooltipYPadding = 16;
+          Chart.defaults.global.tooltipCornerRadius = 0;
+          Chart.defaults.global.tooltipTitleFontStyle = "normal";
+          Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+          Chart.defaults.global.animationEasing = "easeOutBounce";
+          Chart.defaults.global.responsive = false;
+          Chart.defaults.global.scaleLineColor = "black";
+          Chart.defaults.global.scaleFontSize = 16;
+          // get bar chart canvas
+          var mychart = document.getElementById("chart").getContext("2d");
+          steps = 10
+          max = {{ max }}
+          // draw bar chart
+          var LineChartDemo = new Chart(mychart).Line(barData, {
+            scaleOverride: true,
+            scaleSteps: steps,
+            scaleStepWidth: Math.ceil(max / steps),
+            scaleStartValue: 0,
+            scaleShowVerticalLines: true,
+            scaleShowGridLines : true,
+            barShowStroke : true,
+            scaleShowLabels: true,
+            bezierCurve: false,
+          });
+        </script>
       </div>
     </div>
-    <div class="column feed">
-      <div class=graph>
-{% for tweet in twitter %}
-        <div class="tweet">
-          <div>
-            <a href="{{ tweet.user.url }}" target="_blank" >
-              <img src="{{ tweet.user.profile_image_url_https }}"/>
-              <span>{{ tweet.user.name }}</span>
-              <span>@{{ tweet.user.screen_name }}</span>
-            </a>
-            <span>{{ tweet.created_at }}</span>
-          </div>
-          <div>
-            <span>{{ tweet.text }}</span>
-          </div>
-          <div>
-            <span>Favourited: {{ tweet.favorite_count }}</span>
-            <span>Retweeted: {{ tweet.retweet_count }}</span>
-            <a href="{{ tweet.urls }}">Permalink</a>
-          </div>
-        </div>
-        <!-- <p>{{ tweet.user.location }}</p> -->
-        <!-- <p>{{ tweet.user.description }}</p> -->
-{% endfor %}
-      </div>
-      <div class=graph>
+    <div class="row">
+      <div class="graph column">
+        <h2>Latest News</h2>
 {% for newsItem in tickerNews %}
         <div class="article">
-          <h2><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h2>
+          <h3><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h3>
           <span class="source">{{ newsItem.source }} <time datetime="{{ newsItem.datetime }}">{{ newsItem.datetime }}</time></span>
           <p>{{ newsItem.summary }}</p>
         </div>
+{% endfor %}
+      </div>
+
+      <div class="graph column twitter">
+      <h2>Twitter</h2>
+{% for tweet in twitter %}
+  {% if tweet.urls[0] %}
+        <div>
+            {{ twitterEmbed(tweet.id, tweet.urls[0].url).html | safe}}
+        </div>
+  {%  endif %}
 {% endfor %}
       </div>
     </div>{% endblock %}
