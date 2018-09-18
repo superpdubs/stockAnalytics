@@ -69,6 +69,8 @@ def stock(stockname):
     if delta > 0:
         delta = '+{:.2f}'.format(delta)
         diff = 'gain'
+    else:
+        delta = '{:.2f}'.format(delta)
     price, date = search.pyEXChart(stockname)
     line_labels=date[-7:]
     line_values=price[-7:]
