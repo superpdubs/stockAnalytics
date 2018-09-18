@@ -172,6 +172,12 @@ footer > a:hover {
   overflow: auto;
 }
 
+.content {
+  max-width: 55rem;
+  margin-left: 5%;
+  padding: 0.5rem;
+}
+
 @media (width < 60em ) {
   .row {
     flex-direction: column;
@@ -179,5 +185,9 @@ footer > a:hover {
 
   .column {
     flex: unset;
+  }
+
+  .content {
+    margin-left: 0;
   }
 }
