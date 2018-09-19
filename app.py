@@ -61,7 +61,7 @@ def stock(stockname):
     tickerNews = search.pyEXNews(stockname)
     # rand = plotStock(stockname)
     otherStickerForm = StickerForm()
-    twitter = search.twitterAdvancedSearch(query=stockname, resultType="popular", count=20)
+    twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
     delta = tickerInfo.get('currentPrice') - tickerInfo.get('open').get('price')
     percentage = delta / tickerInfo.get('open').get('price') * 100
     diff = 'loss'
@@ -71,8 +71,8 @@ def stock(stockname):
     else:
         delta = '{:.2f}'.format(delta)
     price, date = search.pyEXChart(stockname)
-    line_labels=date[-7:]
-    line_values=price[-7:]
+    line_labels=date
+    line_values=price
     return render_template('stock.html',
                            thisform=otherStickerForm,
                            tickerInfo=tickerInfo,

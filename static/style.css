@@ -138,6 +138,13 @@ footer > a:hover {
 }
 
 /*News display styles*/
+.article {
+  box-shadow: inset 0 0 0 0.07rem #e8eef1;
+  padding: 0.1rem 1rem;
+  border-radius: 0.3rem;
+  margin-bottom: 0.7rem;
+}
+
 .source {
   display: block;
   margin-top: -1rem;
