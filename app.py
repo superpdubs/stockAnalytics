@@ -3,7 +3,6 @@ from flask import Flask, redirect, url_for, render_template, request
 from models import *
 import config
 from myform import *
-from stockPlot import plotStock
 from resources import search
 import time
 
