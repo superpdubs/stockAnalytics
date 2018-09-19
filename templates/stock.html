@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tickerInfo.companyDetails.symbol }} {{ "$%.2f"|format(tickerInfo.currentPrice)}} - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
+{% block title %}{{ tickerInfo.companyDetails.symbol }} {{ "$%.2f"|format(tickerInfo.currentPrice)}} ({{ "%.2f%%"|format(percentage)}}) - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    <meta http-equiv="refresh" content="900">
 {% endblock %}
 
 {% block body_contents %}

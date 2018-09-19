@@ -116,8 +116,8 @@ def pyEXLivePrice(query):
 
 def pyEXChart(query):
 
-    chartData = pyEX.chart(symbol=query, timeframe='6m')
-    print(len(chartData))
+    # chartData = pyEX.chart(symbol=query, timeframe='6m')
+    chartData = pyEX.chart(symbol=query)
 
     price = []
     date = []
@@ -125,11 +125,6 @@ def pyEXChart(query):
     for x in chartData:
         price.append(x['close'])
         date.append(x['date'])
-
-
-
-    print(price)
-    print(date)
 
     return price, date
 
