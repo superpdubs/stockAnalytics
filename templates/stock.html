@@ -34,7 +34,7 @@
         <h2>Latest News</h2>
 {% for newsItem in news %}
         <div class="article">
-          <h3><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h3>
+          <span class="headline"><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></span>
           <span class="source">{{ newsItem.source }} <time datetime="{{ newsItem.datetime }}">{{ newsItem.datetime }}</time></span>
           <p>{{ newsItem.summary }}</p>
         </div>
