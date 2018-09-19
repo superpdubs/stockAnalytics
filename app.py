@@ -3,7 +3,6 @@ from flask import Flask, redirect, url_for, render_template, request
 from models import *
 import config
 from myform import *
-from stockPlot import plotStock
 from resources import search
 import time
 
@@ -57,21 +56,22 @@ def register():
 @app.route('/stock/<stockname>')
 def stock(stockname):
     # TODO: serverside validation of stock symbol
-    # cleanup graph images somehow
     tickerInfo = search.pyEXStockInfo(stockname)
     tickerNews = search.pyEXNews(stockname)
     # rand = plotStock(stockname)
     otherStickerForm = StickerForm()
-    twitter = search.twitterAdvancedSearch(query=stockname, resultType="popular", count=20)
+    twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
     delta = tickerInfo.get('currentPrice') - tickerInfo.get('open').get('price')
     percentage = delta / tickerInfo.get('open').get('price') * 100
     diff = 'loss'
     if delta > 0:
         delta = '+{:.2f}'.format(delta)
         diff = 'gain'
+    else:
+        delta = '{:.2f}'.format(delta)
     price, date = search.pyEXChart(stockname)
-    line_labels=date[-7:]
-    line_values=price[-7:]
+    line_labels=date
+    line_values=price
     return render_template('stock.html',
                            thisform=otherStickerForm,
                            tickerInfo=tickerInfo,

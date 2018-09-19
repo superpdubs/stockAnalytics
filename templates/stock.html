@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tickerInfo.companyDetails.symbol }} {{ "$%.2f"|format(tickerInfo.currentPrice)}} ({{ "%.2f%%"|format(percentage)}}) - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
+{% block title %}{{ tickerInfo.companyDetails.symbol }} {{ "$%.2f"|format(tickerInfo.currentPrice)}} - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
-    <meta http-equiv="refresh" content="900">
 {% endblock %}
 
 {% block body_contents %}
@@ -26,66 +24,16 @@
 {% endif %}
         </div>
       </div>
-{#      <div class="graph column">#}
+{#      <div class="column">#}
 {#        <img src="/static/graph/{{ graph }}.png">#}
 {#      </div>#}
       <div class="chart column">
-        <h4 style="text-align: center">7 Day Performance</h4>
-        <canvas id="chart" width="600" height="400"></canvas>
-        <script>
-
-          // bar chart data
-          var barData = {
-            labels : [
-              {% for item in labels %}
-                "{{ item }}",
-              {% endfor %}
-            ],
-            datasets : [{
-              fillColor: "rgba(151,187,205,0.2)",
-              strokeColor: "rgba(151,187,205,1)",
-              pointColor: "rgba(151,187,205,1)",
-              pointStrokeColor: "#fff",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(151,187,205,1)",
-              bezierCurve : false,
-              data : [
-            {% for item in values %}
-                  {{ item }},
-                {% endfor %}]
-              }
-            ]
-          }
-          Chart.defaults.global.animationSteps = 50;
-          Chart.defaults.global.tooltipYPadding = 16;
-          Chart.defaults.global.tooltipCornerRadius = 0;
-          Chart.defaults.global.tooltipTitleFontStyle = "normal";
-          Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
-          Chart.defaults.global.animationEasing = "easeOutBounce";
-          Chart.defaults.global.responsive = false;
-          Chart.defaults.global.scaleLineColor = "black";
-          Chart.defaults.global.scaleFontSize = 16;
-          // get bar chart canvas
-          var mychart = document.getElementById("chart").getContext("2d");
-          steps = 10
-          max = {{ max }}
-          // draw bar chart
-          var LineChartDemo = new Chart(mychart).Line(barData, {
-            scaleOverride: true,
-            scaleSteps: steps,
-            scaleStepWidth: Math.ceil(max / steps),
-            scaleStartValue: 0,
-            scaleShowVerticalLines: true,
-            scaleShowGridLines : true,
-            barShowStroke : true,
-            scaleShowLabels: true,
-            bezierCurve: false,
-          });
-        </script>
+        <h4>7 Day Performance</h4>
+        <canvas id="chart"></canvas>
       </div>
     </div>
     <div class="row">
-      <div class="graph column">
+      <div class="column">
         <h2>Latest News</h2>
 {% for newsItem in tickerNews %}
         <div class="article">
@@ -96,7 +44,7 @@
 {% endfor %}
       </div>
 
-      <div class="graph column twitter">
+      <div class="column twitter">
       <h2>Twitter</h2>
 {% for tweet in twitter %}
   {% if tweet.urls[0] %}
@@ -106,4 +54,25 @@
   {%  endif %}
 {% endfor %}
       </div>
-    </div>{% endblock %}
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js'></script>
+    <script>
+      Chart.defaults.global.defaultFontFamily = "'GlacialIndifferenceRegular', sans-serif";
+      Chart.defaults.global.legend.display = false;
+      Chart.defaults.global.elements.line.tension = 0;
+      Chart.defaults.global.tooltips.yPadding = 16;
+      Chart.defaults.global.tooltips.cornerRadius = 0;
+      Chart.defaults.global.tooltips.displayColors = false;
+      var ctx = document.getElementById("chart");
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: [{% for item in labels %}"{{ item }}", {% endfor %}],
+              datasets: [{
+                  data: [{% for item in values %}{{ item }}, {% endfor %}],
+                  backgroundColor: "rgba(151,187,205,0.2)",
+                  borderColor: "rgba(151,187,205,1)"
+              }]
+          },
+      });
+    </script>{% endblock %}
