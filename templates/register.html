@@ -8,10 +8,14 @@
   <h1>This is register in page</h1>
 
   <form name='myStickerForm' method="POST" action="" >
-    {{ thisform.username.label }} {{ thisform.username }}<br>
-    {{ thisform.email.label }} {{ thisform.email }}<br>
-    {{ thisform.password.label }} {{ thisform.password }}<br>
-    {{ thisform.confirm.label }} {{ thisform.confirm }}<br>
+
+    {% if error != None %}
+      <h1>{{ error }}</h1>
+    {% endif %}
+    {{ thisform.username.label }} {{ thisform.username }}{{ "  Length of User name should be 4-11 characters" }}<br>
+    {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
+    {{ thisform.password.label }} {{ thisform.password }}{{ "  Length of password should be 6-12 characters" }}<br>
+    {{ thisform.confirm.label }} {{ thisform.confirm }}{{ "  Confirm your password" }}<br>
     <button type="submit">Register!</button>
 
   </form>
