@@ -7,6 +7,7 @@ from _datetime import datetime, timedelta
 from newsapi import NewsApiClient
 import pyEX
 import json
+import requests
 
 ########
 # init API key Settings
@@ -128,4 +129,33 @@ def pyEXChart(query):
 
     return price, date
 
-pyEXChart("AAPL")
+# pyEXChart("AAPL")
+
+def iEXManualRequest(query):
+
+    print("accessing endpoint")
+    payload = {'symbols': query, 'types': 'ohlc,price,news,company,chart'}
+    r = requests.get("https://api.iextrading.com/1.0/stock/market/batch", params=payload)
+    print(r.url)
+
+    price = r.json()[query]["price"]
+
+    close = []
+    date = []
+    for x in r.json()[query]["chart"]:
+        close.append(x['close'])
+        date.append(x['date'])
+
+    ohlc = r.json()[query]["ohlc"]
+    if (ohlc["open"]["time"] >= ohlc["close"]["time"]):
+        ohlc.update({'live': True})
+    if (ohlc["open"]["time"] < ohlc["close"]["time"]):
+        ohlc.update({'live': False})
+
+    company = r.json()[query]["company"]
+    news = r.json()[query]["news"]
+
+    print(datetime.now())
+    return price, close, date, ohlc, company, news
+
+iEXManualRequest("AAPL");

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ tickerInfo.companyDetails.symbol }} {{ "$%.2f"|format(tickerInfo.currentPrice)}} - {{ tickerInfo.companyDetails.companyName }}{% endblock %}
+{% block title %}{{ company.symbol }} {{ "%.2f"|format(price)}}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
 {% endblock %}
@@ -8,25 +8,22 @@
 {% block body_contents %}
     <div class=row>
       <div class="stock-info column">
-        <span class="company">{{ tickerInfo.companyDetails.companyName }}</span>
-        <span class="symbol">({{ tickerInfo.companyDetails.symbol }})</span>
-        <span class="exchange">{{ tickerInfo.companyDetails.exchange }}</span>
-        <span class="value">{{ "%.2f"|format(tickerInfo.currentPrice)}}</span>
+        <span class="company">{{ company.companyName }}</span>
+        <span class="symbol">({{ company.symbol }})</span>
+        <span class="exchange">{{ company.exchange }}</span>
+        <span class="value">{{ "%.2f"|format(price)}}</span>
         <span class=currency>USD</span>
         <span class="delta {{ diff }}">{{ delta }}</span>
         <span class="percentage {{ diff }}">({{ "%.2f%%"|format(percentage)}})</span>
         <div>
-          <span class="opening-value">Opened: {{ "$%.2f"|format(tickerInfo.open.price)}}</span>
-{% if tickerInfo.live == true %}
+          <span class="opening-value">Opened: {{ "$%.2f"|format(ohlc.open.price)}}</span>
+{% if ohlc.live == true %}
           <span> - Currently live and trading</span>
 {% else %}
-          <span>Closed: {{ "$%.2f"|format(tickerInfo.close.price)}}</span>
+          <span>Closed: {{ "$%.2f"|format(ohlc.close.price)}}</span>
 {% endif %}
         </div>
       </div>
-{#      <div class="column">#}
-{#        <img src="/static/graph/{{ graph }}.png">#}
-{#      </div>#}
       <div class="chart column">
         <h4>7 Day Performance</h4>
         <canvas id="chart"></canvas>
@@ -35,7 +32,7 @@
     <div class="row">
       <div class="column">
         <h2>Latest News</h2>
-{% for newsItem in tickerNews %}
+{% for newsItem in news %}
         <div class="article">
           <h3><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h3>
           <span class="source">{{ newsItem.source }} <time datetime="{{ newsItem.datetime }}">{{ newsItem.datetime }}</time></span>
@@ -75,4 +72,5 @@
               }]
           },
       });
-    </script>{% endblock %}
+    </script>
+{% endblock %}

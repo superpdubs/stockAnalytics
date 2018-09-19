@@ -7,3 +7,4 @@ newsapi-python==0.2.3
 pyEX==0.1.0
 pandas
 alpha_vantage
+requests
