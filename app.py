@@ -55,35 +55,31 @@ def register():
 
 @app.route('/stock/<stockname>')
 def stock(stockname):
-    # TODO: serverside validation of stock symbol
-    tickerInfo = search.pyEXStockInfo(stockname)
-    tickerNews = search.pyEXNews(stockname)
-    # rand = plotStock(stockname)
     otherStickerForm = StickerForm()
+    # TODO: serverside validation of stock symbol
+    price, close, date, ohlc, company, news = search.iEXManualRequest(stockname.upper())
     twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
-    delta = tickerInfo.get('currentPrice') - tickerInfo.get('open').get('price')
-    percentage = delta / tickerInfo.get('open').get('price') * 100
+    delta = price - ohlc["open"]["price"]
+    percentage = delta / ohlc["open"]["price"] * 100
     diff = 'loss'
     if delta > 0:
         delta = '+{:.2f}'.format(delta)
         diff = 'gain'
     else:
         delta = '{:.2f}'.format(delta)
-    price, date = search.pyEXChart(stockname)
-    line_labels=date
-    line_values=price
     return render_template('stock.html',
                            thisform=otherStickerForm,
-                           tickerInfo=tickerInfo,
-                           tickerNews=tickerNews,
                            twitter=twitter,
                            delta=delta,
                            percentage=percentage,
                            diff=diff,
-                           labels=line_labels,
-                           values=line_values,
-                           max=tickerInfo['close']['price']*1.5)
-                           # graph=rand)
+                           labels=date,
+                           values=close,
+                           price=price,
+                           ohlc=ohlc,
+                           news=news,
+                           company=company
+                           )
 
 @app.route('/feature')
 def feature():
