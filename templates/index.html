@@ -6,7 +6,7 @@
 
 {% block body_contents %}
     <div class=vert-container>
-      <h1>fetch</h1>
+      <h1>Fetch</h1>
       <h2>Start my stock market adventure</h2>
       <form name="myStockForm" method="POST" action="" class="symbol-search">
         {{ thisform.stock }}
@@ -16,7 +16,9 @@
 
       </form>
 
+
 <script type="text/javascript">
+
     function loginUrl() {
         location.href = "{{ url_for('login') }}";
     }
@@ -24,4 +26,5 @@
         location.href = "{{ url_for('register') }}";
     }
 </script>
+
     </div>{% endblock %}
