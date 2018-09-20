@@ -121,6 +121,7 @@ footer > a {
 .search-popup > ul > li > a {
   display: block;
   color: inherit;
+  opacity: inherit;
 }
 
 /*Stock display styles*/
