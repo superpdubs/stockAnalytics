@@ -1,59 +1,57 @@
     <form name="myStockForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
       <!-- <input type="search" name="sticker" placeholder="Search"> -->
       {{ thisform.stock }}
-      <div class="popup">
-        <ul id="fish">
+      <div class="search-popup">
+        <ul class="search-suggestions">
+          <li>Type a stock symbol</li>
         </ul>
       </div>
     </form>
     <script type="text/javascript">
+      'use strict';
       document.querySelectorAll(".symbol-search").forEach(function(element) {
         element.addEventListener("submit", function(element) {
           element.preventDefault();
         });
       });
-      let searchbox = document.querySelectorAll(".symbol-search > input").forEach(function(element) {
-        var suggestions = document.getElementById("fish");
-        element.addEventListener("input", function(element) {
-          if (element.target.value.length > 0) {
-            var request = new XMLHttpRequest();
-            request.open('GET', "{{ url_for('suggestions') }}?q=" + element.target.value);
-            request.responseType = 'json';
-            request.send();
-            request.onload = function() {
-              while (suggestions.firstChild) {
-                suggestions.removeChild(suggestions.firstChild);
-              }
-              for (let e in request.response) {
-                let suggestion = document.createElement("li");
-                let link = document.createElement('a');
-                link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + request.response[e]);
-                link.textContent = request.response[e];
-                suggestions.appendChild(suggestion);
-                suggestion.appendChild(link);
-              }
-            };
-          } else {
+      let searchbox = document.querySelector(".symbol-search > input");
+      let popup = document.querySelector(".search-popup")
+      let suggestions = document.querySelector(".search-suggestions");
+      searchbox.addEventListener("input", function(element) {
+        if (element.target.value.length > 0) {
+          var request = new XMLHttpRequest();
+          request.open('GET', "{{ url_for('suggestions') }}?q=" + element.target.value);
+          request.responseType = 'json';
+          request.send();
+          request.onload = function() {
             while (suggestions.firstChild) {
               suggestions.removeChild(suggestions.firstChild);
             }
-          }
-        });
-        element.addEventListener("focus", function(element) {
+            for (let e in request.response) {
+              let suggestion = document.createElement("li");
+              let link = document.createElement('a');
+              link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + request.response[e]);
+              link.textContent = request.response[e];
+              suggestions.appendChild(suggestion);
+              suggestion.appendChild(link);
+            }
+          };
+        } else {
           while (suggestions.firstChild) {
             suggestions.removeChild(suggestions.firstChild);
           }
-          if (element.target.value.length == 0) {
-            let suggestion = document.createElement("li");
-            suggestion.textContent = "Type a stock symbol";
-            suggestions.appendChild(suggestion);
-          }
-        });
-        element.addEventListener("blur", function(element) {
-          for (let e in document.getElementsByClassName("popup")) {
-            console.log(e);
-            e.style.display = "hidden";
-          }
-        });
+        }
+      });
+      searchbox.addEventListener("focus", function(element) {
+        popup.style.zIndex = "unset";
+        popup.style.opacity = "1";
+      });
+      searchbox.addEventListener("blur", function(element) {
+        popup.style.opacity = "0";
+      });
+      popup.addEventListener("transitionend", function(element) {
+        if (element.target.style.opacity == "0") {
+          element.target.style.zIndex = "-1";
+        }
       });
     </script>

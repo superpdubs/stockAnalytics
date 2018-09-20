@@ -89,34 +89,36 @@ footer > a {
 
 .symbol-search > input:focus {
   background-color: rgb(255,255,255);
-  color: black;
+  color: rgb(30,30,30);
 }
 
-.popup {
+.search-popup {
   position: absolute;
-  display: hidden;
+  opacity: 0;
+  z-index: -1;
   width: 16rem;
   margin-top: 0.1rem;
   background-color: white;
   font-size: 1.5rem;
   color: rgb(30,30,30);
+  transition: all 0.2s ease-in-out;
 }
 
-.popup > ul {
+.search-popup > ul {
   padding: 0;
   margin: 0;
 }
 
-.popup > ul > li {
+.search-popup > ul > li {
   list-style-type: none;
   padding: 0 0.5rem;
 }
 
-.popup > ul > li:hover {
+.search-popup > ul > li:hover {
   background-color: #e3e3e3;
 }
 
-.popup > ul > li > a {
+.search-popup > ul > li > a {
   display: block;
   color: inherit;
 }
