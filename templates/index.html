@@ -6,9 +6,23 @@
 
 {% block body_contents %}
     <div class=vert-container>
-      <h1>fetch</h1>
+      <h1>Fetch</h1>
       <h2>Start my stock market adventure</h2>
       <form class="symbol-search">
         {% include 'search.html' %}
+        <input type="button" value="Login" onclick="loginUrl()"/>
+        <input type="button" value="Register" onclick="registerUrl()"/>
       </form>
+
+
+<script type="text/javascript">
+
+    function loginUrl() {
+        location.href = "{{ url_for('login') }}";
+    }
+    function registerUrl() {
+        location.href = "{{ url_for('register') }}";
+    }
+</script>
+
     </div>{% endblock %}

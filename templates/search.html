@@ -1,5 +1,6 @@
-    <form name="myStickerForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
-      <input type="search" name="sticker" placeholder="Search">
+    <form name="myStockForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
+      <!-- <input type="search" name="sticker" placeholder="Search"> -->
+      {{ thisform.stock }}
       <div class="popup">
         <ul id="fish">
         </ul>
@@ -26,7 +27,7 @@
               for (let e in request.response) {
                 let suggestion = document.createElement("li");
                 let link = document.createElement('a');
-                link.setAttribute('href', '{{ url_for('stock', stockname='') }}' + request.response[e]);
+                link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + request.response[e]);
                 link.textContent = request.response[e];
                 suggestions.appendChild(suggestion);
                 suggestion.appendChild(link);
@@ -49,7 +50,7 @@
           }
         });
         element.addEventListener("blur", function(element) {
-          for (var e in document.getElementsByClassName("popup")) {
+          for (let e in document.getElementsByClassName("popup")) {
             console.log(e);
             e.style.display = "hidden";
           }
