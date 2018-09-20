@@ -8,3 +8,4 @@ pyEX==0.1.0
 pandas
 alpha_vantage
 requests
+validators
