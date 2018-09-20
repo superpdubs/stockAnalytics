@@ -5,20 +5,27 @@
   <title>Register</title>
 </head>
 <body>
-  <h1>This is register in page</h1>
+  <h1>This is register  page</h1>
 
-  <form name='myStickerForm' method="POST" action="" >
+  <form name='myRegistrationForm' method="POST" action="" >
 
-    {% if error != None %}
-      <h1>{{ error }}</h1>
+    {% if info != None %}
+      <h1>{{ info }}</h1>
     {% endif %}
-    {{ thisform.username.label }} {{ thisform.username }}{{ "  Length of User name should be 4-11 characters" }}<br>
+    {{ thisform.user_name.label }} {{ thisform.user_name }}{{ "  Length of User name should be 4-11 characters" }}<br>
     {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
-    {{ thisform.password.label }} {{ thisform.password }}{{ "  Length of password should be 6-12 characters" }}<br>
+    {{ thisform.user_pass.label }} {{ thisform.user_pass }}{{ "  Length of password should be 6-12 characters" }}<br>
     {{ thisform.confirm.label }} {{ thisform.confirm }}{{ "  Confirm your password" }}<br>
     <button type="submit">Register!</button>
-
+    <input type="button" value="Login" onclick="loginUrl()"/>
   </form>
 
 </body>
+
+
+<script type="text/javascript">
+    function loginUrl() {
+        location.href = "{{ url_for('login') }}";
+    }
+</script>
 </html>

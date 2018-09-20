@@ -42,31 +42,39 @@ def fetching(stockname):
     return render_template('loading.html',stockname = stockname)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET','POST'])
 def login():
-    return render_template('login.html')
+    loginform = LoginForm()
+    loginvalidator = LoginValidator()
+    msg =""
+    if loginform.validate_on_submit():
+        this_username = loginform.user_name.data
+        this_password = loginform.user_pass.data
+        this_login = {'name': this_username, 'password': this_password}
+        msg = loginvalidator.validate(this_login)
+    return render_template('login.html',thisform=loginform, info=msg)
 
 
 @app.route('/register', methods=['GET','POST'])
 def register():
     registerform = RegistrationForm()
-    uservalidator = UserValidator()
+    registervalidator = RegisterValidator()
     err_msg = None
     if registerform.validate_on_submit():
-        this_username = registerform.username.data
+        this_username = registerform.user_name.data
         this_email = registerform.email.data
-        this_password = registerform.password.data
+        this_password = registerform.user_pass.data
         this_confirmpass = registerform.confirm.data
-        this_user = {'name': this_username, 'password': this_password,
+        this_registration = {'name': this_username, 'password': this_password,
                      'email': this_email, 'confirmPass': this_confirmpass}
-        err_msg = uservalidator.validate(this_user)
+        err_msg = registervalidator.validate(this_registration)
         if err_msg == None:
-            # this_user = (this_username, this_password, this_email)
-            # db.session.add(this_user)
-            return ('register successfully')
-        else:
-            return render_template('register.html', thisform=registerform, error=err_msg)
-    return render_template('register.html',thisform=registerform,error=err_msg)
+            valid_user = User(this_username, this_password, this_email)
+            db.session.add(valid_user)
+            db.session.commit()
+            err_msg = "Registration successfully! Try login!"
+
+    return render_template('register.html',thisform=registerform,info=err_msg)
 
 
 @app.route('/stock/<stockname>')
