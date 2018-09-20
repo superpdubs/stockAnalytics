@@ -13,9 +13,9 @@
           element.preventDefault();
         });
       });
-      let searchbox = document.querySelector(".symbol-search > input");
-      let popup = document.querySelector(".search-popup")
-      let suggestions = document.querySelector(".search-suggestions");
+      var searchbox = document.querySelector(".symbol-search > input");
+      var popup = document.querySelector(".search-popup")
+      var suggestions = document.querySelector(".search-suggestions");
       searchbox.addEventListener("input", function(element) {
         if (element.target.value.length > 0) {
           var request = new XMLHttpRequest();
@@ -26,9 +26,9 @@
             while (suggestions.firstChild) {
               suggestions.removeChild(suggestions.firstChild);
             }
-            for (let e in request.response) {
-              let suggestion = document.createElement("li");
-              let link = document.createElement('a');
+            for (var e in request.response) {
+              var suggestion = document.createElement("li");
+              var link = document.createElement('a');
               link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + request.response[e]);
               link.textContent = request.response[e];
               suggestions.appendChild(suggestion);
