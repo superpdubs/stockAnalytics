@@ -5,6 +5,16 @@
   <title>Login</title>
 </head>
 <body>
-  <h1>This is login in page</h1>
+  <h1>This is login page</h1>
+  <form name='myLoginForm' method="POST" action="" >
+
+    {% if info != None %}
+      <h1>{{ info }}</h1>
+    {% endif %}
+    {{ thisform.user_name.label }} {{ thisform.user_name }}<br>
+    {{ thisform.user_pass.label }} {{ thisform.user_pass }}<br>
+    <button type="submit">Login!</button>
+  </form>
+
 </body>
 </html>

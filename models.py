@@ -18,4 +18,4 @@ class User(db.Model):
         self.my_stocks = mystocks
 
     def __repr__(self):
-        return '<User: %r>' % self.uid
+        return '<User_id: %r  | User_name: %s>' % (self.uid , self.user_name)
