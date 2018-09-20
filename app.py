@@ -28,18 +28,17 @@ def line():
 @app.route('/',methods=['GET','POST'])
 def index():
     stockform = StockForm()
-    # if method =='POST' and the user's input matches validator'srequirement
-    # then return true
-    # set csrf_token : OFF in config.py
     if stockform.validate_on_submit():
         this_stock = stockform.stock.data
-        return redirect(url_for('fetching', stockname=this_stock))
+        # Bypass loading page because this should only be used when
+        # JavaScript is disabled / broken
+        return redirect(url_for('stock', stockname=this_stock))
     return render_template('index.html', thisform=stockform)
 
 
 @app.route('/fetching/<stockname>')
 def fetching(stockname):
-    return render_template('loading.html',stockname = stockname)
+    return render_template('loading.html', stockname=stockname)
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -114,6 +113,7 @@ def feature():
 @app.route('/search')
 def suggestions():
     query = request.args.get('q')
+    # Return extra empty string in json so client knows it's an array
     return jsonify(query, '')
 
 @app.route('/sources')

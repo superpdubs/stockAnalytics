@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo,InputRequire
 
 
 class StockForm(FlaskForm):
-    stock = StringField('Stock', render_kw={"placeholder": "Stock Name"})
+    stock = StringField('Stock', render_kw={"placeholder": "Search"})
     submit = SubmitField('Go Fetch !')
 
 
