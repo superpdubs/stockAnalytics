@@ -1,5 +1,5 @@
 #encoding: utf-8
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, request, jsonify
 from models import *
 import config
 from myform import *
@@ -84,6 +84,11 @@ def stock(stockname):
 @app.route('/feature')
 def feature():
     return render_template('feature.html')
+
+@app.route('/search')
+def suggestions():
+    query = request.args.get('q')
+    return jsonify(query, '')
 
 @app.route('/sources')
 def sources():

@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo,InputRequire
 
 
 class StickerForm(FlaskForm):
-    sticker = StringField('Sticker', validators=[], render_kw={"placeholder": "Stock Name"})
+    sticker = StringField('Sticker', validators=[], render_kw={"placeholder": "Search"})
     submit = SubmitField('Go Fetch !')
 
 

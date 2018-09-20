@@ -1,0 +1,58 @@
+    <form name="myStickerForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
+      <input type="search" name="sticker" placeholder="Search">
+      <div class="popup">
+        <ul id="fish">
+        </ul>
+      </div>
+    </form>
+    <script type="text/javascript">
+      document.querySelectorAll(".symbol-search").forEach(function(element) {
+        element.addEventListener("submit", function(element) {
+          element.preventDefault();
+        });
+      });
+      let searchbox = document.querySelectorAll(".symbol-search > input").forEach(function(element) {
+        var suggestions = document.getElementById("fish");
+        element.addEventListener("input", function(element) {
+          if (element.target.value.length > 0) {
+            var request = new XMLHttpRequest();
+            request.open('GET', "{{ url_for('suggestions') }}?q=" + element.target.value);
+            request.responseType = 'json';
+            request.send();
+            request.onload = function() {
+              while (suggestions.firstChild) {
+                suggestions.removeChild(suggestions.firstChild);
+              }
+              for (let e in request.response) {
+                let suggestion = document.createElement("li");
+                let link = document.createElement('a');
+                link.setAttribute('href', '{{ url_for('stock', stockname='') }}' + request.response[e]);
+                link.textContent = request.response[e];
+                suggestions.appendChild(suggestion);
+                suggestion.appendChild(link);
+              }
+            };
+          } else {
+            while (suggestions.firstChild) {
+              suggestions.removeChild(suggestions.firstChild);
+            }
+          }
+        });
+        element.addEventListener("focus", function(element) {
+          while (suggestions.firstChild) {
+            suggestions.removeChild(suggestions.firstChild);
+          }
+          if (element.target.value.length == 0) {
+            let suggestion = document.createElement("li");
+            suggestion.textContent = "Type a stock symbol";
+            suggestions.appendChild(suggestion);
+          }
+        });
+        element.addEventListener("blur", function(element) {
+          for (var e in document.getElementsByClassName("popup")) {
+            console.log(e);
+            e.style.display = "hidden";
+          }
+        });
+      });
+    </script>

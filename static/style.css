@@ -83,11 +83,42 @@ footer > a {
 /*Search box styles*/
 .symbol-search > input {
   color: white;
+  font-size: 1.5rem;
+  width: 16rem;
 }
 
 .symbol-search > input:focus {
   background-color: rgb(255,255,255);
   color: black;
+}
+
+.popup {
+  position: absolute;
+  display: hidden;
+  width: 16rem;
+  margin-top: 0.1rem;
+  background-color: white;
+  font-size: 1.5rem;
+  color: rgb(30,30,30);
+}
+
+.popup > ul {
+  padding: 0;
+  margin: 0;
+}
+
+.popup > ul > li {
+  list-style-type: none;
+  padding: 0 0.5rem;
+}
+
+.popup > ul > li:hover {
+  background-color: #e3e3e3;
+}
+
+.popup > ul > li > a {
+  display: block;
+  color: inherit;
 }
 
 /*Stock display styles*/
