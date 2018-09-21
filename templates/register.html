@@ -6,12 +6,10 @@
 </head>
 <body>
   <h1>This is register  page</h1>
-
-  <form name='myRegistrationForm' method="POST" action="" >
-
-    {% if info != None %}
-      <h1>{{ info }}</h1>
-    {% endif %}
+  <form name="myRegistrationForm" method="POST" action="" >
+{% if info != None %}
+    <h1>{{ info }}</h1>
+{% endif %}
     {{ thisform.user_name.label }} {{ thisform.user_name }}{{ "  Length of User name should be 4-11 characters" }}<br>
     {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
     {{ thisform.user_pass.label }} {{ thisform.user_pass }}{{ "  Length of password should be 6-12 characters" }}<br>
@@ -19,13 +17,10 @@
     <button type="submit">Register!</button>
     <input type="button" value="Login" onclick="loginUrl()"/>
   </form>
-
-</body>
-
-
-<script type="text/javascript">
+  <script type="text/javascript">
     function loginUrl() {
         location.href = "{{ url_for('login') }}";
     }
-</script>
+  </script>
+</body>
 </html>

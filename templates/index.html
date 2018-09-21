@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block head %}<link href="{{url_for('static', filename='home.css')}}") rel="stylesheet">{% endblock %}
 
@@ -8,12 +8,10 @@
     <div class=vert-container>
       <h1>Fetch</h1>
       <h2>Start my stock market adventure</h2>
-      <form name="myStockForm" method="POST" action="" class="symbol-search">
-        {{ thisform.stock }}
-        <button type="submit">Go fetch!</button><br><br>
-          <input type="button" value="Login" onclick="loginUrl()"/>
-           <input type="button" value="Register" onclick="registerUrl()"/>
-
+      <form class="symbol-search">
+        {% include 'search.html' %}
+        <input type="button" value="Login" onclick="loginUrl()"/>
+        <input type="button" value="Register" onclick="registerUrl()"/>
       </form>
 
 
