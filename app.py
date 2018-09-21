@@ -5,6 +5,8 @@ import config
 from myform import *
 from resources import search
 from validator import *
+from codegenerator import *
+from sendmail import *
 import time
 
 
@@ -64,6 +66,7 @@ def register():
         this_email = registerform.email.data
         this_password = registerform.user_pass.data
         this_confirmpass = registerform.confirm.data
+        # this_verify code = registerform.verification.data
         this_registration = {'name': this_username, 'password': this_password,
                      'email': this_email, 'confirmPass': this_confirmpass}
         err_msg = registervalidator.validate(this_registration)
@@ -109,6 +112,24 @@ def stock(stockname):
 @app.route('/feature')
 def feature():
     return render_template('feature.html')
+
+
+@app.route('/verify/<thisemail>')
+def verify(thisemail):
+    print('hi,iamhere')
+    emailvalidator = EmailValidator()
+    if not emailvalidator.exist(thisemail):
+        verification = Verfication()
+        mail = EmailVerification()
+        verifyCode = verification.generate_code()
+        if len(verifyCode) == 6:
+            mail.sendto(thisemail,verifyCode)
+            msg = 'Verification code already sent!'
+        else:
+            msg = 'This email already exist!'
+
+    return msg
+
 
 @app.route('/search')
 def suggestions():

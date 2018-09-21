@@ -14,6 +14,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email Address')
     user_pass = PasswordField('New Password')
     confirm = PasswordField('Repeat Password')
+    verification = StringField('Verfication Code')
     submit = SubmitField('Register')
 
 

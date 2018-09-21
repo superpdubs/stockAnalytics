@@ -51,3 +51,13 @@ class LoginValidator:
             message = "Please input your username"
 
         return message
+
+
+class EmailValidator:
+
+    def exist(self,thisemail):
+        to_get_email = User.query.filter_by(User.email==thisemail).first()
+        if to_get_email is not None:
+            return True
+        else:
+            return False

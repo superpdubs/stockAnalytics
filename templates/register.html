@@ -14,13 +14,55 @@
     {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
     {{ thisform.user_pass.label }} {{ thisform.user_pass }}{{ "  Length of password should be 6-12 characters" }}<br>
     {{ thisform.confirm.label }} {{ thisform.confirm }}{{ "  Confirm your password" }}<br>
+    {{ thisform.verification.label }} {{ thisform.verification }}<input type="button" id="btn_code" value="Get your verification code"\"/><br>
     <button type="submit">Register!</button>
     <input type="button" value="Login" onclick="loginUrl()"/>
   </form>
+
+  <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
+  <script>
+ $("#btn_code").click(function(){
+    email= "Qifu1995@outlook.com"         
+    time(this);
+    $.ajax({
+        type:'get',
+        url:'{{ url_for('verify',thisemail = email) }}',
+        data:{thisemail:email},
+        dataType:'json',
+        success:function(data){
+           if(data.status==1){                
+                }
+            },
+            
+        });
+    
+})
+   
+var wait=60;
+$("#btn_code").attr("disabled",false);
+function time(o) {
+    if (wait == 0) {
+        o.removeAttribute("disabled");           
+        o.value="Get your verification code";
+        wait = 60;
+    } else { // www.jbxue.com
+        o.setAttribute("disabled", true);
+        o.value='Resend after '+ wait+'s';
+        wait--;
+        setTimeout(function() {
+            time(o)
+        },
+        1000)
+    }
+}
+
+  </script>
   <script type="text/javascript">
     function loginUrl() {
         location.href = "{{ url_for('login') }}";
     }
   </script>
+
+
 </body>
 </html>
