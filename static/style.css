@@ -187,13 +187,10 @@ footer > a {
   font-size: 1.2rem;
   font-weight: bold;
   margin: 1rem 0;
-}
-
-.headline > a {
   opacity: 1;
 }
 
-.headline > a:hover {
+.headline:hover {
   opacity: 0.6;
 }
 
