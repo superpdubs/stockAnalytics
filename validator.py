@@ -40,9 +40,9 @@ class LoginValidator:
                 if to_match_user is not None:
                     to_match_Password = to_match_user.user_pass
                     if user['password'] == to_match_Password:
-                        message = 'Login successfully'
+                        message = 'Congratulations! Login successfully'
                     else:
-                        message = 'login unsuccessfully'
+                        message = 'Sad, login unsuccessfully'
                 else:
                     message = "This username doesn't exist"
             else:
