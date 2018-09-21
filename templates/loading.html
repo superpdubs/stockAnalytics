@@ -9,7 +9,7 @@
       <h1>We are fetching {{ stockname }} for you</h1>
        <h3>Shouldn't be long</h3>
         <div>
-          <img src="/static/loading1.svg" alt="loading" height=100 width=100>
+          <img src="{{ url_for('static', filename='loading1.svg') }}" alt="loading" height=100 width=100>
         </div>
     </div>
       <script language="javascript" type="text/javascript">
