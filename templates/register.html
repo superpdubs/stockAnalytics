@@ -10,7 +10,8 @@
 {% if info != None %}
     <h1>{{ info }}</h1>
 {% endif %}
-    {{ thisform.user_name.label }} {{ thisform.user_name }}{{ "  Length of User name should be 4-11 characters" }}<br>
+    {{ thisform.firstname.label }} {{ thisform.firstname }}
+    {{ thisform.lastname.label }} {{ thisform.lastname }}<br>
     {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
     {{ thisform.user_pass.label }} {{ thisform.user_pass }}{{ "  Length of password should be 6-12 characters" }}<br>
     {{ thisform.confirm.label }} {{ thisform.confirm }}{{ "  Confirm your password" }}<br>
@@ -19,44 +20,46 @@
     <input type="button" value="Login" onclick="loginUrl()"/>
   </form>
 
+
+
   <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
   <script>
  $("#btn_code").click(function(){
-    email= "Qifu1995@outlook.com"         
-    time(this);
+    fname= document.getElementById("firstname").value
+       lname= document.getElementById("lastname").value
+       email= document.getElementById("email").value 
+       password= document.getElementById("user_pass").value 
+       confirm_p= document.getElementById("confirm").value            
+       time(this);
     $.ajax({
         type:'get',
-        url:'{{ url_for('verify',thisemail = email) }}',
-        data:{thisemail:email},
+        url:'{{ url_for('verify') }}',
+        data:{this_fname:fname,this_lname:lname,this_email:email,
+                    this_password:password,this_confirm_p:confirm_p},
         dataType:'json',
         success:function(data){
-           if(data.status==1){                
-                }
+            alert(data.msg)
             },
-            
-        });
-    
-})
-   
+        });    
+})   
 var wait=60;
 $("#btn_code").attr("disabled",false);
 function time(o) {
-    if (wait == 0) {
-        o.removeAttribute("disabled");           
-        o.value="Get your verification code";
-        wait = 60;
-    } else { // www.jbxue.com
-        o.setAttribute("disabled", true);
-        o.value='Resend after '+ wait+'s';
-        wait--;
-        setTimeout(function() {
-            time(o)
-        },
-        1000)
-    }
-}
+    if (wait == 0) {
+        o.removeAttribute("disabled");
+        o.value = "Get your verification code";
+        wait = 60;
+    } else { // www.jbxue.com
+        o.setAttribute("disabled", true);
+        o.value = 'Resend after ' + wait + 's';
+        wait--;
+        setTimeout(function () {
+                time(o)
+            },
+            1000)
+    }
+}</script>
 
-  </script>
   <script type="text/javascript">
     function loginUrl() {
         location.href = "{{ url_for('login') }}";

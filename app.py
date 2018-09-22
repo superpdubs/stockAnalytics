@@ -62,16 +62,17 @@ def register():
     registervalidator = RegisterValidator()
     err_msg = None
     if registerform.validate_on_submit():
-        this_username = registerform.user_name.data
+        this_firstname = registerform.firstname.data
+        this_lastname = registerform.lastname.data
         this_email = registerform.email.data
         this_password = registerform.user_pass.data
         this_confirmpass = registerform.confirm.data
         # this_verify code = registerform.verification.data
-        this_registration = {'name': this_username, 'password': this_password,
+        this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_password,
                      'email': this_email, 'confirmPass': this_confirmpass}
         err_msg = registervalidator.validate(this_registration)
         if err_msg == None:
-            valid_user = User(this_username, this_password, this_email)
+            valid_user = User('hi', this_password, this_email)
             db.session.add(valid_user)
             db.session.commit()
             err_msg = "Registration successfully! Try login!"
@@ -114,21 +115,52 @@ def feature():
     return render_template('feature.html')
 
 
-@app.route('/verify/<thisemail>')
-def verify(thisemail):
-    print('hi,iamhere')
+@app.route('/email_verification')
+def email_verify():
+    emailform = EmailForm()
+    if emailform.validate_on_submit():
+        this_email = emailform.email.data
+        this_vcode = emailform.verification.data
+        # check this vocde and the vode in session
+        #TODO
+    return render_template('eval_email.html',thisform=emailform)
+
+
+@app.route('/verify' , methods=['GET'])
+def verify():
+    msg =''
     emailvalidator = EmailValidator()
-    if not emailvalidator.exist(thisemail):
+    if request.method == 'GET':
+        eval_email = request.args.get('this_email')
+        err_msg = emailvalidator.validate(eval_email)
+        if err_msg is None :
+            msg="This email could be used"
+            eval = 1
+        else:
+            msg = err_msg
+            eval = 0
+    return jsonify(msg=msg,eval=eval)
+
+
+@app.route('/sendcode' , methods=['GET'])
+def send_vcode():
+    send = 0
+    msg = "Server is busy, please try again!"
+    if request.method == 'GET':
+        thisemail = request.args.get('this_email')
         verification = Verfication()
-        mail = EmailVerification()
         verifyCode = verification.generate_code()
+        mail = EmailVerification()
         if len(verifyCode) == 6:
             mail.sendto(thisemail,verifyCode)
             msg = 'Verification code already sent!'
+            send = 1
         else:
-            msg = 'This email already exist!'
+            msg = "This should not happen!"
+            send = 0
 
-    return msg
+    return jsonify(msg=msg,send=send)
+
 
 
 @app.route('/stocks')
