@@ -5,27 +5,22 @@ class RegisterValidator:
 
         def validate(self, user):
             message = None
-            if validators.length(user['name'], min=4, max=11):
-                if validators.email(user['email']):
-                    if validators.length(user['password'], min=6, max=12):
-                        if user['confirmPass'] == user['password']:
-                            to_find_username = User.query.filter(User.user_name == user['name']).first()
-                            if to_find_username is None:
-                                to_find_useremail = User.query.filter(User.email == user['email']).first()
-                                if to_find_useremail is None:
-                                    pass
-                                else:
-                                    message = "This email already exists"
+            if validators.length(user['firstname'],min=1):
+                if validators.length(user['lastname'],min=1):
+                    if validators.email(user['email']):
+                        if validators.length(user['password'], min=6, max=12):
+                            if user['confirmPass'] == user['password']:
+                                        pass
                             else:
-                                message = "This User name already exists"
+                                message = "The confirm password doesn't match"
                         else:
-                            message = "The confirm password doesn't match"
+                            message = "The length of password doesn't match"
                     else:
-                        message = "The length of password doesn't match"
+                        message = "The email format is not correct"
                 else:
-                    message = "The email format is not correct"
+                    message = "Last name cannot be empty"
             else:
-                message = "The length of user name doesn't match"
+                message = "First name cannot be empty"
 
             return message
 

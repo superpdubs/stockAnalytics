@@ -9,7 +9,8 @@ class StockForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    user_name = StringField('Username')
+    firstname = StringField('Firstname')
+    lastname = StringField('Lastname')
     email = StringField('Email Address')
     user_pass = PasswordField('New Password')
     confirm = PasswordField('Repeat Password')

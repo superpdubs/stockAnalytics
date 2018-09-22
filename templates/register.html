@@ -10,7 +10,8 @@
 {% if info != None %}
     <h1>{{ info }}</h1>
 {% endif %}
-    {{ thisform.user_name.label }} {{ thisform.user_name }}{{ "  Length of User name should be 4-11 characters" }}<br>
+    {{ thisform.firstname.label }} {{ thisform.firstname }}
+    {{ thisform.lastname.label }} {{ thisform.lastname }}<br>
     {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
     {{ thisform.user_pass.label }} {{ thisform.user_pass }}{{ "  Length of password should be 6-12 characters" }}<br>
     {{ thisform.confirm.label }} {{ thisform.confirm }}{{ "  Confirm your password" }}<br>
@@ -18,6 +19,8 @@
     <button type="submit">Register!</button>
     <input type="button" value="Login" onclick="loginUrl()"/>
   </form>
+
+
 
   <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
   <script>
@@ -32,29 +35,26 @@
         success:function(data){
             alert(data.msg)
             },
-            
         });    
-})
-   
+})   
 var wait=60;
 $("#btn_code").attr("disabled",false);
 function time(o) {
-    if (wait == 0) {
-        o.removeAttribute("disabled");           
-        o.value="Get your verification code";
-        wait = 60;
-    } else { // www.jbxue.com
-        o.setAttribute("disabled", true);
-        o.value='Resend after '+ wait+'s';
-        wait--;
-        setTimeout(function() {
-            time(o)
-        },
-        1000)
-    }
-}
+    if (wait == 0) {
+        o.removeAttribute("disabled");
+        o.value = "Get your verification code";
+        wait = 60;
+    } else { // www.jbxue.com
+        o.setAttribute("disabled", true);
+        o.value = 'Resend after ' + wait + 's';
+        wait--;
+        setTimeout(function () {
+                time(o)
+            },
+            1000)
+    }
+}</script>
 
-  </script>
   <script type="text/javascript">
     function loginUrl() {
         location.href = "{{ url_for('login') }}";

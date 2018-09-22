@@ -62,16 +62,17 @@ def register():
     registervalidator = RegisterValidator()
     err_msg = None
     if registerform.validate_on_submit():
-        this_username = registerform.user_name.data
+        this_firstname = registerform.firstname.data
+        this_lastname = registerform.lastname.data
         this_email = registerform.email.data
         this_password = registerform.user_pass.data
         this_confirmpass = registerform.confirm.data
         # this_verify code = registerform.verification.data
-        this_registration = {'name': this_username, 'password': this_password,
+        this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_password,
                      'email': this_email, 'confirmPass': this_confirmpass}
         err_msg = registervalidator.validate(this_registration)
         if err_msg == None:
-            valid_user = User(this_username, this_password, this_email)
+            valid_user = User('hi', this_password, this_email)
             db.session.add(valid_user)
             db.session.commit()
             err_msg = "Registration successfully! Try login!"
