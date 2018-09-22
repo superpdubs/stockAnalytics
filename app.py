@@ -165,10 +165,17 @@ def send_vcode():
 
 @app.route('/stocks')
 def suggestions():
-    #query = request.args.get('q')
+    query = request.args.get('q').upper()
     res = Stock.query.all()
     list_stocks = [r.as_dict() for r in res]
-    return jsonify(list_stocks)# Return extra empty string in json so client knows it's an array
+    result = []
+    for e in list_stocks:
+        if (e.get('symbol').find(query) == 0):
+            result.append(e)
+            # limit results to 10 max
+            if (len(result) == 10):
+                break
+    return jsonify(result)
 
 @app.route('/sources')
 def sources():

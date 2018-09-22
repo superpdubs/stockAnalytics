@@ -1,8 +1,3 @@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
     <form name="myStockForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
       {{ thisform.stock }}
       <div class="search-popup">
@@ -10,33 +5,8 @@
           <li>Type a stock symbol</li>
         </ul>
       </div>
-      <div class="ui-widget">
-  <label for="tags">Tags: </label>
-  <input id="tags">
-</div>
     </form>
-
-
-  <script>
-      $(document).ready(function(){
-        var stocks=[];
-
-        function loadStocks(){
-        	$.getJSON('/stocks', function(data, status, xhr){
-        		for (var i = 0; i < data.length; i++ ) {
-                	stocks.push(data[i].symbol);
-            	}
-        });
-        };
-
-        loadStocks();
-
-        $('#tags').autocomplete({
-        	source: stocks,
-        	});
-      });
-  </script>
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
       'use strict';
       document.querySelectorAll(".symbol-search").forEach(function(element) {
         element.addEventListener("submit", function(element) {
@@ -48,19 +18,20 @@
       var suggestions = document.querySelector(".search-suggestions");
       searchbox.addEventListener("input", function(element) {
         if (element.target.value.length > 0) {
-          var request = new XMLHttpRequest();
-          request.open('GET', "{{ url_for('suggestions') }}?q=" + element.target.value);
-          request.responseType = 'json';
-          request.send();
-          request.onload = function() {
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', "{{ url_for('suggestions') }}?q=" + element.target.value);
+          xhr.responseType = 'json';
+          xhr.send();
+          xhr.onload = function() {
+            console.log(xhr.result);
             while (suggestions.firstChild) {
               suggestions.removeChild(suggestions.firstChild);
             }
-            for (var e in request.response) {
+            for (var e in xhr.response) {
               var suggestion = document.createElement("li");
               var link = document.createElement('a');
-              link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + request.response[e]);
-              link.textContent = request.response[e];
+              link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + xhr.response[e].symbol);
+              link.textContent = xhr.response[e].symbol;
               suggestions.appendChild(suggestion);
               suggestion.appendChild(link);
             }
@@ -83,4 +54,4 @@
           element.target.style.zIndex = "-1";
         }
       });
-    </script> -->
+    </script>
