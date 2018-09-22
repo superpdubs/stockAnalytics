@@ -22,7 +22,7 @@
   <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
   <script>
  $("#btn_code").click(function(){
-    email= "Qifu1995@outlook.com"         
+    email= document.getElementById("email").value     
     time(this);
     $.ajax({
         type:'get',
@@ -30,12 +30,10 @@
         data:{thisemail:email},
         dataType:'json',
         success:function(data){
-           if(data.status==1){                
-                }
+            alert(data.msg)
             },
             
-        });
-    
+        });    
 })
    
 var wait=60;

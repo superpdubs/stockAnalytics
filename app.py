@@ -127,10 +127,10 @@ def verify():
             if len(verifyCode) == 6:
                 mail.sendto(thisemail,verifyCode)
                 msg = 'Verification code already sent!'
-            else:
-                msg = 'This email already exist!'
+        else:
+            msg = 'This email already exist!'
 
-    return msg
+    return jsonify(msg=msg)
 
 
 @app.route('/search')
