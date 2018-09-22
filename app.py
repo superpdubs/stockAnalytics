@@ -118,6 +118,11 @@ def feature():
 @app.route('/email_verification')
 def email_verify():
     emailform = EmailForm()
+    if emailform.validate_on_submit():
+        this_email = emailform.email.data
+        this_vcode = emailform.verification.data
+        # check this vocde and the vode in session
+        #TODO
     return render_template('eval_email.html',thisform=emailform)
 
 

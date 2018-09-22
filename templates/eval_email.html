@@ -6,13 +6,14 @@
 </head>
 <body>
   <h1>This is register step1 page</h1>
-  <form name="myRegistrationForm" method="POST" action="" >
+  <form name="myEmailRegistrationForm" method="POST" action="" >
 {% if info != None %}
     <h1>{{ info }}</h1>
 {% endif %}
 
     {{ thisform.email.label }} {{ thisform.email }}<span class="message"> </span><br>
-    {{ thisform.verification.label }} {{ thisform.verification }}<input type="button" disabled="true" id="btn_code" value="Get your verification code"/><br>
+    {{ thisform.verification.label }} {{ thisform.verification }}
+      <input type="button" disabled="true" id="btn_code" value="Get your verification code"/><br>
   </form>
 
 
