@@ -1,0 +1,56 @@
+    <form name="myStockForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
+      {{ thisform.stock }}
+      <div class="search-popup">
+        <ul class="search-suggestions">
+          <li>Type a stock symbol</li>
+        </ul>
+      </div>
+    </form>
+    <script type="text/javascript">
+      'use strict';
+      document.querySelectorAll(".symbol-search").forEach(function(element) {
+        element.addEventListener("submit", function(element) {
+          element.preventDefault();
+        });
+      });
+      var searchbox = document.querySelector(".symbol-search > input");
+      var popup = document.querySelector(".search-popup")
+      var suggestions = document.querySelector(".search-suggestions");
+      searchbox.addEventListener("input", function(element) {
+        if (element.target.value.length > 0) {
+          var request = new XMLHttpRequest();
+          request.open('GET', "{{ url_for('suggestions') }}?q=" + element.target.value);
+          request.responseType = 'json';
+          request.send();
+          request.onload = function() {
+            while (suggestions.firstChild) {
+              suggestions.removeChild(suggestions.firstChild);
+            }
+            for (var e in request.response) {
+              var suggestion = document.createElement("li");
+              var link = document.createElement('a');
+              link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + request.response[e]);
+              link.textContent = request.response[e];
+              suggestions.appendChild(suggestion);
+              suggestion.appendChild(link);
+            }
+          };
+        } else {
+          while (suggestions.firstChild) {
+            suggestions.removeChild(suggestions.firstChild);
+          }
+        }
+      });
+      searchbox.addEventListener("focus", function(element) {
+        popup.style.zIndex = "unset";
+        popup.style.opacity = "1";
+      });
+      searchbox.addEventListener("blur", function(element) {
+        popup.style.opacity = "0";
+      });
+      popup.addEventListener("transitionend", function(element) {
+        if (element.target.style.opacity == "0") {
+          element.target.style.zIndex = "-1";
+        }
+      });
+    </script>

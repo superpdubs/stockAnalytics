@@ -1,32 +1,31 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
-{% block title %}{{ company.symbol }} {{ "%.2f"|format(price)}}{% endblock %}
+{% block title %}{{ company.symbol }} {{ '%.2f'|format(price) }}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
 {% endblock %}
 
 {% block body_contents %}
-
-    <div class=row>
+    <div class="row">
       <div class="stock-info column">
         <span class="company">{{ company.companyName }}</span>
         <span class="symbol">({{ company.symbol }})</span>
         <span class="exchange">{{ company.exchange }}</span>
-        <span class="value">{{ "%.2f"|format(price)}}</span>
-        <span class=currency>USD</span>
+        <span class="value">{{ '%.2f'|format(price) }}</span>
+        <span class="currency">USD</span>
         <span class="delta {{ diff }}">{{ delta }}</span>
-        <span class="percentage {{ diff }}">({{ "%.2f%%"|format(percentage)}})</span>
+        <span class="percentage {{ diff }}">({{ '%.2f%%'|format(percentage) }})</span>
         <div>
-          <span class="opening-value">Opened: {{ "$%.2f"|format(ohlc.open.price)}}</span>
+          <span class="opening-value">Opened: {{ '$%.2f'|format(ohlc.open.price) }}</span>
 {% if ohlc.live == true %}
           <span> - Currently live and trading</span>
 {% else %}
-          <span>Closed: {{ "$%.2f"|format(ohlc.close.price)}}</span>
+          <span>Closed: {{ '$%.2f'|format(ohlc.close.price) }}</span>
 {% endif %}
         </div>
       </div>
       <div class="chart column">
-        <h4>7 Day Performance</h4>
+        <h4>30 Day Performance</h4>
         <canvas id="chart"></canvas>
       </div>
     </div>
@@ -35,25 +34,24 @@
         <h2>Latest News</h2>
 {% for newsItem in news %}
         <div class="article">
-          <h3><a href="{{ newsItem.url }}" >{{ newsItem.headline }}</a></h3>
+          <a class="headline" href="{{ newsItem.url }}" >{{ newsItem.headline }}</a>
           <span class="source">{{ newsItem.source }} <time datetime="{{ newsItem.datetime }}">{{ newsItem.datetime }}</time></span>
           <p>{{ newsItem.summary }}</p>
         </div>
 {% endfor %}
       </div>
-
       <div class="column twitter">
       <h2>Twitter</h2>
 {% for tweet in twitter %}
-  {% if tweet.urls[0] %}
+{% if tweet.urls[0] %}
         <div>
-            {{ twitterEmbed(tweet.id, tweet.urls[0].url).html | safe}}
+          {{ twitterEmbed(tweet.id, tweet.urls[0].url).html|safe}}
         </div>
-  {%  endif %}
+{% endif %}
 {% endfor %}
       </div>
     </div>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
     <script>
       Chart.defaults.global.defaultFontFamily = "'GlacialIndifferenceRegular', sans-serif";
       Chart.defaults.global.legend.display = false;
@@ -63,7 +61,7 @@
       Chart.defaults.global.tooltips.displayColors = false;
       var ctx = document.getElementById("chart");
       var myChart = new Chart(ctx, {
-          type: 'line',
+          type: "line",
           data: {
               labels: [{% for item in labels %}"{{ item }}", {% endfor %}],
               datasets: [{
@@ -73,6 +71,4 @@
               }]
           },
       });
-    </script>
-
-{% endblock %}
+    </script>{% endblock %}

@@ -4,28 +4,27 @@ from models import *
 class RegisterValidator:
 
         def validate(self, user):
+            emailvalidator = EmailValidator()
             message = None
-            if validators.length(user['name'], min=4, max=11):
-                if validators.email(user['email']):
-                    if validators.length(user['password'], min=6, max=12):
-                        if user['confirmPass'] == user['password']:
-                            to_find_username = User.query.filter(User.user_name == user['name']).first()
-                            if to_find_username is None:
-                                to_find_useremail = User.query.filter(User.email == user['email']).first()
-                                if to_find_useremail is None:
-                                    pass
+            if validators.length(user['firstname'],min=1):
+                if validators.length(user['lastname'],min=1):
+                    if validators.email(user['email']):
+                        if not emailvalidator.exist(user['email']):
+                            if validators.length(user['password'], min=6, max=12):
+                                if user['confirmPass'] == user['password']:
+                                            pass
                                 else:
-                                    message = "This email already exists"
+                                    message = "The confirm password doesn't match"
                             else:
-                                message = "This User name already exists"
+                                message = "The length of password doesn't match"
                         else:
-                            message = "The confirm password doesn't match"
+                            message = "This email already exist"
                     else:
-                        message = "The length of password doesn't match"
+                        message = "Please input a correct format email"
                 else:
-                    message = "The email format is not correct"
+                    message = "Last name cannot be empty"
             else:
-                message = "The length of user name doesn't match"
+                message = "First name cannot be empty"
 
             return message
 
@@ -40,9 +39,9 @@ class LoginValidator:
                 if to_match_user is not None:
                     to_match_Password = to_match_user.user_pass
                     if user['password'] == to_match_Password:
-                        message = 'Login successfully'
+                        message = 'Congratulations! Login successfully'
                     else:
-                        message = 'login unsuccessfully'
+                        message = "User name and password doesn't match"
                 else:
                     message = "This username doesn't exist"
             else:
@@ -51,3 +50,16 @@ class LoginValidator:
             message = "Please input your username"
 
         return message
+
+
+class EmailValidator:
+
+    def validate(self,thisemail):
+        if validators.email(thisemail):
+            to_get_email = User.query.filter(User.email == thisemail).first()
+            if to_get_email is not None:
+                return "This email already exist"
+            else:
+                return None
+        else:
+            return "This email format is uncorrect"
