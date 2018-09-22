@@ -8,6 +8,12 @@ class StockForm(FlaskForm):
     submit = SubmitField('Go Fetch !')
 
 
+class EmailForm(FlaskForm):
+
+    email = StringField('Email Address')
+    verification = StringField('Verfication Code')
+    submit = SubmitField('Register')
+
 class RegistrationForm(FlaskForm):
     firstname = StringField('Firstname')
     lastname = StringField('Lastname')

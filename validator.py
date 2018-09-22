@@ -4,19 +4,23 @@ from models import *
 class RegisterValidator:
 
         def validate(self, user):
+            emailvalidator = EmailValidator()
             message = None
             if validators.length(user['firstname'],min=1):
                 if validators.length(user['lastname'],min=1):
                     if validators.email(user['email']):
-                        if validators.length(user['password'], min=6, max=12):
-                            if user['confirmPass'] == user['password']:
-                                        pass
+                        if not emailvalidator.exist(user['email']):
+                            if validators.length(user['password'], min=6, max=12):
+                                if user['confirmPass'] == user['password']:
+                                            pass
+                                else:
+                                    message = "The confirm password doesn't match"
                             else:
-                                message = "The confirm password doesn't match"
+                                message = "The length of password doesn't match"
                         else:
-                            message = "The length of password doesn't match"
+                            message = "This email already exist"
                     else:
-                        message = "The email format is not correct"
+                        message = "Please input a correct format email"
                 else:
                     message = "Last name cannot be empty"
             else:
@@ -50,9 +54,12 @@ class LoginValidator:
 
 class EmailValidator:
 
-    def exist(self,thisemail):
-        to_get_email = User.query.filter(User.email == thisemail).first()
-        if to_get_email is not None:
-            return True
+    def validate(self,thisemail):
+        if validators.email(thisemail):
+            to_get_email = User.query.filter(User.email == thisemail).first()
+            if to_get_email is not None:
+                return "This email already exist"
+            else:
+                return None
         else:
-            return False
+            return "This email format is uncorrect"

@@ -25,12 +25,17 @@
   <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
   <script>
  $("#btn_code").click(function(){
-    email= document.getElementById("email").value     
-    time(this);
+    fname= document.getElementById("firstname").value
+       lname= document.getElementById("lastname").value
+       email= document.getElementById("email").value 
+       password= document.getElementById("user_pass").value 
+       confirm_p= document.getElementById("confirm").value            
+       time(this);
     $.ajax({
         type:'get',
         url:'{{ url_for('verify') }}',
-        data:{thisemail:email},
+        data:{this_fname:fname,this_lname:lname,this_email:email,
+                    this_password:password,this_confirm_p:confirm_p},
         dataType:'json',
         success:function(data){
             alert(data.msg)

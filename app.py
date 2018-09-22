@@ -115,23 +115,46 @@ def feature():
     return render_template('feature.html')
 
 
+@app.route('/email_verification')
+def email_verify():
+    emailform = EmailForm()
+    return render_template('eval_email.html',thisform=emailform)
+
+
 @app.route('/verify' , methods=['GET'])
 def verify():
     msg =''
+    emailvalidator = EmailValidator()
     if request.method == 'GET':
-        thisemail = request.args.get('thisemail')
-        emailvalidator = EmailValidator()
-        if not emailvalidator.exist(thisemail):
-            verification = Verfication()
-            mail = EmailVerification()
-            verifyCode = verification.generate_code()
-            if len(verifyCode) == 6:
-                mail.sendto(thisemail,verifyCode)
-                msg = 'Verification code already sent!'
+        eval_email = request.args.get('this_email')
+        err_msg = emailvalidator.validate(eval_email)
+        if err_msg is None :
+            eval = 1
         else:
-            msg = 'This email already exist!'
+            msg = err_msg
+            eval = 0
+    return jsonify(msg=msg,eval=eval)
 
-    return jsonify(msg=msg)
+
+@app.route('/sendcode' , methods=['GET'])
+def send_vcode():
+    send = 0
+    msg = "Server is busy, please try again!"
+    if request.method == 'GET':
+        print(msg)
+        send_email = request.args.get('this_email')
+        verification = Verfication()
+        verifyCode = verification.generate_code()
+        if len(verifyCode) == 6:
+            # mail.sendto(eval_email,verifyCode)
+            msg = 'Verification code already sent!'
+            send = 1
+        else:
+            msg = "This should not happen!"
+            send = 0
+
+    return jsonify(msg=msg,send=send)
+
 
 
 @app.route('/search')

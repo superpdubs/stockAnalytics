@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register step1</title>
+</head>
+<body>
+  <h1>This is register step1 page</h1>
+  <form name="myRegistrationForm" method="POST" action="" >
+{% if info != None %}
+    <h1>{{ info }}</h1>
+{% endif %}
+    {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
+    {{ thisform.verification.label }} {{ thisform.verification }}<input type="button" disabled="true" id="btn_code" value="Get your verification code"/><br>
+  </form>
+
+
+  <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
+  <script>
+ $("#email").blur(function(){
+       email= document.getElementById("email").value;   
+    $.ajax({
+        type:'get',
+        url:'{{ url_for('verify') }}',
+        data:{this_email:email},
+        dataType:'json',
+        success:function(data) {
+                if (data.eval == 1) {
+                    alert('This email could be used')
+                    $("#btn_code").attr('disabled',false)
+                }else{
+                    $("#btn_code").attr('disabled',true)
+                    alert(data.msg)
+                }
+              }
+       });    
+}) 
+  
+  $("#btn_code").click(function(){
+       email= document.getElementById("email").value;   
+    $.ajax({
+        type:'get',
+        url:'{{ url_for('send_vcode') }}',
+        data:{this_email:email},
+        dataType:'json',
+        success:function(data) {
+                if (data.send == 1) {
+                    alert('verification code sent !');
+                    var wait = 60;
+                    time()
+                    function time() {
+                        if (wait == 0){
+                            $("#btn_code").val('Get your verification code');
+                            $("#btn_code").attr('disabled',false);
+                            wait = 60;
+                        }else{
+                            $("#btn_code").attr('disabled', true);
+                            $("#btn_code").val('Resend after ' + wait + 's');
+                            wait--;
+                            setTimeout(function () {time(this)
+                            },1000)
+                        }
+                    }
+                }else{
+                    $("#btn_code").attr('disabled',flase)
+                    alert("please try it later")
+                }
+              }
+       });    
+})
+</script>
+
+</body>
+</html>
