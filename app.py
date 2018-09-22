@@ -131,11 +131,12 @@ def verify(thisemail):
     return msg
 
 
-@app.route('/search')
+@app.route('/stocks')
 def suggestions():
-    query = request.args.get('q')
-    # Return extra empty string in json so client knows it's an array
-    return jsonify(query, '')
+    #query = request.args.get('q')
+    res = Stock.query.all()
+    list_stocks = [r.as_dict() for r in res]
+    return jsonify(list_stocks)# Return extra empty string in json so client knows it's an array
 
 @app.route('/sources')
 def sources():

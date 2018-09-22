@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <form name="myStockForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
       {{ thisform.stock }}
       <div class="search-popup">
@@ -5,8 +10,33 @@
           <li>Type a stock symbol</li>
         </ul>
       </div>
+      <div class="ui-widget">
+  <label for="tags">Tags: </label>
+  <input id="tags">
+</div>
     </form>
-    <script type="text/javascript">
+
+
+  <script>
+      $(document).ready(function(){
+        var stocks=[];
+
+        function loadStocks(){
+        	$.getJSON('/stocks', function(data, status, xhr){
+        		for (var i = 0; i < data.length; i++ ) {
+                	stocks.push(data[i].symbol);
+            	}
+        });
+        };
+
+        loadStocks();
+
+        $('#tags').autocomplete({
+        	source: stocks,
+        	});
+      });
+  </script>
+    <!-- <script type="text/javascript">
       'use strict';
       document.querySelectorAll(".symbol-search").forEach(function(element) {
         element.addEventListener("submit", function(element) {
@@ -53,4 +83,4 @@
           element.target.style.zIndex = "-1";
         }
       });
-    </script>
+    </script> -->
