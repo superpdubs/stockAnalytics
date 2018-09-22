@@ -56,7 +56,7 @@ class LoginValidator:
 class EmailValidator:
 
     def exist(self,thisemail):
-        to_get_email = User.query.filter_by(User.email==thisemail).first()
+        to_get_email = User.query.filter(User.email == thisemail).first()
         if to_get_email is not None:
             return True
         else:

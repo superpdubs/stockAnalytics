@@ -114,19 +114,21 @@ def feature():
     return render_template('feature.html')
 
 
-@app.route('/verify/<thisemail>')
-def verify(thisemail):
-    print('hi,iamhere')
-    emailvalidator = EmailValidator()
-    if not emailvalidator.exist(thisemail):
-        verification = Verfication()
-        mail = EmailVerification()
-        verifyCode = verification.generate_code()
-        if len(verifyCode) == 6:
-            mail.sendto(thisemail,verifyCode)
-            msg = 'Verification code already sent!'
-        else:
-            msg = 'This email already exist!'
+@app.route('/verify' , methods=['GET'])
+def verify():
+    msg =''
+    if request.method == 'GET':
+        thisemail = request.args.get('thisemail')
+        emailvalidator = EmailValidator()
+        if not emailvalidator.exist(thisemail):
+            verification = Verfication()
+            mail = EmailVerification()
+            verifyCode = verification.generate_code()
+            if len(verifyCode) == 6:
+                mail.sendto(thisemail,verifyCode)
+                msg = 'Verification code already sent!'
+            else:
+                msg = 'This email already exist!'
 
     return msg
 

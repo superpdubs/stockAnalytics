@@ -26,7 +26,7 @@
     time(this);
     $.ajax({
         type:'get',
-        url:'{{ url_for('verify',thisemail = email) }}',
+        url:'{{ url_for('verify') }}',
         data:{thisemail:email},
         dataType:'json',
         success:function(data){
