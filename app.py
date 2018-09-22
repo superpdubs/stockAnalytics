@@ -129,6 +129,7 @@ def verify():
         eval_email = request.args.get('this_email')
         err_msg = emailvalidator.validate(eval_email)
         if err_msg is None :
+            msg="This email could be used"
             eval = 1
         else:
             msg = err_msg
@@ -141,12 +142,12 @@ def send_vcode():
     send = 0
     msg = "Server is busy, please try again!"
     if request.method == 'GET':
-        print(msg)
-        send_email = request.args.get('this_email')
+        thisemail = request.args.get('this_email')
         verification = Verfication()
         verifyCode = verification.generate_code()
+        mail = EmailVerification()
         if len(verifyCode) == 6:
-            # mail.sendto(eval_email,verifyCode)
+            mail.sendto(thisemail,verifyCode)
             msg = 'Verification code already sent!'
             send = 1
         else:

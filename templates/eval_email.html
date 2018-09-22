@@ -10,7 +10,8 @@
 {% if info != None %}
     <h1>{{ info }}</h1>
 {% endif %}
-    {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
+
+    {{ thisform.email.label }} {{ thisform.email }}<span class="message"> </span><br>
     {{ thisform.verification.label }} {{ thisform.verification }}<input type="button" disabled="true" id="btn_code" value="Get your verification code"/><br>
   </form>
 
@@ -26,11 +27,13 @@
         dataType:'json',
         success:function(data) {
                 if (data.eval == 1) {
-                    alert('This email could be used')
+                    $("span").empty();
+                    $("span").append(data.msg)
                     $("#btn_code").attr('disabled',false)
                 }else{
                     $("#btn_code").attr('disabled',true)
-                    alert(data.msg)
+                    $("span").empty();
+                    $("span").append(data.msg)
                 }
               }
        });    
@@ -45,7 +48,7 @@
         dataType:'json',
         success:function(data) {
                 if (data.send == 1) {
-                    alert('verification code sent !');
+                    alert(data.msg);
                     var wait = 60;
                     time()
                     function time() {
@@ -57,12 +60,12 @@
                             $("#btn_code").attr('disabled', true);
                             $("#btn_code").val('Resend after ' + wait + 's');
                             wait--;
-                            setTimeout(function () {time(this)
+                            setTimeout(function () {time()
                             },1000)
                         }
                     }
                 }else{
-                    $("#btn_code").attr('disabled',flase)
+                    $("#btn_code").attr('disabled',false)
                     alert("please try it later")
                 }
               }
