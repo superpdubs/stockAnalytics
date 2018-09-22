@@ -23,7 +23,9 @@
           xhr.responseType = 'json';
           xhr.send();
           xhr.onload = function() {
-            console.log(xhr.result);
+            if (searchbox.value.length == 0) {
+              return;
+            }
             while (suggestions.firstChild) {
               suggestions.removeChild(suggestions.firstChild);
             }
