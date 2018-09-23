@@ -11,8 +11,6 @@ class User(db.Model):
     fav_stock_list = db.Column(db.String(255), nullable=True)
     my_stocks = db.Column(db.String(255), nullable=True)
 
-
-
     def __init__(self,fname,lname,upass,email,favstocklist=None,mystocks=None):
         self.firstname = fname
         self.lastname = lname
@@ -24,7 +22,9 @@ class User(db.Model):
     def __repr__(self):
         return '<User_id: %r  | User_name: %s>' % (self.uid , self.firstname)
 
+
 class Stock(db.Model):
+
 	__tablename__ = 'stock'
 
 	id = db.Column(db.Integer, primary_key=True)

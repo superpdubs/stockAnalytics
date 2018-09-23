@@ -115,23 +115,13 @@ def feature():
     return render_template('feature.html')
 
 
-@app.route('/email_verification')
-def email_verify():
-    emailform = EmailForm()
-    if emailform.validate_on_submit():
-        this_email = emailform.email.data
-        this_vcode = emailform.verification.data
-        # check this vocde and the vode in session
-        #TODO
-    return render_template('eval_email.html',thisform=emailform)
-
-
 @app.route('/verify' , methods=['GET'])
 def verify():
     msg =''
     emailvalidator = EmailValidator()
     if request.method == 'GET':
         eval_email = request.args.get('this_email')
+
         err_msg = emailvalidator.validate(eval_email)
         if err_msg is None :
             msg="This email could be used"

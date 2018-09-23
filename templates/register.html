@@ -10,12 +10,12 @@
 {% if info != None %}
     <h1>{{ info }}</h1>
 {% endif %}
-    {{ thisform.firstname.label }} {{ thisform.firstname }}
-    {{ thisform.lastname.label }} {{ thisform.lastname }}<br>
-    {{ thisform.email.label }} {{ thisform.email }}{{ "  someone@example.com" }}<br>
-    {{ thisform.user_pass.label }} {{ thisform.user_pass }}{{ "  Length of password should be 6-12 characters" }}<br>
-    {{ thisform.confirm.label }} {{ thisform.confirm }}{{ "  Confirm your password" }}<br>
-    {{ thisform.verification.label }} {{ thisform.verification }}<input type="button" id="btn_code" value="Get your verification code"\"/><br>
+    {{ thisform.firstname.label }} {{ thisform.firstname }}<span class='fname_status'>Please input your First name</span><br>
+    {{ thisform.lastname.label }} {{ thisform.lastname }}<span class='lname_status'>Please input your Last name</span><br>
+      {{ thisform.email.label }} {{ thisform.email }}<span class='email_status'>Please input your Email address</span><br>
+    {{ thisform.user_pass.label }} {{ thisform.user_pass }}<span class='pass_status'>Length of password should be 6-11 characters</span><br>
+    {{ thisform.confirm.label }} {{ thisform.confirm }}<span class='confirm_status'></span><br>
+    {{ thisform.verification.label }} {{ thisform.verification }}<input type="button"  id="btn_code" value="Get your verification code"\"/><br>
     <button type="submit">Register!</button>
     <input type="button" value="Login" onclick="loginUrl()"/>
   </form>
@@ -24,41 +24,120 @@
 
   <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
   <script>
+      var emailchecked = false;
+      var fnamechecked = false;
+      var lnamechecked = false;
+      var passchecked = false;
+      var cpasschecked = false;
+
+      $("#email").blur(function(){
+       email= document.getElementById("email").value;  
+        if(Object.keys(email).length > 0) {
+            $.ajax({
+                type: 'get',
+                url: '{{ url_for('verify') }}',
+                data: {this_email: email},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.eval == 1) {
+                        $('.email_status').html(data.msg);
+                        emailchecked = true;
+                    } else {
+                        $('.email_status').html(data.msg);
+                        emailchecked = false;
+                    }
+                }
+            });
+        }else{
+            $('.email_status').html("Please input your email address");
+        }
+}) 
+      $("#firstname").blur(function(){
+       var firstname= document.getElementById("firstname").value;
+       if(Object.keys(firstname).length > 0){
+           $('.fname_status').html("Passed!");
+           fnamechecked = true;
+       }else{
+            $('.fname_status').html("Please input your First name");
+            fnamechecked = false;
+       } }) 
+
+      $("#lastname").blur(function(){
+       var lastname= document.getElementById("lastname").value;
+       if(Object.keys(lastname).length > 0){
+           $('.lname_status').html("Passed!");
+           lnamechecked = true;
+       }else{
+            $('.lname_status').html("Please input your Last name");
+            lnamechecked = false;
+       } }) 
+
+      $("#user_pass").blur(function(){
+       var password= document.getElementById("user_pass").value;
+       if(Object.keys(password).length > 0){
+           if( 6<= Object.keys(password).length){
+               if(Object.keys(password).length>11){
+                   $('.pass_status').html("Your password is too long");
+                   passchecked = false;
+               }else{
+                   $('.pass_status').html("This password could be used");
+                    passchecked = true;
+               }
+           }else{
+               $('.pass_status').html("Your password is too short");
+                passchecked = false;
+           }
+       }else{
+            $('.pass_status').html("Length of password should be 6-11 characters");
+             passchecked = false;
+       } }) 
+
+      $("#confirm").blur(function(){
+       var cpassword= document.getElementById("confirm").value;
+       var password= document.getElementById("user_pass").value;
+       if(Object.keys(cpassword).length>0){
+           if(cpassword==password){
+                $('.confirm_status').html("");
+                cpasschecked = true;
+           }else{
+                $('.confirm_status').html("This doesn't match your original password");
+                cpasschecked = false;
+           }
+       }else{
+            $('.confirm_status').html(" ");
+            cpasschecked = false;
+        }
+      })
+        
+
+
  $("#btn_code").click(function(){
-    fname= document.getElementById("firstname").value
-       lname= document.getElementById("lastname").value
-       email= document.getElementById("email").value 
-       password= document.getElementById("user_pass").value 
-       confirm_p= document.getElementById("confirm").value            
-       time(this);
-    $.ajax({
-        type:'get',
-        url:'{{ url_for('verify') }}',
-        data:{this_fname:fname,this_lname:lname,this_email:email,
-                    this_password:password,this_confirm_p:confirm_p},
-        dataType:'json',
-        success:function(data){
-            alert(data.msg)
-            },
-        });    
-})   
-var wait=60;
-$("#btn_code").attr("disabled",false);
-function time(o) {
-    if (wait == 0) {
-        o.removeAttribute("disabled");
-        o.value = "Get your verification code";
-        wait = 60;
-    } else { // www.jbxue.com
-        o.setAttribute("disabled", true);
-        o.value = 'Resend after ' + wait + 's';
-        wait--;
-        setTimeout(function () {
-                time(o)
-            },
-            1000)
-    }
-}</script>
+
+      if (emailchecked && fnamechecked && lnamechecked
+          && passchecked && cpasschecked) {
+              fname = document.getElementById("firstname").value
+              lname = document.getElementById("lastname").value
+              email = document.getElementById("email").value
+              password = document.getElementById("user_pass").value
+              confirm_p = document.getElementById("confirm").value
+
+              $.ajax({
+                  type: 'get',
+                  url: '{{ url_for('send_vcode') }}',
+                  data: {
+                      this_fname: fname, this_lname: lname, this_email: email,
+                      this_password: password, this_confirm_p: confirm_p
+                  },
+                  dataType: 'json',
+                  success: function (data) {
+                      alert(data.msg)
+                  },
+              });
+          }else{
+           alert("Please complete all the info")
+      }
+ })   
+</script>
 
   <script type="text/javascript">
     function loginUrl() {
