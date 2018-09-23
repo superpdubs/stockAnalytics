@@ -7,5 +7,6 @@ apiKey.py
 
 static/graph/
 
+db/myfetch.db
 
 

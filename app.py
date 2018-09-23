@@ -49,9 +49,9 @@ def login():
     loginvalidator = LoginValidator()
     msg =""
     if loginform.validate_on_submit():
-        this_username = loginform.user_name.data
+        this_email = loginform.user_email.data
         this_password = loginform.user_pass.data
-        this_login = {'name': this_username, 'password': this_password}
+        this_login = {'email': this_email, 'password': this_password}
         msg = loginvalidator.validate(this_login)
     return render_template('login.html',thisform=loginform, info=msg)
 
@@ -59,25 +59,25 @@ def login():
 @app.route('/register', methods=['GET','POST'])
 def register():
     registerform = RegistrationForm()
-    registervalidator = RegisterValidator()
-    err_msg = None
+    # registervalidator = RegisterValidator()
+    msg = None
     if registerform.validate_on_submit():
+        #TODO: check whether the code same as the one stored in session
+        this_verify_code = registerform.verification.data
+
         this_firstname = registerform.firstname.data
         this_lastname = registerform.lastname.data
         this_email = registerform.email.data
         this_password = registerform.user_pass.data
-        this_confirmpass = registerform.confirm.data
-        # this_verify code = registerform.verification.data
         this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_password,
-                     'email': this_email, 'confirmPass': this_confirmpass}
-        err_msg = registervalidator.validate(this_registration)
-        if err_msg == None:
-            valid_user = User('hi', this_password, this_email)
-            db.session.add(valid_user)
-            db.session.commit()
-            err_msg = "Registration successfully! Try login!"
+                     'email': this_email}
+        # print(this_registration)
+        # valid_user = User(this_firstname,this_lastname,this_password, this_email)
+        # db.session.add(valid_user)
+        # db.session.commit()
+        msg = "Registration successfully! Try login!"
 
-    return render_template('register.html',thisform=registerform,info=err_msg)
+    return render_template('register.html',thisform=registerform,info=msg)
 
 
 @app.route('/stock/<stockname>')
@@ -115,23 +115,13 @@ def feature():
     return render_template('feature.html')
 
 
-@app.route('/email_verification')
-def email_verify():
-    emailform = EmailForm()
-    if emailform.validate_on_submit():
-        this_email = emailform.email.data
-        this_vcode = emailform.verification.data
-        # check this vocde and the vode in session
-        #TODO
-    return render_template('eval_email.html',thisform=emailform)
-
-
-@app.route('/verify' , methods=['GET'])
-def verify():
+@app.route('/verify_email' , methods=['GET'])
+def verify_email():
     msg =''
     emailvalidator = EmailValidator()
     if request.method == 'GET':
         eval_email = request.args.get('this_email')
+
         err_msg = emailvalidator.validate(eval_email)
         if err_msg is None :
             msg="This email could be used"
@@ -144,22 +134,19 @@ def verify():
 
 @app.route('/sendcode' , methods=['GET'])
 def send_vcode():
+    verification = Verfication()
+    mail = VerificationEmail()
     send = 0
-    msg = "Server is busy, please try again!"
     if request.method == 'GET':
         thisemail = request.args.get('this_email')
-        verification = Verfication()
         verifyCode = verification.generate_code()
-        mail = EmailVerification()
         if len(verifyCode) == 6:
-            mail.sendto(thisemail,verifyCode)
-            msg = 'Verification code already sent!'
+            # mail.sendto(thisemail,verifyCode)
             send = 1
         else:
-            msg = "This should not happen!"
             send = 0
 
-    return jsonify(msg=msg,send=send)
+    return jsonify(send=send)
 
 
 

@@ -18,19 +18,22 @@
       var suggestions = document.querySelector(".search-suggestions");
       searchbox.addEventListener("input", function(element) {
         if (element.target.value.length > 0) {
-          var request = new XMLHttpRequest();
-          request.open('GET', "{{ url_for('suggestions') }}?q=" + element.target.value);
-          request.responseType = 'json';
-          request.send();
-          request.onload = function() {
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', "{{ url_for('suggestions') }}?q=" + element.target.value);
+          xhr.responseType = 'json';
+          xhr.send();
+          xhr.onload = function() {
+            if (searchbox.value.length == 0) {
+              return;
+            }
             while (suggestions.firstChild) {
               suggestions.removeChild(suggestions.firstChild);
             }
-            for (var e in request.response) {
+            for (var e in xhr.response) {
               var suggestion = document.createElement("li");
               var link = document.createElement('a');
-              link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + request.response[e]);
-              link.textContent = request.response[e];
+              link.setAttribute('href', '{{ url_for('fetching', stockname='') }}' + xhr.response[e].symbol);
+              link.textContent = xhr.response[e].symbol;
               suggestions.appendChild(suggestion);
               suggestion.appendChild(link);
             }
