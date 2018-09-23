@@ -136,15 +136,15 @@ def verify_email():
 def send_vcode():
     verification = Verfication()
     mail = VerificationEmail()
-    send = 0
+    send = False
     if request.method == 'GET':
         thisemail = request.args.get('this_email')
         verifyCode = verification.generate_code()
         if len(verifyCode) == 6:
             # mail.sendto(thisemail,verifyCode)
-            send = 1
+            send = True
         else:
-            send = 0
+            send = False
 
     return jsonify(send=send)
 
