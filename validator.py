@@ -33,21 +33,21 @@ class LoginValidator:
 
     def validate(self, user):
         message = None
-        if user['name']:
+        if user['email']:
             if user['password']:
-                to_match_user = User.query.filter(User.user_name == user['name']).first()
+                to_match_user = User.query.filter(User.email == user['email']).first()
                 if to_match_user is not None:
                     to_match_Password = to_match_user.user_pass
                     if user['password'] == to_match_Password:
                         message = 'Congratulations! Login successfully'
                     else:
-                        message = "User name and password doesn't match"
+                        message = "Email and password doesn't match"
                 else:
-                    message = "This username doesn't exist"
+                    message = "This email doesn't exist"
             else:
                 message = "Please input your password"
         else:
-            message = "Please input your username"
+            message = "Please input your email"
 
         return message
 

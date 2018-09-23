@@ -1,6 +1,6 @@
 import smtplib
 
-class EmailVerification:
+class VerificationEmail:
 
     def sendto(self,email_addr,verificationcode):
 

@@ -16,6 +16,7 @@
     {{ thisform.user_pass.label }} {{ thisform.user_pass }}<span class='pass_status'>Length of password should be 6-11 characters</span><br>
     {{ thisform.confirm.label }} {{ thisform.confirm }}<span class='confirm_status'></span><br>
     {{ thisform.verification.label }} {{ thisform.verification }}<input type="button"  id="btn_code" value="Get your verification code"\"/><br>
+    <span class='code_status'></span><br>
     <button type="submit">Register!</button>
     <input type="button" value="Login" onclick="loginUrl()"/>
   </form>
@@ -35,7 +36,7 @@
         if(Object.keys(email).length > 0) {
             $.ajax({
                 type: 'get',
-                url: '{{ url_for('verify') }}',
+                url: '{{ url_for('verify_email') }}',
                 data: {this_email: email},
                 dataType: 'json',
                 success: function (data) {
@@ -130,11 +131,26 @@
                   },
                   dataType: 'json',
                   success: function (data) {
-                      alert(data.msg)
+                     $('.code_status').html("Verification code has been send");
+                    var wait = 60;
+                    time()
+                    function time() {
+                        if (wait == 0){
+                            $("#btn_code").val('Get your verification code');
+                            $("#btn_code").attr('disabled',false);
+                            wait = 60;
+                        }else{
+                            $("#btn_code").attr('disabled', true);
+                            $("#btn_code").val('Resend after ' + wait + 's');
+                            wait--;
+                            setTimeout(function () {time()
+                            },1000)
+                        }
+                    }
                   },
               });
           }else{
-           alert("Please complete all the info")
+            $('.code_status').html("Please complete all the info");
       }
  })   
 </script>
