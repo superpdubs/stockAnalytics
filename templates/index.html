@@ -10,8 +10,13 @@
       <h2>Start my stock market adventure</h2>
       <form class="symbol-search">
         {% include 'search.html' %}
-        <input type="button" value="Login" onclick="loginUrl()"/>
-        <input type="button" value="Register" onclick="registerUrl()"/>
+        {% if this_uname == None %}
+            <input type="button" value="Login" onclick="loginUrl()"/>
+            <input type="button" value="Register" onclick="registerUrl()"/>
+        {% else %}
+            {{ "Welcome, " }}{{ this_uname }}
+            <input type="button" value="Log out" onclick="logoutUrl()"/>
+        {% endif %}
       </form>
 
 
@@ -22,6 +27,9 @@
     }
     function registerUrl() {
         location.href = "{{ url_for('register') }}";
+    }
+    function logoutUrl() {
+        location.href = "{{ url_for('logout') }}";
     }
 </script>
 

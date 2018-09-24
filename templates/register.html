@@ -10,13 +10,12 @@
 {% if info != None %}
     <h1>{{ info }}</h1>
 {% endif %}
-    {{ thisform.firstname.label }} {{ thisform.firstname }}<span class='fname_status'>Please input your First name</span><br>
-    {{ thisform.lastname.label }} {{ thisform.lastname }}<span class='lname_status'>Please input your Last name</span><br>
-      {{ thisform.email.label }} {{ thisform.email }}<span class='email_status'>Please input your Email address</span><br>
-    {{ thisform.user_pass.label }} {{ thisform.user_pass }}<span class='pass_status'>Length of password should be 6-11 characters</span><br>
+    {{ thisform.firstname.label }} {{ thisform.firstname }}<span class='fname_status'></span><br>
+    {{ thisform.lastname.label }} {{ thisform.lastname }}<span class='lname_status'></span><br>
+    {{ thisform.user_pass.label }} {{ thisform.user_pass }}<span class='pass_status'></span><br>
     {{ thisform.confirm.label }} {{ thisform.confirm }}<span class='confirm_status'></span><br>
-    {{ thisform.verification.label }} {{ thisform.verification }}<input type="button"  id="btn_code" value="Get your verification code"\"/><br>
-    <span class='code_status'></span><br>
+    {{ thisform.email.label }} {{ thisform.email }}<span class='email_status'></span><br>
+    {{ thisform.verification.label }} {{ thisform.verification }}<input type="button" disabled="true" id="btn_code" value="Get your verification code"\"/><br>
     <button type="submit">Register!</button>
     <input type="button" value="Login" onclick="loginUrl()"/>
   </form>
@@ -43,15 +42,17 @@
                 success: function (data) {
                     if (data.eval == 1) {
                         $('.email_status').html(data.msg);
+                        $("#btn_code").attr('disabled',false);
                         emailchecked = true;
                     } else {
                         $('.email_status').html(data.msg);
                         emailchecked = false;
+                        $("#btn_code").attr('disabled',true);
                     }
                 }
             });
         }else{
-            $('.email_status').html("Please input your email address");
+            $('.email_status').html("");
         }
 }) 
       $("#firstname").blur(function(){
@@ -60,7 +61,7 @@
            $('.fname_status').html("Passed!");
            fnamechecked = true;
        }else{
-            $('.fname_status').html("Please input your First name");
+            $('.fname_status').html("");
             fnamechecked = false;
        } }) 
 
@@ -70,7 +71,7 @@
            $('.lname_status').html("Passed!");
            lnamechecked = true;
        }else{
-            $('.lname_status').html("Please input your Last name");
+            $('.lname_status').html("");
             lnamechecked = false;
        } }) 
 
@@ -79,18 +80,18 @@
        if(Object.keys(password).length > 0){
            if( 6<= Object.keys(password).length){
                if(Object.keys(password).length>11){
-                   $('.pass_status').html("Your password is too long");
+                   $('.pass_status').html("Length of password should be 6-11 characters");
                    passchecked = false;
                }else{
                    $('.pass_status').html("This password could be used");
                     passchecked = true;
                }
            }else{
-               $('.pass_status').html("Your password is too short");
+               $('.pass_status').html("Length of password should be 6-11 characters");
                 passchecked = false;
            }
        }else{
-            $('.pass_status').html("Length of password should be 6-11 characters");
+            $('.pass_status').html("");
              passchecked = false;
        } }) 
 
@@ -113,46 +114,31 @@
         
 
 
- $("#btn_code").click(function(){
-
-      if (emailchecked && fnamechecked && lnamechecked
-          && passchecked && cpasschecked) {
-              fname = document.getElementById("firstname").value
-              lname = document.getElementById("lastname").value
-              email = document.getElementById("email").value
-              password = document.getElementById("user_pass").value
-              confirm_p = document.getElementById("confirm").value
-
+        $("#btn_code").click(function(){
+            email = document.getElementById("email").value
               $.ajax({
-                  type: 'get',
-                  url: '{{ url_for('send_vcode') }}',
-                  data: {
-                      this_fname: fname, this_lname: lname, this_email: email,
-                      this_password: password, this_confirm_p: confirm_p
-                  },
-                  dataType: 'json',
-                  success: function (data) {
-                     $('.code_status').html("Verification code has been send");
-                    var wait = 60;
-                    time()
-                    function time() {
-                        if (wait == 0){
-                            $("#btn_code").val('Get your verification code');
-                            $("#btn_code").attr('disabled',false);
-                            wait = 60;
-                        }else{
-                            $("#btn_code").attr('disabled', true);
-                            $("#btn_code").val('Resend after ' + wait + 's');
-                            wait--;
-                            setTimeout(function () {time()
-                            },1000)
-                        }
-                    }
-                  },
-              });
-          }else{
-            $('.code_status').html("Please complete all the info");
-      }
+              type: 'get',
+              url: '{{ url_for('send_vcode') }}',
+              data: {this_email: email,},
+              dataType: 'json',
+              success: function (data) {
+                  var wait = 60;
+                  time()
+                  function time() {
+                      if (wait == 0){
+                          $("#btn_code").val('Get your verification code');
+                          $("#btn_code").attr('disabled',false);
+                          wait = 60;
+                      }else{
+                          $("#btn_code").attr('disabled', true);
+                          $("#btn_code").val('Resend after ' + wait + 's');
+                          wait--;
+                          setTimeout(function () {time()
+                          },1000)
+                      }
+                  }
+              },
+          });
  })   
 </script>
 

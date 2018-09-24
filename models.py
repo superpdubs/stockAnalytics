@@ -20,7 +20,13 @@ class User(db.Model):
         self.my_stocks = mystocks
 
     def __repr__(self):
-        return '<User_id: %r  | User_name: %s>' % (self.uid , self.firstname)
+        return '{} - {} - {}'.format(self.uid, self.firstname, self.lastname)
+
+    def getName(self):
+        return self.firstname
+
+    def getId(self):
+        return self.uid
 
 
 class Stock(db.Model):

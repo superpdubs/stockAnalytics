@@ -1,5 +1,5 @@
 #encoding: utf-8
-from flask import Flask, redirect, url_for, render_template, request, jsonify
+from flask import Flask, redirect, url_for, render_template, request, jsonify,session
 from models import *
 import config
 from myform import *
@@ -12,6 +12,7 @@ import time
 
 app = Flask(__name__)
 app.config.from_object(config)
+app.config.update(SECRET_KEY='a secret kry')
 db.init_app(app)
 
 with app.app_context():
@@ -35,7 +36,12 @@ def index():
         # Bypass loading page because this should only be used when
         # JavaScript is disabled / broken
         return redirect(url_for('stock', stockname=this_stock))
-    return render_template('index.html', thisform=stockform)
+    if len(session.get('uid')) >= 1:
+        thisuser = User.query.filter(User.uid == session.get('uid')).first()
+        thisuname = thisuser.getName()
+    else:
+        thisuname = None
+    return render_template('index.html', thisform=stockform, this_uname= thisuname)
 
 
 @app.route('/fetching/<stockname>')
@@ -53,29 +59,41 @@ def login():
         this_password = loginform.user_pass.data
         this_login = {'email': this_email, 'password': this_password}
         msg = loginvalidator.validate(this_login)
+        if msg is None:
+            thisuser = User.query.filter(User.email == this_email).first()
+            thisuid = thisuser.getId()
+            session['uid'] = str(thisuid)
+            return redirect(url_for('index'))
     return render_template('login.html',thisform=loginform, info=msg)
 
+
+@app.route('/logout')
+def logout():
+    session['uid'] = ""
+    return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET','POST'])
 def register():
     registerform = RegistrationForm()
-    # registervalidator = RegisterValidator()
+    registervalidator = RegisterValidator()
     msg = None
     if registerform.validate_on_submit():
-        #TODO: check whether the code same as the one stored in session
-        this_verify_code = registerform.verification.data
-
         this_firstname = registerform.firstname.data
         this_lastname = registerform.lastname.data
         this_email = registerform.email.data
-        this_password = registerform.user_pass.data
-        this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_password,
-                     'email': this_email}
-        # print(this_registration)
-        # valid_user = User(this_firstname,this_lastname,this_password, this_email)
-        # db.session.add(valid_user)
-        # db.session.commit()
-        msg = "Registration successfully! Try login!"
+        this_pass = registerform.user_pass.data
+        this_cpass = registerform.confirm.data
+        this_vcode = registerform.verification.data
+        this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_pass,
+                     'email': this_email,'cpass':this_cpass,'vcode':this_vcode}
+        err_msg = registervalidator.validate(this_registration);
+        if err_msg is None:
+            valid_user = User(this_firstname,this_lastname,this_pass, this_email)
+            db.session.add(valid_user)
+            db.session.commit()
+            return render_template("reg_success.html", login_id=this_email)
+        else:
+            msg = err_msg
 
     return render_template('register.html',thisform=registerform,info=msg)
 
@@ -136,18 +154,19 @@ def verify_email():
 def send_vcode():
     verification = Verfication()
     mail = VerificationEmail()
-    send = 0
+    send = False
     if request.method == 'GET':
         thisemail = request.args.get('this_email')
         verifyCode = verification.generate_code()
+        # store (user-email,verifycode) in session
+        session[thisemail] = verifyCode
         if len(verifyCode) == 6:
-            # mail.sendto(thisemail,verifyCode)
-            send = 1
+            mail.sendto(thisemail,verifyCode)
+            send = True
         else:
-            send = 0
+            send = False
 
     return jsonify(send=send)
-
 
 
 @app.route('/stocks')

@@ -18,8 +18,8 @@ class RegistrationForm(FlaskForm):
     firstname = StringField('Firstname')
     lastname = StringField('Lastname')
     email = StringField('Email Address')
-    user_pass = PasswordField('New Password')
-    confirm = PasswordField('Repeat Password')
+    user_pass = PasswordField('Password')
+    confirm = PasswordField('Confirm Password')
     verification = StringField('Verfication Code')
     submit = SubmitField('Register')
 
