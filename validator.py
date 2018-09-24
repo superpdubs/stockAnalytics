@@ -4,27 +4,10 @@ from models import *
 class RegisterValidator:
 
         def validate(self, user):
-            emailvalidator = EmailValidator()
-            message = None
-            if validators.length(user['firstname'],min=1):
-                if validators.length(user['lastname'],min=1):
-                    if validators.email(user['email']):
-                        if not emailvalidator.exist(user['email']):
-                            if validators.length(user['password'], min=6, max=12):
-                                if user['confirmPass'] == user['password']:
-                                            pass
-                                else:
-                                    message = "The confirm password doesn't match"
-                            else:
-                                message = "The length of password doesn't match"
-                        else:
-                            message = "This email already exist"
-                    else:
-                        message = "Please input a correct format email"
-                else:
-                    message = "Last name cannot be empty"
+            if user['firstname'] and user['lastname'] and user['password'] and user['cpass'] and user['email'] and user['vcode']:
+                message = None
             else:
-                message = "First name cannot be empty"
+                message = "Please complete all the personal details"
 
             return message
 
@@ -62,4 +45,4 @@ class EmailValidator:
             else:
                 return None
         else:
-            return "This email format is uncorrect"
+            return "Please input a value Email address"

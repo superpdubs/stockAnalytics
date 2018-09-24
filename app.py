@@ -59,23 +59,26 @@ def login():
 @app.route('/register', methods=['GET','POST'])
 def register():
     registerform = RegistrationForm()
-    # registervalidator = RegisterValidator()
+    registervalidator = RegisterValidator()
     msg = None
     if registerform.validate_on_submit():
-        #TODO: check whether the code same as the one stored in session
-        this_verify_code = registerform.verification.data
-
         this_firstname = registerform.firstname.data
         this_lastname = registerform.lastname.data
         this_email = registerform.email.data
-        this_password = registerform.user_pass.data
-        this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_password,
-                     'email': this_email}
+        this_pass = registerform.user_pass.data
+        this_cpass = registerform.confirm.data
+        this_vcode = registerform.verification.data
+        this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_pass,
+                     'email': this_email,'cpass':this_cpass,'vcode':this_vcode}
         # print(this_registration)
+        err_msg = registervalidator.validate(this_registration);
+        if err_msg is None:
+            return render_template("reg_success.html",login_id = this_email)
+        else:
+            msg = err_msg
         # valid_user = User(this_firstname,this_lastname,this_password, this_email)
         # db.session.add(valid_user)
         # db.session.commit()
-        msg = "Registration successfully! Try login!"
 
     return render_template('register.html',thisform=registerform,info=msg)
 

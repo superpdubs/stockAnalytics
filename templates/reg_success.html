@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+  <h1>Register success page</h1>
+{{ "Congratulations! Registration successfully!" }}<br>
+{{ "Please use " }}{{ login_id }}{{ " as your login id" }}<br>
+<a href="{{ url_for('login') }}">Login</a>
+<a href="{{ url_for('index') }}">Home</a>
+
+</body>
+</html>
