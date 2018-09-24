@@ -13,15 +13,14 @@
 {% endif %}
     </div>
     <script type="text/javascript">
-      var searchBoxTop = "20rem";
-        function loginUrl() {
-          location.href = "{{ url_for('login') }}";
-        }
-        function registerUrl() {
-          location.href = "{{ url_for('register') }}";
-        }
-        function logoutUrl() {
-          location.href = "{{ url_for('logout') }}";
-        }
+      function loginUrl() {
+        location.href = "{{ url_for('login') }}";
+      }
+      function registerUrl() {
+        location.href = "{{ url_for('register') }}";
+      }
+      function logoutUrl() {
+        location.href = "{{ url_for('logout') }}";
+      }
     </script>
   </header>
