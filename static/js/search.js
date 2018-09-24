@@ -26,7 +26,7 @@ searchbox.addEventListener("input", function(element) {
         var suggestion = document.createElement("li");
         var link = document.createElement("a");
         var name = document.createElement("span");
-        link.setAttribute("href", root + "/fetching/" + xhr.response[e].symbol);
+        link.setAttribute("href", root + "/stock/" + xhr.response[e].symbol);
         link.textContent = xhr.response[e].symbol;
         name.textContent = xhr.response[e].name;
         suggestions.appendChild(suggestion);
@@ -39,9 +39,9 @@ searchbox.addEventListener("input", function(element) {
           }
           var loadingText = document.createElement("span");
           loadingText.setAttribute("id", "search-hint")
-          loadingText.textContent = "Loading " + xhr.response[e].name + ", shouldn't be long";
+          loadingText.textContent = "Loading " + element.target.childNodes[1].textContent + ", shouldn't be long";
           popup.appendChild(loadingText);
-          window.location = root + "/stock/" + xhr.response[e].symbol;
+          window.location = element.target.getAttribute("href");
         });
       }
     };
