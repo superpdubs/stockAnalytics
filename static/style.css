@@ -9,6 +9,7 @@ body {
   margin: 0;
   font-family: 'GlacialIndifferenceRegular', sans-serif;
   color: rgb(30,30,30);
+  overflow-y: scroll;
 }
 
 button, input {
@@ -39,17 +40,18 @@ button:hover {
 
 a {
   text-decoration: none;
-  color: inherit;
-  opacity: 0.6;
+  color: rgba(30,30,30,0.6);
   transition: all 0.2s ease-in-out;
 }
 
 a:hover {
-  opacity: 1;
+  color: rgb(30,30,30);
 }
 
 /*Header styles*/
 header {
+  position: sticky;
+  top: 0;
   display: flex;
   height: 3.5rem;
   padding: 0 5rem;
@@ -61,7 +63,11 @@ header {
 }
 
 header > a {
-  opacity: 1;
+  color: rgb(255,255,255);
+}
+
+header > a:hover {
+  color: rgb(255,255,255);
 }
 
 header > form {
@@ -77,6 +83,10 @@ footer {
 }
 
 footer > a {
+  color: rgba(255,255,255,0.6);
+}
+
+footer > a:hover {
   color: rgb(255,255,255);
 }
 
@@ -87,41 +97,62 @@ footer > a {
   width: 16rem;
 }
 
+.symbol-search > input {
+  position: absolute;
+  margin-left: calc(100vw / 2 - 9rem);
+  top: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
 .symbol-search > input:focus {
   background-color: rgb(255,255,255);
   color: rgb(30,30,30);
 }
 
-.search-popup {
-  position: absolute;
+#search-popup {
+  position: sticky;
+  top: 3.5rem;
   opacity: 0;
   z-index: -1;
-  width: 16rem;
-  margin-top: 0.1rem;
+  height: calc(100vh - 3.5rem);
   background-color: white;
   font-size: 1.5rem;
   color: rgb(30,30,30);
+  padding: 0 5rem;
   transition: all 0.2s ease-in-out;
 }
 
-.search-popup > ul {
+#search-suggestions {
   padding: 0;
-  margin: 0;
+  margin: 1rem 0 0 0;
 }
 
-.search-popup > ul > li {
+#search-suggestions > li {
   list-style-type: none;
-  padding: 0 0.5rem;
+  box-shadow: inset 0 -0.1rem 0 0;
 }
 
-.search-popup > ul > li:hover {
+#search-suggestions > li:hover {
   background-color: #e3e3e3;
 }
 
-.search-popup > ul > li > a {
-  display: block;
+#search-suggestions:first-child {
+  box-shadow: inset 0 0 0 0;
+  margin-top: 0;
+}
+
+#search-suggestions > li > a {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
   color: inherit;
-  opacity: inherit;
+}
+
+#search-hint {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
 }
 
 /*Stock display styles*/
@@ -187,11 +218,11 @@ footer > a {
   font-size: 1.2rem;
   font-weight: bold;
   margin: 1rem 0;
-  opacity: 1;
+  color: rgb(30,30,30);
 }
 
 .headline:hover {
-  opacity: 0.6;
+  color: rgba(30,30,30,0.6);
 }
 
 .source {
@@ -206,6 +237,7 @@ footer > a {
   flex-wrap: wrap;
   min-height: calc(100vh - 7rem);
   flex-direction: column;
+  margin-top: calc(3.5rem - 100vh);
 }
 
 .row {

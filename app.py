@@ -53,13 +53,6 @@ def index_withId(login_uid):
     return render_template('index.html', thisform=stockform, this_uname= thisuname,this_uid = login_uid)
 
 
-
-
-@app.route('/fetching/<stockname>')
-def fetching(stockname):
-    return render_template('loading.html', stockname=stockname)
-
-
 @app.route('/login', methods=['GET','POST'])
 def login():
     loginform = LoginForm()
