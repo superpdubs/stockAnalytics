@@ -19,15 +19,6 @@ with app.app_context():
     db.create_all()
 
 
-@app.route('/line')
-def line():
-
-    price, date = search.pyEXChart("AAPL")
-    line_labels=date[-7:]
-    line_values=price[-7:]
-    return render_template('line_chart.html', title='AAPL', max=500, labels=line_labels, values=line_values)
-
-
 @app.route('/',methods=['GET','POST'])
 def index():
     stockform = StockForm()
