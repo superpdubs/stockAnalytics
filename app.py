@@ -1,5 +1,5 @@
 #encoding: utf-8
-from flask import Flask, redirect, url_for, render_template, request, jsonify
+from flask import Flask, redirect, url_for, render_template, request, jsonify,session
 from models import *
 import config
 from myform import *
@@ -12,6 +12,7 @@ import time
 
 app = Flask(__name__)
 app.config.from_object(config)
+app.config.update(SECRET_KEY='a secret kry')
 db.init_app(app)
 
 with app.app_context():
@@ -70,15 +71,14 @@ def register():
         this_vcode = registerform.verification.data
         this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_pass,
                      'email': this_email,'cpass':this_cpass,'vcode':this_vcode}
-        # print(this_registration)
         err_msg = registervalidator.validate(this_registration);
         if err_msg is None:
-            return render_template("reg_success.html",login_id = this_email)
+            valid_user = User(this_firstname,this_lastname,this_pass, this_email)
+            db.session.add(valid_user)
+            db.session.commit()
+            return render_template("reg_success.html", login_id=this_email)
         else:
             msg = err_msg
-        # valid_user = User(this_firstname,this_lastname,this_password, this_email)
-        # db.session.add(valid_user)
-        # db.session.commit()
 
     return render_template('register.html',thisform=registerform,info=msg)
 
@@ -143,14 +143,15 @@ def send_vcode():
     if request.method == 'GET':
         thisemail = request.args.get('this_email')
         verifyCode = verification.generate_code()
+        # store (user-email,verifycode) in session
+        session[thisemail] = verifyCode
         if len(verifyCode) == 6:
-            # mail.sendto(thisemail,verifyCode)
+            mail.sendto(thisemail,verifyCode)
             send = True
         else:
             send = False
 
     return jsonify(send=send)
-
 
 
 @app.route('/stocks')

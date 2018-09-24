@@ -1,11 +1,18 @@
 import validators
 from models import *
+from app import session
+
 
 class RegisterValidator:
 
         def validate(self, user):
             if user['firstname'] and user['lastname'] and user['password'] and user['cpass'] and user['email'] and user['vcode']:
-                message = None
+               if session.get(user['email']) == user['vcode']:
+                   message = None
+                   # clear user vcode in session
+                   session.pop(user['email'])
+               else:
+                   message =  'Incorrect verification code'
             else:
                 message = "Please complete all the personal details"
 
