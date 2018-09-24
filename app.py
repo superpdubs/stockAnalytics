@@ -36,7 +36,7 @@ def index():
         # Bypass loading page because this should only be used when
         # JavaScript is disabled / broken
         return redirect(url_for('stock', stockname=this_stock))
-    if len(session.get('uid')) >= 1:
+    if session.get('uid') is not None:
         thisuser = User.query.filter(User.uid == session.get('uid')).first()
         thisuname = thisuser.getName()
     else:
@@ -69,7 +69,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session['uid'] = ""
+    session['uid'] = None
     return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET','POST'])
