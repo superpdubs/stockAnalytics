@@ -17,6 +17,10 @@ input:focus {
   text-align: center;
 }
 
+.container > h1 {
+  padding-top: 2rem;
+}
+
 footer {
   background: none;
 }
