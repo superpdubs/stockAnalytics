@@ -52,7 +52,7 @@
                 }
             });
         }else{
-            $('.email_status').html("Please input your email address");
+            $('.email_status').html("");
         }
 }) 
       $("#firstname").blur(function(){
@@ -61,7 +61,7 @@
            $('.fname_status').html("Passed!");
            fnamechecked = true;
        }else{
-            $('.fname_status').html("Please input your First name");
+            $('.fname_status').html("");
             fnamechecked = false;
        } }) 
 
@@ -71,7 +71,7 @@
            $('.lname_status').html("Passed!");
            lnamechecked = true;
        }else{
-            $('.lname_status').html("Please input your Last name");
+            $('.lname_status').html("");
             lnamechecked = false;
        } }) 
 
@@ -80,18 +80,18 @@
        if(Object.keys(password).length > 0){
            if( 6<= Object.keys(password).length){
                if(Object.keys(password).length>11){
-                   $('.pass_status').html("Your password is too long");
+                   $('.pass_status').html("Length of password should be 6-11 characters");
                    passchecked = false;
                }else{
                    $('.pass_status').html("This password could be used");
                     passchecked = true;
                }
            }else{
-               $('.pass_status').html("Your password is too short");
+               $('.pass_status').html("Length of password should be 6-11 characters");
                 passchecked = false;
            }
        }else{
-            $('.pass_status').html("Length of password should be 6-11 characters");
+            $('.pass_status').html("");
              passchecked = false;
        } }) 
 

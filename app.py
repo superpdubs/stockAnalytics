@@ -36,7 +36,23 @@ def index():
         # Bypass loading page because this should only be used when
         # JavaScript is disabled / broken
         return redirect(url_for('stock', stockname=this_stock))
-    return render_template('index.html', thisform=stockform)
+
+    return render_template('index.html', thisform=stockform, this_uname= None)
+
+
+@app.route('/login_uid/<login_uid>',methods=['GET','POST'])
+def index_withId(login_uid):
+    stockform = StockForm()
+    if stockform.validate_on_submit():
+        this_stock = stockform.stock.data
+        # Bypass loading page because this should only be used when
+        # JavaScript is disabled / broken
+        return redirect(url_for('stock', stockname=this_stock))
+    thisuser = User.query.filter(User.uid == login_uid).first()
+    thisuname = thisuser.getName()
+    return render_template('index.html', thisform=stockform, this_uname= thisuname,this_uid = login_uid)
+
+
 
 
 @app.route('/fetching/<stockname>')
@@ -54,8 +70,19 @@ def login():
         this_password = loginform.user_pass.data
         this_login = {'email': this_email, 'password': this_password}
         msg = loginvalidator.validate(this_login)
+        if msg is None:
+            thisuser = User.query.filter(User.email == this_email).first()
+            thisuid = thisuser.getId()
+            # set this uid = true, which means user status : login
+            session[str(thisuid)] = True
+            return redirect(url_for('index_withId',login_uid=str(thisuid)))
     return render_template('login.html',thisform=loginform, info=msg)
 
+
+@app.route('/logout/<this_uid>')
+def logout(this_uid):
+    session[this_uid] = False
+    return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET','POST'])
 def register():
