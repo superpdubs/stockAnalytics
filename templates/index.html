@@ -4,30 +4,28 @@
 
 {% block title %}Home{% endblock %}
 
+{% block header %}{% include 'header.html' %}
+{% endblock %}
+
 {% block body_contents %}
-    <div class=container>
-      <h1>Fetch</h1>
-      <h2>Start my stock market adventure</h2>
-        {% if this_uname == None %}
-            <input type="button" value="Login" onclick="loginUrl()"/>
-            <input type="button" value="Register" onclick="registerUrl()"/>
-        {% else %}
-            {{ "Welcome, " }}{{ this_uname }}
-            <input type="button" value="Log out" onclick="logoutUrl()"/>
-        {% endif %}
-
-
-<script type="text/javascript">
-  var searchBoxTop = "20rem";
-    function loginUrl() {
-        location.href = "{{ url_for('login') }}";
-    }
-    function registerUrl() {
-        location.href = "{{ url_for('register') }}";
-    }
-    function logoutUrl() {
-        location.href = "{{ url_for('logout') }}";
-    }
-</script>
-
-    </div>{% endblock %}
+    <h1>Fetch</h1>
+    <h2>Start my stock market adventure</h2>
+      {% if this_uname == None %}
+          <input type="button" value="Login" onclick="loginUrl()"/>
+          <input type="button" value="Register" onclick="registerUrl()"/>
+      {% else %}
+          {{ "Welcome, " }}{{ this_uname }}
+          <input type="button" value="Log out" onclick="logoutUrl()"/>
+      {% endif %}
+    <script type="text/javascript">
+      var searchBoxTop = "20rem";
+        function loginUrl() {
+            location.href = "{{ url_for('login') }}";
+        }
+        function registerUrl() {
+            location.href = "{{ url_for('register') }}";
+        }
+        function logoutUrl() {
+            location.href = "{{ url_for('logout') }}";
+        }
+    </script>{% endblock %}

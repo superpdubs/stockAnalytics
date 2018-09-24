@@ -14,13 +14,7 @@ input:focus {
 }
 
 .container {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  min-height: calc(100vh - 3.5rem);
-  justify-content: center;
-  padding-top: 9rem;
+  text-align: center;
 }
 
 footer {
@@ -29,4 +23,13 @@ footer {
 
 .symbol-search > input {
   top: 20rem;
+  z-index: 101;
+}
+
+header {
+  background: none;
+}
+
+header > a {
+  display: none;
 }

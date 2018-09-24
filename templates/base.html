@@ -7,9 +7,6 @@
 </head>
 <body>
 {% block header %}{% endblock %}
-  <form name="myStockForm" method="POST" action="{{ url_for("index") }}" class="symbol-search">
-    <input autocomplete="off" id="stock" placeholder="Search" type="text">
-  </form>
   <div id="search-popup">
     <button id="exit-search">Close</button>
     <span id="search-hint">Start typing a stock symbol</span>
