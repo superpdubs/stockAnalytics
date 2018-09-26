@@ -45,7 +45,9 @@ searchbox.addEventListener("input", function(element) {
           }
           var loadingText = document.createElement("span");
           loadingText.setAttribute("id", "search-hint")
-          loadingText.textContent = "Loading information for " + element.target.childNodes[1].textContent + ", shouldn't be long";
+          loadingText.textContent = "Loading information for "
+            + element.target.childNodes[1].textContent + " ("
+            + element.target.childNodes[0].textContent + ") , shouldn't be long";
           popup.appendChild(loadingText);
           window.location = element.target.getAttribute("href");
         });
