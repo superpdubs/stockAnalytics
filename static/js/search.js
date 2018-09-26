@@ -1,13 +1,17 @@
 "use strict";
+
+var searchbox = document.querySelector(".symbol-search > input");
+var popup = document.getElementById("search-popup");
+var suggestions = document.getElementById("search-suggestions");
+var hint = document.getElementById("search-hint");
+var exitButton = document.getElementById("exit-search");
+
 document.querySelectorAll(".symbol-search").forEach(function(element) {
   element.addEventListener("submit", function(element) {
     element.preventDefault();
   });
 });
-var searchbox = document.querySelector(".symbol-search > input");
-var popup = document.getElementById("search-popup");
-var suggestions = document.getElementById("search-suggestions");
-var hint = document.getElementById("search-hint");
+
 searchbox.addEventListener("input", function(element) {
   if (element.target.value.length > 0) {
     hint.style.display = "none";
@@ -34,6 +38,8 @@ searchbox.addEventListener("input", function(element) {
         link.appendChild(name);
         link.addEventListener("click", function(element) {
           element.preventDefault();
+          exitButton.style.opacity = "0";
+          exitButton.style.visibility = "hidden";
           while (suggestions.firstChild) {
             suggestions.removeChild(suggestions.firstChild);
           }
