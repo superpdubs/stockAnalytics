@@ -44,9 +44,10 @@
       <h2>Twitter</h2>
 {% for tweet in twitter %}
 {% if tweet.urls[0] %}
-        <div>
+      <!--   <div>
           {{ twitterEmbed(tweet.id, tweet.urls[0].url).html|safe}}
-        </div>
+        </div> -->
+        <div class="tweet" tweetID="{{ tweet.id }}"></div>
 {% endif %}
 {% endfor %}
       </div>
@@ -71,4 +72,15 @@
               }]
           },
       });
+    </script>
+    <script src="https://platform.twitter.com/widgets.js"></script>
+    <script>
+      var tweets = document.getElementsByClassName("tweet");
+      for (var i = 0; i < tweets.length; i++) {
+        var id = tweets[i].getAttribute("tweetID");
+        twttr.widgets.createTweet(id, tweets[i], {
+          cards : 'hidden',
+          conversation : 'none'
+        });
+       }
     </script>{% endblock %}
