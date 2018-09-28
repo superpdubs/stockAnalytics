@@ -1,27 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Register</title>
-</head>
-<body>
-  <h1>This is register  page</h1>
-  <form name="myRegistrationForm" method="POST" action="" >
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block header %}{% include 'header.html' %}
+{% endblock %}
+
+{% block body_contents %}
+    <div class="content">
+      <h1>Register</h1>
+      <form name="myRegistrationForm" method="POST" action="" >
 {% if info != None %}
-    <h1>{{ info }}</h1>
+        <span class="info">{{ info }}</span>
 {% endif %}
-    {{ thisform.firstname.label }} {{ thisform.firstname }}<span class='fname_status'></span><br>
-    {{ thisform.lastname.label }} {{ thisform.lastname }}<span class='lname_status'></span><br>
-    {{ thisform.user_pass.label }} {{ thisform.user_pass }}<span class='pass_status'></span><br>
-    {{ thisform.confirm.label }} {{ thisform.confirm }}<span class='confirm_status'></span><br>
-    {{ thisform.email.label }} {{ thisform.email }}<span class='email_status'></span><br>
-    {{ thisform.verification.label }} {{ thisform.verification }}<input type="button" disabled="true" id="btn_code" value="Get your verification code"\"/><br>
-    <button type="submit">Register!</button>
-    <input type="button" value="Login" onclick="loginUrl()"/>
-  </form>
-
-
-
+        <div>
+          {{ thisform.firstname.label }}
+          {{ thisform.firstname }}
+          <span class='fname_status'></span>
+        </div>
+        <div>
+          {{ thisform.lastname.label }}
+          {{ thisform.lastname }}
+          <span class='lname_status'></span>
+        </div>
+        <div>
+          {{ thisform.user_pass.label }}
+          {{ thisform.user_pass }}
+          <span class='pass_status'></span>
+        </div>
+        <div>
+          {{ thisform.confirm.label }}
+          {{ thisform.confirm }}
+          <span class='confirm_status'></span>
+        </div>
+        <div>
+          {{ thisform.email.label }}
+          {{ thisform.email }}
+          <span class='email_status'></span>
+        </div>
+        <div>
+          {{ thisform.verification.label }}
+          {{ thisform.verification }}
+          <input type="button" disabled="true" id="btn_code" value="Get your verification code"\"/>
+        </div>
+        <button type="submit">Register</button>
+        <input type="button" value="Login" onclick="loginUrl()"/>
+      </form>
+    </div>
 
   <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
   <script>
@@ -146,8 +170,4 @@
     function loginUrl() {
         location.href = "{{ url_for('login') }}";
     }
-  </script>
-
-
-</body>
-</html>
+  </script>{% endblock %}
