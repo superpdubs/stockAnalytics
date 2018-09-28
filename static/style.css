@@ -227,6 +227,16 @@ footer > a:hover {
   font-size: 0.75rem;
 }
 
+/*Login and register related styles*/
+.content > form {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 0.2rem;
+  justify-items: end;
+  max-width: 16rem;
+}
+
+
 /*Layout related styles*/
 .container {
   display: flex;
@@ -266,5 +276,3 @@ footer > a:hover {
     margin-left: 0;
   }
 }
-
-
