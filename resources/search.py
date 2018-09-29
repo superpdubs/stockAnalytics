@@ -158,4 +158,4 @@ def iEXManualRequest(query):
     print(datetime.now())
     return price, close, date, ohlc, company, news
 
-iEXManualRequest("AAPL");
+# iEXManualRequest("AAPL");
