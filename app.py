@@ -40,6 +40,8 @@ def index():
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    if uname_getter() != None:
+        return redirect(url_for('index'))
     loginform = LoginForm()
     loginvalidator = LoginValidator()
     msg = None
@@ -53,7 +55,7 @@ def login():
             thisuid = thisuser.getId()
             session['uid'] = str(thisuid)
             return redirect(url_for('index'))
-    return render_template('login.html',thisform=loginform, info=msg)
+    return render_template('login.html',thisform=loginform, info=msg, this_uname=uname_getter())
 
 
 @app.route('/logout')
@@ -64,6 +66,8 @@ def logout():
 
 @app.route('/register', methods=['GET','POST'])
 def register():
+    if uname_getter() != None:
+        return redirect(url_for('index'))
     registerform = RegistrationForm()
     registervalidator = RegisterValidator()
     msg = None
@@ -95,7 +99,7 @@ def register():
 
         msg = err_msg
 
-    return render_template('register.html',thisform=registerform,info=msg)
+    return render_template('register.html',thisform=registerform,info=msg, this_uname=uname_getter())
 
 
 @app.route('/stock/<stockname>')

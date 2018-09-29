@@ -4,12 +4,12 @@
       <input autocomplete="off" id="stock" placeholder="Search" type="text">
     </form>
     <div>
-{% if this_uname == None %}
-      <a href="{{ url_for('login') }}" class="button">Login</a>
-      <a href="{{ url_for('register') }}" class="button">Register</a>
-{% else %}
+{% if this_uname != None %}
       <span>Welcome, {{ this_uname }}</span>
       <a href="{{ url_for('logout') }}" class="button">Log out</a>
+{% else %}
+      <a href="{{ url_for('login') }}" class="button">Login</a>
+      <a href="{{ url_for('register') }}" class="button">Register</a>
 {% endif %}
     </div>
   </header>
