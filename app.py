@@ -14,6 +14,8 @@ app = Flask(__name__)
 app.config.from_object(config)
 app.config.update(SECRET_KEY='a secret kry')
 db.init_app(app)
+app.jinja_env.trim_blocks = True
+app.jinja_env.lstrip_blocks = True
 
 with app.app_context():
     db.create_all()
@@ -27,12 +29,8 @@ def index():
         # Bypass loading page because this should only be used when
         # JavaScript is disabled / broken
         return redirect(url_for('stock', stockname=this_stock))
-    if session.get('uid') is not None:
-        thisuser = User.query.filter(User.uid == session.get('uid')).first()
-        thisuname = thisuser.getName()
-    else:
-        thisuname = None
-    return render_template('index.html', thisform=stockform, this_uname= thisuname)
+
+    return render_template('index.html', thisform=stockform, this_uname=uname_getter())
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -110,8 +108,8 @@ def stock(stockname):
                            price=price,
                            ohlc=ohlc,
                            news=news,
-                           company=company
-                           )
+                           company=company,
+                           this_uname=uname_getter())
 
 
 @app.route('/feature')
@@ -172,7 +170,7 @@ def suggestions():
 @app.route('/sources')
 def sources():
     stockForm = StockForm()
-    return render_template('sources.html', thisform=stockForm)
+    return render_template('sources.html', thisform=stockForm, this_uname=uname_getter())
 
 
 @app.context_processor
@@ -182,6 +180,12 @@ def utility_processor():
 
     return dict(twitterEmbed=twitterEmbed)
 
+def uname_getter():
+    if session.get('uid') is None:
+        return None
+    else:
+        thisuser = User.query.filter(User.uid == session.get('uid')).first()
+        return thisuser.getName()
 
 if __name__ == '__main__':
     app.run(debug=True)
