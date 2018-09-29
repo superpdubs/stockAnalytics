@@ -39,7 +39,7 @@ def index():
 def login():
     loginform = LoginForm()
     loginvalidator = LoginValidator()
-    msg =""
+    msg = None
     if loginform.validate_on_submit():
         this_email = loginform.user_email.data
         this_password = loginform.user_pass.data
