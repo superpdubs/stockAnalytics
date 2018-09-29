@@ -61,6 +61,7 @@ def logout():
     session['uid'] = None
     return redirect(url_for('index'))
 
+
 @app.route('/register', methods=['GET','POST'])
 def register():
     registerform = RegistrationForm()
@@ -127,11 +128,6 @@ def stock(stockname):
                            this_uname=uname_getter())
 
 
-@app.route('/feature')
-def feature():
-    return render_template('feature.html')
-
-
 @app.route('/check_email' , methods=['GET'])
 def check_email():
     msg =''
@@ -171,25 +167,6 @@ def verify_email():
         db.session.commit()
         session['uid'] = str(new_user.getId())
         return redirect(url_for('index', message='Account successfully created'))
-
-
-@app.route('/sendcode' , methods=['GET'])
-def send_vcode():
-    verification = Verfication()
-    mail = VerificationEmail()
-    send = False
-    if request.method == 'GET':
-        thisemail = request.args.get('this_email')
-        verifyCode = verification.generate_code()
-        # store (user-email,verifycode) in session
-        session[thisemail] = verifyCode
-        if len(verifyCode) == 6:
-            mail.sendto(thisemail,verifyCode)
-            send = True
-        else:
-            send = False
-
-    return jsonify(send=send)
 
 
 @app.route('/stocks')
