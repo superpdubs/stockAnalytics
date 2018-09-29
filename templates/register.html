@@ -37,17 +37,12 @@
           {{ thisform.email }}
           <span class='email_status'></span>
         </div>
-        <div>
-          {{ thisform.verification.label }}
-          {{ thisform.verification }}
-          <button type="button" disabled="true" id="btn_code">Get your verification code</button>
-        </div>
         <button type="submit">Register</button>
-        <button type="button" onclick="loginUrl()">Login</button>
+        <a href="url_for('login')" class="button">Login</a>
       </form>
     </div>
 
-  <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
   <script>
       var emailchecked = false;
       var fnamechecked = false;
@@ -60,7 +55,7 @@
         if(Object.keys(email).length > 0) {
             $.ajax({
                 type: 'get',
-                url: '{{ url_for('verify_email') }}',
+                url: '{{ url_for('check_email') }}',
                 data: {this_email: email},
                 dataType: 'json',
                 success: function (data) {
@@ -78,7 +73,8 @@
         }else{
             $('.email_status').html("");
         }
-}) 
+      }) 
+
       $("#firstname").blur(function(){
        var firstname= document.getElementById("firstname").value;
        if(Object.keys(firstname).length > 0){
@@ -135,39 +131,4 @@
             cpasschecked = false;
         }
       })
-        
-
-
-        $("#btn_code").click(function(){
-            email = document.getElementById("email").value
-              $.ajax({
-              type: 'get',
-              url: '{{ url_for('send_vcode') }}',
-              data: {this_email: email,},
-              dataType: 'json',
-              success: function (data) {
-                  var wait = 60;
-                  time()
-                  function time() {
-                      if (wait == 0){
-                          $("#btn_code").val('Get your verification code');
-                          $("#btn_code").attr('disabled',false);
-                          wait = 60;
-                      }else{
-                          $("#btn_code").attr('disabled', true);
-                          $("#btn_code").val('Resend after ' + wait + 's');
-                          wait--;
-                          setTimeout(function () {time()
-                          },1000)
-                      }
-                  }
-              },
-          });
- })   
-</script>
-
-  <script type="text/javascript">
-    function loginUrl() {
-        location.href = "{{ url_for('login') }}";
-    }
-  </script>{% endblock %}
+    </script>{% endblock %}

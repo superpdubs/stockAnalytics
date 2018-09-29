@@ -4,19 +4,12 @@ from app import session
 
 
 class RegisterValidator:
-
-        def validate(self, user):
-            if user['firstname'] and user['lastname'] and user['password'] and user['cpass'] and user['email'] and user['vcode']:
-               if session.get(user['email']) == user['vcode']:
-                   message = None
-                   # clear user vcode in session
-                   session.pop(user['email'])
-               else:
-                   message =  'Incorrect verification code'
-            else:
-                message = "Please complete all the personal details"
-
-            return message
+    def validate(self, user):
+        # TODO: More robust checking
+        if user['firstname'] and user['lastname'] and user['password'] and user['cpass'] and user['email']:
+            return None
+        else:
+            return "Please complete all the personal details"
 
 
 class LoginValidator:

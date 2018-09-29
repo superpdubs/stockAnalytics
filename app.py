@@ -72,12 +72,22 @@ def register():
                      'email': this_email,'cpass':this_cpass,'vcode':this_vcode}
         err_msg = registervalidator.validate(this_registration);
         if err_msg is None:
-            valid_user = User(this_firstname,this_lastname,this_pass, this_email)
-            db.session.add(valid_user)
-            db.session.commit()
-            return render_template("reg_success.html", login_id=this_email)
-        else:
-            msg = err_msg
+            verification = Verfication()
+            mail = VerificationEmail()
+            verifyCode = verification.generate_code()
+            if mail.sendto(this_email,verifyCode) is not None:
+                err_msg = 'Verification email failed to send, try again'
+            else:
+                pending_user = PendingUser(email=this_email,
+                                           code=verifyCode,
+                                           firstname=this_firstname,
+                                           lastname=this_lastname,
+                                           user_pass=this_pass)
+                db.session.add(pending_user)
+                db.session.commit()
+                return render_template("checkemail.html")
+
+        msg = err_msg
 
     return render_template('register.html',thisform=registerform,info=msg)
 
@@ -117,8 +127,8 @@ def feature():
     return render_template('feature.html')
 
 
-@app.route('/verify_email' , methods=['GET'])
-def verify_email():
+@app.route('/check_email' , methods=['GET'])
+def check_email():
     msg =''
     emailvalidator = EmailValidator()
     if request.method == 'GET':
@@ -132,6 +142,30 @@ def verify_email():
             msg = err_msg
             eval = 0
     return jsonify(msg=msg,eval=eval)
+
+
+@app.route('/verify_email' , methods=['GET'])
+def verify_email():
+    if request.method != 'GET':
+        return redirect(url_for('index'))
+    email = request.args.get('email')
+    code = request.args.get('code')
+    user = PendingUser.query.filter(PendingUser.email == email).first()
+    if user is None:
+        # TODO return page with expired link text
+        return redirect(url_for('index'))
+    if user.code == code:
+        new_user = User(firstname=user.firstname,
+                        lastname=user.lastname,
+                        user_pass=user.user_pass,
+                        email=user.email,
+                        fav_stock_list=None,
+                        my_stocks=None)
+        db.session.add(new_user)
+        db.session.delete(user)
+        db.session.commit()
+        session['uid'] = str(new_user.getId())
+        return redirect(url_for('index'))
 
 
 @app.route('/sendcode' , methods=['GET'])
@@ -181,10 +215,10 @@ def utility_processor():
     return dict(twitterEmbed=twitterEmbed)
 
 def uname_getter():
-    if session.get('uid') is None:
+    thisuser = User.query.filter(User.uid == session.get('uid')).first()
+    if thisuser is None:
         return None
     else:
-        thisuser = User.query.filter(User.uid == session.get('uid')).first()
         return thisuser.getName()
 
 if __name__ == '__main__':
