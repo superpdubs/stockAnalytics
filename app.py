@@ -165,6 +165,7 @@ def verify_email():
         db.session.delete(user)
         db.session.commit()
         session['uid'] = str(new_user.getId())
+        #TODO: Show indicator of successful account creation on dashboard/homepage
         return redirect(url_for('index'))
 
 

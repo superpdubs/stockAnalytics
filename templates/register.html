@@ -15,34 +15,36 @@
         <div>
           {{ thisform.firstname.label }}
           {{ thisform.firstname }}
-          <span class='fname_status'></span>
         </div>
+        <span class="fname_status status"></span>
         <div>
           {{ thisform.lastname.label }}
           {{ thisform.lastname }}
-          <span class='lname_status'></span>
         </div>
+        <span class="lname_status status"></span>
         <div>
           {{ thisform.user_pass.label }}
           {{ thisform.user_pass }}
-          <span class='pass_status'></span>
         </div>
+        <span class="pass_status status"></span>
         <div>
           {{ thisform.confirm.label }}
           {{ thisform.confirm }}
-          <span class='confirm_status'></span>
         </div>
+        <span class="confirm_status status"></span>
         <div>
           {{ thisform.email.label }}
           {{ thisform.email }}
-          <span class='email_status'></span>
         </div>
-        <button type="submit">Register</button>
-        <a href="url_for('login')" class="button">Login</a>
+        <span class="email_status status"></span>
+        <div>
+          <a href="{{ url_for('login') }}" class="button">Login</a>
+          <button type="submit">Register</button>
+        </div>
       </form>
     </div>
 
-    <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
   <script>
       var emailchecked = false;
       var fnamechecked = false;

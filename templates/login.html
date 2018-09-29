@@ -16,10 +16,12 @@
           {{ thisform.user_email.label }}
           {{ thisform.user_email }}
         </div>
+        <span id="email_status" class="status"></span>
         <div>
           {{ thisform.user_pass.label }}
           {{ thisform.user_pass }}
         </div>
+        <span id="password_status" class="status"></span>
         <button type="submit">Login</button>
       </form>
     </div>{% endblock %}

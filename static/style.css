@@ -237,10 +237,13 @@ footer > a:hover {
 /*Login and register related styles*/
 .content > form {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 20rem 1fr;
   grid-gap: 0.2rem;
   justify-items: end;
-  max-width: 20rem;
+}
+
+.status {
+  justify-self: start;
 }
 
 /*Layout related styles*/
