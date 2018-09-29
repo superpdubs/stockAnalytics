@@ -246,6 +246,13 @@ footer > a:hover {
   justify-self: start;
 }
 
+/*Dashboard related styles*/
+.message {
+  background-color: rgb(0,255,255);
+  text-align: center;
+  padding: 1rem;
+}
+
 /*Layout related styles*/
 .container {
   display: flex;

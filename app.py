@@ -23,14 +23,19 @@ with app.app_context():
 
 @app.route('/',methods=['GET','POST'])
 def index():
+    message = None
+    if request.method == 'GET':
+        message = request.args.get('message')
     stockform = StockForm()
     if stockform.validate_on_submit():
         this_stock = stockform.stock.data
         # Bypass loading page because this should only be used when
         # JavaScript is disabled / broken
         return redirect(url_for('stock', stockname=this_stock))
-
-    return render_template('index.html', thisform=stockform, this_uname=uname_getter())
+    uname = uname_getter()
+    if uname != None:
+        return render_template('index_loggedin.html', thisform=stockform, this_uname=uname, msg=message)
+    return render_template('index_loggedout.html', thisform=stockform, this_uname=uname)
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -165,8 +170,7 @@ def verify_email():
         db.session.delete(user)
         db.session.commit()
         session['uid'] = str(new_user.getId())
-        #TODO: Show indicator of successful account creation on dashboard/homepage
-        return redirect(url_for('index'))
+        return redirect(url_for('index', message='Account successfully created'))
 
 
 @app.route('/sendcode' , methods=['GET'])
