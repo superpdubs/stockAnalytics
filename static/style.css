@@ -76,10 +76,6 @@ header > a:hover {
   color: rgb(255,255,255);
 }
 
-header > form {
-  margin-top: -0.25rem;
-}
-
 /*Footer styles*/
 footer {
   height: 3.5rem;
