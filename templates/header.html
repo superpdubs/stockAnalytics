@@ -5,22 +5,11 @@
     </form>
     <div>
 {% if this_uname == None %}
-      <input type="button" value="Login" onclick="loginUrl()"/>
-      <input type="button" value="Register" onclick="registerUrl()"/>
+      <a href="{{ url_for('login') }}" class="button">Login</a>
+      <a href="{{ url_for('register') }}" class="button">Register</a>
 {% else %}
       <span>Welcome, {{ this_uname }}</span>
-      <input type="button" value="Log out" onclick="logoutUrl()"/>
+      <a href="{{ url_for('logout') }}" class="button">Log out</a>
 {% endif %}
     </div>
-    <script type="text/javascript">
-      function loginUrl() {
-        location.href = "{{ url_for('login') }}";
-      }
-      function registerUrl() {
-        location.href = "{{ url_for('register') }}";
-      }
-      function logoutUrl() {
-        location.href = "{{ url_for('logout') }}";
-      }
-    </script>
   </header>

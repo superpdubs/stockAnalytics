@@ -12,7 +12,17 @@ body {
   overflow-y: scroll;
 }
 
-button, input {
+a {
+  text-decoration: none;
+  color: rgba(30,30,30,0.6);
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: rgb(30,30,30);
+}
+
+button, input, .button {
   border: none;
   border-radius: 0.125rem;
   padding: 0.25rem 0.5rem;
@@ -30,22 +40,18 @@ input:invalid {
   box-shadow: inset 0 -0.15em red;
 }
 
-button {
+button, .button {
   background-color: rgba(12,12,13,0.15);
+  font-size: 1rem;
 }
 
-button:hover {
+button:hover, .button:hover {
   background-color: rgba(12,12,13,0.2);
+  color: inherit;
 }
 
-a {
-  text-decoration: none;
-  color: rgba(30,30,30,0.6);
-  transition: color 0.2s ease-in-out;
-}
-
-a:hover {
-  color: rgb(30,30,30);
+button:active, .button:active {
+  background-color: rgba(12,12,13,0.3);
 }
 
 /*Header styles*/
