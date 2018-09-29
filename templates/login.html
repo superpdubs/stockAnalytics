@@ -8,10 +8,10 @@
 {% block body_contents %}
     <div class="content">
       <h1>Login</h1>
-      <form name="myLoginForm" method="POST" action="" >
 {% if info != None %}
-        <span class="info">{{ info }}</span>
+      <span class="info">{{ info }}</span>
 {% endif %}
+      <form name="myLoginForm" method="POST" action="" >
         <div>
           {{ thisform.user_email.label }}
           {{ thisform.user_email }}
