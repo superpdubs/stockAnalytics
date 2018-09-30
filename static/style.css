@@ -112,6 +112,10 @@ footer > a:hover {
   top: 0.5rem;
 }
 
+.symbol-search > input::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.8);
+}
+
 .symbol-search > input::placeholder {
   color: rgba(255,255,255,0.8);
 }
@@ -119,6 +123,10 @@ footer > a:hover {
 .symbol-search > input:focus {
   background-color: rgb(255,255,255);
   color: rgb(30,30,30);
+}
+
+.symbol-search > input:focus::-webkit-input-placeholder {
+  color: rgba(30,30,30,0.8);
 }
 
 .symbol-search > input:focus::placeholder {
