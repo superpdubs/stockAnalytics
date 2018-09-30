@@ -58,7 +58,7 @@ searchbox.addEventListener("input", function(element) {
   }
 });
 searchbox.addEventListener("focus", function(element) {
-  popup.style.zIndex = "100";
+  popup.style.visibility = "visible";
   popup.style.opacity = "1";
   searchbox.style.top = "0.5rem";
 });
@@ -72,6 +72,6 @@ document.getElementById("exit-search").addEventListener("click", function(elemen
 });
 popup.addEventListener("transitionend", function(element) {
   if (element.target.style.opacity == "0") {
-    element.target.style.zIndex = "-1";
+    element.target.style.visibility = "hidden";
   }
 });
