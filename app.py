@@ -85,7 +85,6 @@ def register():
             verification = Verfication()
             mail = VerificationEmail()
             verifyCode = verification.generate_code()
-            stockForm = StockForm()
             if mail.sendto(this_email,verifyCode) is not None:
                 err_msg = 'Verification email failed to send, try again'
             else:
@@ -96,11 +95,11 @@ def register():
                                            user_pass=this_pass)
                 db.session.add(pending_user)
                 db.session.commit()
-                return render_template("checkemail.html", thisform=stockForm, this_uname=uname_getter())
+                return render_template("checkemail.html")
 
         msg = err_msg
 
-    return render_template('register.html', thisform=registerform, info=msg, this_uname=uname_getter())
+    return render_template('register.html',thisform=registerform,info=msg, this_uname=uname_getter())
 
 
 @app.route('/stock/<stockname>')
@@ -181,19 +180,13 @@ def suggestions():
     list_stocks = [r.as_dict() for r in res]
     result = []
     for e in list_stocks:
-        # if (e.get('symbol').find(query) == 0):
-        if (e.get('symbol').find(query) == 0):
+        if (e.get('name').upper().find(query) == 0
+            or e.get('symbol').find(query) == 0):
             result.append(e)
             # limit results to 10 max
             if (len(result) == 10):
                 break
     return jsonify(result)
-
-@app.route('/about')
-def about():
-    stockForm = StockForm()
-    return render_template('about.html', thisform=stockForm, this_uname=uname_getter())
-
 
 @app.route('/sources')
 def sources():
