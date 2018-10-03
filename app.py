@@ -180,7 +180,7 @@ def suggestions():
     list_stocks = [r.as_dict() for r in res]
     result = []
     for e in list_stocks:
-        if (e.get('symbol').find(query) == 0):
+        if (e.get('name').upper().find(query) == 0):
             result.append(e)
             # limit results to 10 max
             if (len(result) == 10):
