@@ -193,6 +193,11 @@ def sources():
     stockForm = StockForm()
     return render_template('sources.html', thisform=stockForm, this_uname=uname_getter())
 
+@app.route('/about')
+def about():
+    stockForm = StockForm()
+    return render_template('about.html', thisform=stockForm, this_uname=uname_getter())
+
 
 @app.context_processor
 def utility_processor():

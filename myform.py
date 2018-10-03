@@ -9,9 +9,8 @@ class StockForm(FlaskForm):
 
 
 class EmailForm(FlaskForm):
-
     email = StringField('Email Address')
-    verification = StringField('Verfication Code')
+    verification = StringField('Verification Code')
     submit = SubmitField('Register')
 
 class RegistrationForm(FlaskForm):
@@ -20,7 +19,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email Address')
     user_pass = PasswordField('Password')
     confirm = PasswordField('Confirm Password')
-    verification = StringField('Verfication Code')
+    verification = StringField('Verification Code')
     submit = SubmitField('Register')
 
 
