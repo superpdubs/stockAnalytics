@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+
+##########################################################################
+################## IGNORE THIS FILE! USED FOR TESTING PURPOSES ###########
+###########################################################################
+
 import re
 import pandas as pd  
 import numpy as np
@@ -99,6 +104,8 @@ model_d2v_01.fit(train_vecs_ugdbow, y_train,
                  validation_data=(validation_vecs_ugdbow, y_validation),
                  epochs=10, batch_size=32, verbose=2)
 
+new_model = keras.models.load_model('my_model.h5')
+new_model.summary()
 
 ################################################################
 # PREDICTION/CLASSIFICATION OF NEW TWEETS
@@ -107,11 +114,29 @@ model_d2v_01.fit(train_vecs_ugdbow, y_train,
 # 3. produce doc2vec representation of tweet
 # 4. input this vector into neural network to classify tweet
 ################################################################
-tweet_from_API = '@TSLA tesla is such a great stock to buy'
-cleaned_tweet = tweet_cleaner(tweet_from_API)
-new_tweet = pd.Series([])
-infer_vector = model_ug_dbow.infer_vector(new_tweet) 
-ynew = new_model.predict_classes(infer_vector.reshape(1,100))
+
+# retrieve tweet from API and put into a list
+tweets_from_API = ['@TSLA tesla is such a great stock to buy', 'today was a terrible day @GOOG sad', 'wobcke grumpy #TSLA']
+cleaned_tweets = []
+num_tweets = len(tweets_from_API)
+
+# clean tweets
+cleaned_tweets = [tweet_cleaner(tweet) for tweet in tweets_from_API]
+
+# convert to series 
+new_tweet = pd.Series(cleaned_tweets)
+
+# feed tweets into doc2vec model
+infer_vector = [model_ug_dbow.infer_vector(tweet) for tweet in new_tweet]
+for i in range(0,num_tweets-1):
+    if i == 0:
+        input_vectors = infer_vector[i]
+    input_vectors = np.append(input_vectors, infer_vector[i])
+    
+# classify tweets as good/bad
+ynew = new_model.predict_classes(infer_vector.reshape(num_tweets,100))
+
+# classification vector of 0s and 1s
 ynew # I forgot which is which i.e. (0,1)=(good, bad) or vice-versa)
 
 
@@ -119,42 +144,3 @@ ynew # I forgot which is which i.e. (0,1)=(good, bad) or vice-versa)
 
 
 
-
-
-#######################################################################################
-from gensim.models import Doc2Vec
-
-def get_concat_vectors(model1,model2, corpus, size):
-    vecs = np.zeros((len(corpus), size))
-    n = 0
-    for i in corpus.index:
-        prefix = 'all_' + str(i)
-        vecs[n] = np.append(model1.docvecs[prefix],model2.docvecs[prefix])
-        n += 1
-    return vecs
-model_ug_dbow = Doc2Vec.load('d2v_model_ug_dbow.doc2vec')
-model_tg_dmm = Doc2Vec.load('d2v_model_tg_dmm.doc2vec')
-model_ug_dbow.delete_temporary_training_data(keep_doctags_vectors=True, keep_inference=True)
-model_tg_dmm.delete_temporary_training_data(keep_doctags_vectors=True, keep_inference=True)
-train_vecs_ugdbow_tgdmm = get_concat_vectors(model_ug_dbow,model_tg_dmm, x_train, 200)
-validation_vecs_ugdbow_tgdmm = get_concat_vectors(model_ug_dbow,model_tg_dmm, x_validation, 200)
-
-# Initial model: 1 hidden layer with 64 hidden nodes
-model_d2v_01 = Sequential()
-model_d2v_01.add(Dense(64, activation='relu', input_dim=200))
-model_d2v_01.add(Dropout(0.3))
-model_d2v_01.add(Dense(1, activation='sigmoid'))
-model_d2v_01.compile(optimizer='nadam',
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
-
-model_d2v_01.fit(train_vecs_ugdbow_tgdmm, y_train,
-                 validation_data=(validation_vecs_ugdbow_tgdmm, y_validation),
-                 epochs=50, batch_size=64, verbose=2)
-
-y_train_test = y_train
-y_train_test.replace(0, 1)
-y_train_test.replace(4, 0)
-y_val_test = y_validation
-y_val_test.replace(0, 1)
-y_val_test.replace(4, 0)

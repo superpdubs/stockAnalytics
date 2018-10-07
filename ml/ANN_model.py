@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# Most of the python script was produced by following parts (1-10) of the blog:
+# https://towardsdatascience.com/another-twitter-sentiment-analysis-bb5b01ebad90
 
 import pandas as pd  
 import numpy as np
@@ -85,26 +87,26 @@ def tweet_cleaner(text):
 nums = [0,400000,800000,1200000,1600000]
 print("Cleaning and parsing the tweets...\n")
 clean_tweet_texts = []
-for i in xrange(nums[0],nums[1]):
+for i in range(nums[0],nums[1]):
     if( (i+1)%10000 == 0 ):
         print("Tweets %d of %d has been processed" % ( i+1, nums[1] ))
     clean_tweet_texts.append(tweet_cleaner(df['text'][i]))
 len(clean_tweet_texts)
 
 print("Cleaning and parsing the tweets...\n")
-for i in xrange(nums[1],nums[2]):
+for i in range(nums[1],nums[2]):
     if( (i+1)%10000 == 0 ):
         print("Tweets %d of %d has been processed" % ( i+1, nums[2] ))                                                                    
     clean_tweet_texts.append(tweet_cleaner(df['text'][i]))
 len(clean_tweet_texts)
 print("Cleaning and parsing the tweets...\n")
-for i in xrange(nums[2],nums[3]):
+for i in range(nums[2],nums[3]):
     if( (i+1)%10000 == 0 ):
         print("Tweets %d of %d has been processed" % ( i+1, nums[3] ))                                                                    
     clean_tweet_texts.append(tweet_cleaner(df['text'][i]))
 len(clean_tweet_texts)
 print("Cleaning and parsing the tweets...\n")
-for i in xrange(nums[3],nums[4]):
+for i in range(nums[3],nums[4]):
     if( (i+1)%10000 == 0 ):
         print("Tweets %d of %d has been processed" % ( i+1, nums[4] ))                                                                    
     clean_tweet_texts.append(tweet_cleaner(df['text'][i]))
