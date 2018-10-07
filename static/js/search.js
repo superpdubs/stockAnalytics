@@ -29,13 +29,13 @@ searchbox.addEventListener("input", function(element) {
       for (var e in xhr.response) {
         var suggestion = document.createElement("li");
         var link = document.createElement("a");
-        var name = document.createElement("span");
+        var symbol = document.createElement("span");
         link.setAttribute("href", root + "/stock/" + xhr.response[e].symbol);
-        link.textContent = xhr.response[e].symbol;
-        name.textContent = xhr.response[e].name;
+        link.textContent = xhr.response[e].name;
+        symbol.textContent = xhr.response[e].symbol;
         suggestions.appendChild(suggestion);
         suggestion.appendChild(link);
-        link.appendChild(name);
+        link.appendChild(symbol);
         link.addEventListener("click", function(element) {
           element.preventDefault();
           exitButton.style.opacity = "0";
@@ -58,7 +58,7 @@ searchbox.addEventListener("input", function(element) {
   }
 });
 searchbox.addEventListener("focus", function(element) {
-  popup.style.zIndex = "100";
+  popup.style.visibility = "visible";
   popup.style.opacity = "1";
   searchbox.style.top = "0.5rem";
 });
@@ -72,6 +72,6 @@ document.getElementById("exit-search").addEventListener("click", function(elemen
 });
 popup.addEventListener("transitionend", function(element) {
   if (element.target.style.opacity == "0") {
-    element.target.style.zIndex = "-1";
+    element.target.style.visibility = "hidden";
   }
 });

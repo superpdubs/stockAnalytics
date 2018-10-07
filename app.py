@@ -181,7 +181,8 @@ def suggestions():
     list_stocks = [r.as_dict() for r in res]
     result = []
     for e in list_stocks:
-        if (e.get('symbol').find(query) == 0):
+        if (e.get('name').upper().find(query) == 0
+            or e.get('symbol').find(query) == 0):
             result.append(e)
             # limit results to 10 max
             if (len(result) == 10):
@@ -192,6 +193,11 @@ def suggestions():
 def sources():
     stockForm = StockForm()
     return render_template('sources.html', thisform=stockForm, this_uname=uname_getter())
+
+@app.route('/about')
+def about():
+    stockForm = StockForm()
+    return render_template('about.html', thisform=stockForm, this_uname=uname_getter())
 
 
 @app.context_processor
