@@ -109,6 +109,7 @@ def stock(stockname):
     price, close, date, ohlc, company, news = search.iEXManualRequest(stockname.upper())
 
     twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
+    
     delta = price - ohlc["open"]["price"]
     percentage = delta / ohlc["open"]["price"] * 100
     diff = 'loss'
