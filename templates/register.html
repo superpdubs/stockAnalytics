@@ -1,20 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Register</title>
-</head>
-<body>
-  <h1>This is register in page</h1>
+{% extends 'base.html' %}
 
-  <form name='myStickerForm' method="POST" action="" >
-    {{ thisform.username.label }} {{ thisform.username }}<br>
-    {{ thisform.email.label }} {{ thisform.email }}<br>
-    {{ thisform.password.label }} {{ thisform.password }}<br>
-    {{ thisform.confirm.label }} {{ thisform.confirm }}<br>
-    <button type="submit">Register!</button>
+{% block title %}Register{% endblock %}
 
-  </form>
+{% block header %}{% include 'header.html' %}
+{% endblock %}
 
-</body>
-</html>
+{% block body_contents %}
+    <div class="content">
+      <h1>Register</h1>
+{% if info != None %}
+      <span class="info">{{ info }}</span>
+{% endif %}
+      <form name="myRegistrationForm" method="POST" action="" >
+        <div>
+          {{ thisform.firstname.label }}
+          {{ thisform.firstname }}
+        </div>
+        <span class="fname_status status"></span>
+        <div>
+          {{ thisform.lastname.label }}
+          {{ thisform.lastname }}
+        </div>
+        <span class="lname_status status"></span>
+        <div>
+          {{ thisform.user_pass.label }}
+          {{ thisform.user_pass }}
+        </div>
+        <span class="pass_status status"></span>
+        <div>
+          {{ thisform.confirm.label }}
+          {{ thisform.confirm }}
+        </div>
+        <span class="confirm_status status"></span>
+        <div>
+          {{ thisform.email.label }}
+          {{ thisform.email }}
+        </div>
+        <span class="email_status status"></span>
+        <div>
+          <a href="{{ url_for('login') }}" class="button">Login</a>
+          <button type="submit">Register</button>
+        </div>
+      </form>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+  <script>
+      var emailchecked = false;
+      var fnamechecked = false;
+      var lnamechecked = false;
+      var passchecked = false;
+      var cpasschecked = false;
+
+      $("#email").blur(function(){
+       email= document.getElementById("email").value;  
+        if(Object.keys(email).length > 0) {
+            $.ajax({
+                type: 'get',
+                url: '{{ url_for('check_email') }}',
+                data: {this_email: email},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.eval == 1) {
+                        $('.email_status').html(data.msg);
+                        $("#btn_code").attr('disabled',false);
+                        emailchecked = true;
+                    } else {
+                        $('.email_status').html(data.msg);
+                        emailchecked = false;
+                        $("#btn_code").attr('disabled',true);
+                    }
+                }
+            });
+        }else{
+            $('.email_status').html("");
+        }
+      }) 
+
+      $("#firstname").blur(function(){
+       var firstname= document.getElementById("firstname").value;
+       if(Object.keys(firstname).length > 0){
+           $('.fname_status').html("Passed!");
+           fnamechecked = true;
+       }else{
+            $('.fname_status').html("");
+            fnamechecked = false;
+       } }) 
+
+      $("#lastname").blur(function(){
+       var lastname= document.getElementById("lastname").value;
+       if(Object.keys(lastname).length > 0){
+           $('.lname_status').html("Passed!");
+           lnamechecked = true;
+       }else{
+            $('.lname_status').html("");
+            lnamechecked = false;
+       } }) 
+
+      $("#user_pass").blur(function(){
+       var password= document.getElementById("user_pass").value;
+       if(Object.keys(password).length > 0){
+           if( 6<= Object.keys(password).length){
+               if(Object.keys(password).length>11){
+                   $('.pass_status').html("Length of password should be 6-11 characters");
+                   passchecked = false;
+               }else{
+                   $('.pass_status').html("This password could be used");
+                    passchecked = true;
+               }
+           }else{
+               $('.pass_status').html("Length of password should be 6-11 characters");
+                passchecked = false;
+           }
+       }else{
+            $('.pass_status').html("");
+             passchecked = false;
+       } }) 
+
+      $("#confirm").blur(function(){
+       var cpassword= document.getElementById("confirm").value;
+       var password= document.getElementById("user_pass").value;
+       if(Object.keys(cpassword).length>0){
+           if(cpassword==password){
+                $('.confirm_status').html("");
+                cpasschecked = true;
+           }else{
+                $('.confirm_status').html("This doesn't match your original password");
+                cpasschecked = false;
+           }
+       }else{
+            $('.confirm_status').html(" ");
+            cpasschecked = false;
+        }
+      })
+    </script>{% endblock %}

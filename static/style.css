@@ -9,16 +9,27 @@ body {
   margin: 0;
   font-family: 'GlacialIndifferenceRegular', sans-serif;
   color: rgb(30,30,30);
+  overflow-y: scroll;
 }
 
-button, input {
+a {
+  text-decoration: none;
+  color: rgba(30,30,30,0.6);
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: rgb(30,30,30);
+}
+
+input, button, .button {
   border: none;
   border-radius: 0.125rem;
   padding: 0.25rem 0.5rem;
   font-family: inherit;
   white-space: nowrap;
   color: inherit;
-  transition: all 0.25s ease-in-out;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
 input {
@@ -29,16 +40,24 @@ input:invalid {
   box-shadow: inset 0 -0.15em red;
 }
 
-button {
+button, .button {
   background-color: rgba(12,12,13,0.15);
+  font-size: 1rem;
 }
 
-button:hover {
+input:hover, button:hover, .button:hover {
   background-color: rgba(12,12,13,0.2);
+  color: inherit;
+}
+
+button:active, .button:active {
+  background-color: rgba(12,12,13,0.3);
 }
 
 /*Header styles*/
 header {
+  position: sticky;
+  top: 0;
   display: flex;
   height: 3.5rem;
   padding: 0 5rem;
@@ -47,15 +66,24 @@ header {
   background: linear-gradient(45deg, rgb(47,186,204) 0%, rgb(73,214,181) 100%);
   justify-content: space-between;
   align-items: center;
+  z-index: 50; /*Needed for Chrome quirk*/
 }
 
 header > a {
-  color: white;
-  text-decoration: none;
+  color: rgb(255,255,255);
 }
 
-header > form {
-  margin-top: -0.25rem;
+header > a:hover {
+  color: rgb(255,255,255);
+}
+
+header > div > span {
+  font-size: 1rem;
+}
+
+header > div > .button:active {
+  background-color: rgb(255,255,255);
+  color: rgb(30,30,30);
 }
 
 /*Footer styles*/
@@ -67,24 +95,88 @@ footer {
 }
 
 footer > a {
-  color: rgba(255,255,255,0.75);
-  text-decoration: none;
-  transition: all 0.25s ease-in-out;
+  color: rgba(255,255,255,0.6);
 }
 
 footer > a:hover {
-  color: white;
-  text-decoration: underline;
+  color: rgb(255,255,255);
 }
 
 /*Search box styles*/
 .symbol-search > input {
   color: white;
+  font-size: 1.5rem;
+  width: 16rem;
+  position: absolute;
+  left: calc(100vw / 2 - 9rem);
+  top: 0.5rem;
+}
+
+.symbol-search > input::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.8);
+}
+
+.symbol-search > input::placeholder {
+  color: rgba(255,255,255,0.8);
 }
 
 .symbol-search > input:focus {
   background-color: rgb(255,255,255);
-  color: black;
+  color: rgb(30,30,30);
+}
+
+.symbol-search > input:focus::-webkit-input-placeholder {
+  color: rgba(30,30,30,0.8);
+}
+
+.symbol-search > input:focus::placeholder {
+  color: rgba(30,30,30,0.8);
+}
+
+#search-popup {
+  position: sticky;
+  top: 3.5rem;
+  opacity: 0;
+  height: calc(100vh - 3.5rem);
+  background-color: white;
+  font-size: 1.5rem;
+  color: rgb(30,30,30);
+  padding: 0 5rem;
+  transition: opacity 0.2s ease-in-out;
+  visibility: hidden;
+}
+
+#search-suggestions {
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+#search-suggestions > li {
+  list-style-type: none;
+  box-shadow: inset 0 -0.1rem 0 0;
+}
+
+#search-suggestions > li:hover {
+  background-color: #e3e3e3;
+}
+
+#search-suggestions:first-child {
+  box-shadow: inset 0 0 0 0;
+  margin-top: 0;
+}
+
+#search-suggestions > li > a {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  color: inherit;
+}
+
+#search-hint {
+  display: flex;
+  justify-content: center;
+  height: 70vh;
+  align-items: center;
 }
 
 /*Stock display styles*/
@@ -138,19 +230,48 @@ footer > a:hover {
 }
 
 /*News display styles*/
+.article {
+  box-shadow: inset 0 0 0 0.07rem #e8eef1;
+  padding: 0.1rem 1rem;
+  border-radius: 0.3rem;
+  margin-bottom: 0.7rem;
+}
+
+.headline {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  color: rgb(30,30,30);
+}
+
+.headline:hover {
+  color: rgba(30,30,30,0.6);
+}
+
 .source {
   display: block;
   margin-top: -1rem;
   font-size: 0.75rem;
 }
 
-.source > a {
-  color: inherit;
-  text-decoration: none;
+/*Login and register related styles*/
+.content > form {
+  display: grid;
+  grid-template-columns: 20rem 1fr;
+  grid-gap: 0.2rem;
+  justify-items: end;
 }
 
-.source > a:hover {
-  text-decoration: underline;
+.status {
+  justify-self: start;
+}
+
+/*Dashboard related styles*/
+.message {
+  background-color: rgb(0,255,255);
+  text-align: center;
+  padding: 1rem;
 }
 
 /*Layout related styles*/
@@ -159,6 +280,7 @@ footer > a:hover {
   flex-wrap: wrap;
   min-height: calc(100vh - 7rem);
   flex-direction: column;
+  margin-top: calc(3.5rem - 100vh);
 }
 
 .row {

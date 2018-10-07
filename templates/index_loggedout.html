@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block head %}<link href="{{url_for('static', filename='home.css')}}") rel="stylesheet">{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block header %}{% include 'header.html' %}
+{% endblock %}
+
+{% block body_contents %}
+    <h1>Fetch</h1>
+    <h2>Start my stock market adventure</h2>
+    <script type="text/javascript">
+      var searchBoxTop = "20rem";
+    </script>{% endblock %}
