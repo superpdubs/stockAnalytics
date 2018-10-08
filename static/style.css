@@ -91,6 +91,7 @@ footer {
   height: 3.5rem;
   padding: 0 5rem;
   text-align: center;
+  color: rgba(255,255,255,0.6);
   background: linear-gradient(45deg, rgb(47,186,204) 0%, rgb(73,214,181) 100%);
 }
 
