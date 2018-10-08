@@ -38,12 +38,10 @@ def index():
 def login():
     if uname_getter() != None:
         return redirect(url_for('index'))
-    loginform = LoginForm()
-    loginvalidator = LoginValidator()
-    msg = None
-    if loginform.validate_on_submit():
-        this_email = loginform.user_email.data
-        this_password = loginform.user_pass.data
+    if request.method == 'POST':
+        this_email = request.form.get('user_email')
+        this_password = request.form.get('user_pass')
+        loginvalidator = LoginValidator()
         this_login = {'email': this_email, 'password': this_password}
         msg = loginvalidator.validate(this_login)
         if msg is None:
@@ -51,7 +49,8 @@ def login():
             thisuid = thisuser.getId()
             session['uid'] = str(thisuid)
             return redirect(url_for('index'))
-    return render_template('login.html',thisform=loginform, info=msg, this_uname=uname_getter())
+        return render_template('login.html', info=msg, this_uname=None)
+    return render_template('login.html', info=None, this_uname=None)
 
 
 @app.route('/logout')

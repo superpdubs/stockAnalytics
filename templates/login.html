@@ -11,15 +11,15 @@
 {% if info != None %}
       <span class="info">{{ info }}</span>
 {% endif %}
-      <form name="myLoginForm" method="POST" action="" >
+      <form method="POST" action="{{ url_for('login') }}" >
         <div>
-          {{ thisform.user_email.label }}
-          {{ thisform.user_email }}
+          <label for="user_email">Email</label>
+          <input id="user_email" name="user_email" type="email">
         </div>
         <span id="email_status" class="status"></span>
         <div>
-          {{ thisform.user_pass.label }}
-          {{ thisform.user_pass }}
+          <label for="user_pass">Password</label>
+          <input id="user_pass" name="user_pass" type="password">
         </div>
         <span id="password_status" class="status"></span>
         <button type="submit">Login</button>
