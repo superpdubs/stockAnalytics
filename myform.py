@@ -3,16 +3,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 
 
-class StockForm(FlaskForm):
-    stock = StringField('Stock', render_kw={"placeholder": "Search", "autocomplete": "off"})
-    submit = SubmitField('Go Fetch !')
-
-
-class EmailForm(FlaskForm):
-    email = StringField('Email Address')
-    verification = StringField('Verification Code')
-    submit = SubmitField('Register')
-
 class RegistrationForm(FlaskForm):
     firstname = StringField('Firstname')
     lastname = StringField('Lastname')

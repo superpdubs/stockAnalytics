@@ -21,21 +21,17 @@ with app.app_context():
     db.create_all()
 
 
-@app.route('/',methods=['GET','POST'])
+@app.route('/')
 def index():
-    message = None
-    if request.method == 'GET':
-        message = request.args.get('message')
-    stockform = StockForm()
-    if stockform.validate_on_submit():
-        this_stock = stockform.stock.data
-        # Bypass loading page because this should only be used when
-        # JavaScript is disabled / broken
-        return redirect(url_for('stock', stockname=this_stock))
+    if request.args.get('stock') != None:
+        return redirect(url_for('stock', stockname=request.args.get('stock')))
+
+    message = request.args.get('message')
+
     uname = uname_getter()
     if uname != None:
-        return render_template('index_loggedin.html', thisform=stockform, this_uname=uname, msg=message)
-    return render_template('index_loggedout.html', thisform=stockform, this_uname=uname)
+        return render_template('index_loggedin.html', this_uname=uname, msg=message)
+    return render_template('index_loggedout.html', this_uname=uname)
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -95,21 +91,20 @@ def register():
                                            user_pass=this_pass)
                 db.session.add(pending_user)
                 db.session.commit()
-                return render_template("checkemail.html")
+                return render_template("checkemail.html", this_uname=None)
 
         msg = err_msg
 
-    return render_template('register.html',thisform=registerform,info=msg, this_uname=uname_getter())
+    return render_template('register.html',thisform=registerform,info=msg, this_uname=None)
 
 
 @app.route('/stock/<stockname>')
 def stock(stockname):
-    stockForm = StockForm()
     # TODO: serverside validation of stock symbol
     price, close, date, ohlc, company, news = search.iEXManualRequest(stockname.upper())
 
     twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
-    
+
     delta = price - ohlc["open"]["price"]
     percentage = delta / ohlc["open"]["price"] * 100
     diff = 'loss'
@@ -119,7 +114,6 @@ def stock(stockname):
     else:
         delta = '{:.2f}'.format(delta)
     return render_template('stock.html',
-                           thisform=stockForm,
                            twitter=twitter,
                            delta=delta,
                            percentage=percentage,
@@ -199,13 +193,11 @@ def suggestions():
 
 @app.route('/sources')
 def sources():
-    stockForm = StockForm()
-    return render_template('sources.html', thisform=stockForm, this_uname=uname_getter())
+    return render_template('sources.html', this_uname=uname_getter())
 
 @app.route('/about')
 def about():
-    stockForm = StockForm()
-    return render_template('about.html', thisform=stockForm, this_uname=uname_getter())
+    return render_template('about.html', this_uname=uname_getter())
 
 
 @app.context_processor
