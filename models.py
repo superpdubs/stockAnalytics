@@ -37,8 +37,9 @@ class Stock(db.Model):
 		return {'symbol': self.symbol, 'name':self.name}
 
 class PendingUser(db.Model):
-    email = db.Column(db.String(50), primary_key=True)
-    code = db.Column(db.String(50), nullable=True)
+    uid = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(50), nullable=False)
+    code = db.Column(db.String(50), nullable=False)
     firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50),nullable=False)
     user_pass = db.Column(db.String(255), nullable=False)

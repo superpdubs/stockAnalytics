@@ -133,7 +133,7 @@ def stock(stockname):
                            this_uname=uname_getter())
 
 
-@app.route('/check_email' , methods=['GET'])
+@app.route('/check_email')
 def check_email():
     msg =''
     emailvalidator = EmailValidator()
@@ -150,28 +150,35 @@ def check_email():
     return jsonify(msg=msg,eval=eval)
 
 
-@app.route('/verify_email' , methods=['GET'])
+@app.route('/verify_email')
 def verify_email():
-    if request.method != 'GET':
-        return redirect(url_for('index'))
     email = request.args.get('email')
     code = request.args.get('code')
-    user = PendingUser.query.filter(PendingUser.email == email).first()
+    matches = PendingUser.query.filter(PendingUser.email == email)
+    user = None
+    for e in matches:
+        if e.code == code:
+            user = e
+
     if user is None:
-        # TODO return page with expired link text
-        return redirect(url_for('index'))
-    if user.code == code:
-        new_user = User(firstname=user.firstname,
-                        lastname=user.lastname,
-                        user_pass=user.user_pass,
-                        email=user.email,
-                        fav_stock_list=None,
-                        my_stocks=None)
-        db.session.add(new_user)
-        db.session.delete(user)
-        db.session.commit()
-        session['uid'] = str(new_user.getId())
-        return redirect(url_for('index', message='Account successfully created'))
+        return redirect(url_for('index', message='Verification email expired'))
+
+    # delete other pending users since accounts must have a unique email
+    for e in matches:
+        if e != user:
+            db.session.delete(e)
+    db.session.commit()
+
+    new_user = User(firstname=user.firstname,
+                    lastname=user.lastname,
+                    user_pass=user.user_pass,
+                    email=user.email,
+                    fav_stock_list=None,
+                    my_stocks=None)
+    db.session.add(new_user)
+    db.session.delete(user)
+    session['uid'] = str(new_user.getId())
+    return redirect(url_for('index', message='Account successfully created'))
 
 
 @app.route('/stocks')
