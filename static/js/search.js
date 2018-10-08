@@ -59,10 +59,12 @@ searchbox.addEventListener("input", function(element) {
 });
 searchbox.addEventListener("focus", function(element) {
   popup.style.visibility = "visible";
+  popup.style.transitionDelay = "0.2s"
   popup.style.opacity = "1";
   searchbox.style.top = "0.5rem";
 });
 document.getElementById("exit-search").addEventListener("click", function(element) {
+  popup.style.transitionDelay = "0s"
   popup.style.opacity = "0";
   if (searchBoxTop) {
     searchbox.style.top = searchBoxTop;
