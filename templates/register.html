@@ -11,30 +11,30 @@
 {% if info != None %}
       <span class="info">{{ info }}</span>
 {% endif %}
-      <form name="myRegistrationForm" method="POST" action="" >
+      <form method="POST" action="{{ url_for('register') }}" >
         <div>
-          {{ thisform.firstname.label }}
-          {{ thisform.firstname }}
+          <label for="firstname">First name</label>
+          <input id="firstname" name="firstname" type="text">
         </div>
         <span class="fname_status status"></span>
         <div>
-          {{ thisform.lastname.label }}
-          {{ thisform.lastname }}
+          <label for="lastname">Last name</label>
+          <input id="lastname" name="lastname" type="text">
         </div>
         <span class="lname_status status"></span>
         <div>
-          {{ thisform.user_pass.label }}
-          {{ thisform.user_pass }}
+          <label for="user_pass">Password</label>
+          <input id="user_pass" name="user_pass" type="password">
         </div>
         <span class="pass_status status"></span>
         <div>
-          {{ thisform.confirm.label }}
-          {{ thisform.confirm }}
+          <label for="confirm">Confirm Password</label>
+          <input id="confirm" name="confirm" type="password">
         </div>
         <span class="confirm_status status"></span>
         <div>
-          {{ thisform.email.label }}
-          {{ thisform.email }}
+          <label for="email">Email Address</label>
+          <input autocomplete="username" id="email" name="email" type="email">
         </div>
         <span class="email_status status"></span>
         <div>

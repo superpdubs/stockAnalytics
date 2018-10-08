@@ -2,7 +2,6 @@
 from flask import Flask, redirect, url_for, render_template, request, jsonify,session
 from models import *
 import config
-from myform import *
 from resources import search
 from validator import *
 from codegenerator import *
@@ -63,25 +62,23 @@ def logout():
 def register():
     if uname_getter() != None:
         return redirect(url_for('index'))
-    registerform = RegistrationForm()
-    registervalidator = RegisterValidator()
-    msg = None
-    if registerform.validate_on_submit():
-        this_firstname = registerform.firstname.data
-        this_lastname = registerform.lastname.data
-        this_email = registerform.email.data
-        this_pass = registerform.user_pass.data
-        this_cpass = registerform.confirm.data
-        this_vcode = registerform.verification.data
+    if request.method == 'POST':
+        this_firstname = request.form.get('firstname')
+        this_lastname = request.form.get('lastname')
+        this_email = request.form.get('email')
+        this_pass = request.form.get('user_pass')
+        this_cpass = request.form.get('confirm')
+        registervalidator = RegisterValidator()
         this_registration = {'firstname':this_firstname,'lastname': this_lastname, 'password': this_pass,
-                     'email': this_email,'cpass':this_cpass,'vcode':this_vcode}
-        err_msg = registervalidator.validate(this_registration);
-        if err_msg is None:
+                     'cpass':this_cpass,'email': this_email}
+        msg = registervalidator.validate(this_registration);
+        if msg is None:
             verification = Verfication()
             mail = VerificationEmail()
             verifyCode = verification.generate_code()
             if mail.sendto(this_email,verifyCode) is not None:
-                err_msg = 'Verification email failed to send, try again'
+                msg = 'Registration failed, please try again later'
+                return render_template('register.html', info=msg, this_uname=None)
             else:
                 pending_user = PendingUser(email=this_email,
                                            code=verifyCode,
@@ -91,10 +88,8 @@ def register():
                 db.session.add(pending_user)
                 db.session.commit()
                 return render_template("checkemail.html", this_uname=None)
-
-        msg = err_msg
-
-    return render_template('register.html',thisform=registerform,info=msg, this_uname=None)
+        return render_template('register.html', info=msg, this_uname=None)
+    return render_template('register.html', info=None, this_uname=None)
 
 
 @app.route('/stock/<stockname>')
