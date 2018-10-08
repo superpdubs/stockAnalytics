@@ -27,7 +27,7 @@ for i in range(0,num_tweets-1):
     input_vectors = np.append(input_vectors, infer_vector[i])
     
 # classify tweets as good/bad
-ynew = new_model.predict_classes(infer_vector.reshape(num_tweets,100))
+ynew = new_model.predict_classes(input_vectors.reshape(num_tweets,100))
 
 # classification vector of 0s and 1s
 ynew # I forgot which is which i.e. (0,1)=(good, bad) or vice-versa)
