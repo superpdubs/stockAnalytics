@@ -177,6 +177,7 @@ def verify_email():
                     my_stocks=None)
     db.session.add(new_user)
     db.session.delete(user)
+    db.session.commit()
     session['uid'] = str(new_user.getId())
     return redirect(url_for('index', message='Account successfully created'))
 
