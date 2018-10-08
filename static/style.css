@@ -326,6 +326,10 @@ footer > a:hover {
   #search-popup {
     padding: 0 2rem;
   }
+
+  .content {
+    padding: 0.5rem 2rem;
+  }
 }
 
 @media (max-width: 60em ) {
@@ -335,10 +339,6 @@ footer > a:hover {
 
   .column {
     flex: unset;
-  }
-
-  .content {
-    padding: 0.5rem 2rem;
   }
 }
 
