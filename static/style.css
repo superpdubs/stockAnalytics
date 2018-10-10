@@ -160,6 +160,7 @@ footer > a:hover {
   padding: 0 calc((100vw - 70rem) / 2 + 2rem);
   transition: opacity 0.2s ease-in-out;
   visibility: hidden;
+  z-index: 1;
 }
 
 #search-suggestions {
