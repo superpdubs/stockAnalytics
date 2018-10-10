@@ -11,12 +11,6 @@
 import re
 import pandas as pd  
 import numpy as np
-import matplotlib.pyplot as plt
-from tqdm import tqdm
-from gensim.models import Doc2Vec
-from gensim.models.doc2vec import LabeledSentence
-import multiprocessing
-from sklearn import utils
 from bs4 import BeautifulSoup
 from nltk.tokenize import WordPunctTokenizer
     
@@ -47,37 +41,32 @@ def classifier(tweets_from_API):
     print(ynew) # I forgot which is which i.e. (0,1)=(good, bad) or vice-versa
     return ynew
 
-
-
-
-
-
-
-
+# DATA CLEANING FUNCTION
 def tweet_cleaner(text):
-    tok = WordPunctTokenizer()
-    pat1 = r'@[A-Za-z0-9_]+' # removing @ tags              
-    pat2 = r'https?://[^ ]+' # removing https pages
-    combined_pat = r'|'.join((pat1, pat2))
-    www_pat = r'www.[^ ]+'   # removing www pages
-    # handling contraction words
-    negations_dic = {"isn't":"is not", "aren't":"are not", "wasn't":"was not", "weren't":"were not",
-                     "haven't":"have not","hasn't":"has not","hadn't":"had not","won't":"will not",
-                    "wouldn't":"would not", "don't":"do not", "doesn't":"does not","didn't":"did not",
-                    "can't":"can not","couldn't":"could not","shouldn't":"should not","mightn't":"might not",
-                    "mustn't":"must not"}
-    neg_pattern = re.compile(r'\b(' + '|'.join(negations_dic.keys()) + r')\b')
-    soup = BeautifulSoup(text, 'lxml')
-    souped = soup.get_text()
-    try:
-        bom_removed = souped.decode("utf-8-sig").replace(u"\ufffd", "?")
-    except:
-        bom_removed = souped
-    stripped = re.sub(combined_pat, '', bom_removed)
-    stripped = re.sub(www_pat, '', stripped)
-    lower_case = stripped.lower()
-    neg_handled = neg_pattern.sub(lambda x: negations_dic[x.group()], lower_case)
-    letters_only = re.sub("[^a-zA-Z]", " ", neg_handled)
-    # tokenize and join to remove uncessary white spaces
-    words = [x for x  in tok.tokenize(letters_only) if len(x) > 1]
-    return (" ".join(words)).strip()
+    # lower case first
+    text = text.lower() 
+    
+    # removing @ tags
+    cleaned_at = re.sub(r'@[A-Za-z0-9_]+', '', text)
+    
+    # removing https pages
+    cleaned_https = re.sub(r'https?://[^ ]+', '', cleaned_at)
+    
+    # removing www pages
+    cleaned_www = re.sub(r'www.[^ ]+', '', cleaned_https)
+    
+    # decode HTML
+    cleaned_html = BeautifulSoup(cleaned_www, 'lxml').get_text()
+    
+    # removing contraction words
+    cleaned_contr = re.sub(r'n\'t', ' not', cleaned_html)
+    
+    # removing special characters
+    cleaned_special = re.sub(r'[^ a-z]', '', cleaned_contr)
+    
+    # trailing whitespace/tabs
+    cleaned_trail = re.sub(r'[ \t]+$', '', cleaned_special)
+    
+    # excess whitespace
+    cleaned_all = re.sub(r'\s+', ' ', cleaned_trail)
+    return cleaned_all
