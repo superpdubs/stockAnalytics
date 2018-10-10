@@ -18,7 +18,7 @@ def classifier(tweets_from_API):
     cleaned_tweets = [tweet_cleaner(tweet) for tweet in tweets_from_API]
 
     # convert to series 
-    new_tweets = pd.Series(cleaned_tweets)
+    new_tweet = pd.Series(cleaned_tweets)
 
     # feed tweets into doc2vec model
     infer_vector = [model_ug_dbow.infer_vector(tweet) for tweet in new_tweet]
