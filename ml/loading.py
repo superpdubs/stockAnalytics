@@ -2,20 +2,20 @@
 
 # Script used to load all required data, functions, and models
 
+import re
+import pandas as pd  
+import numpy as np
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+tqdm.pandas(desc="progress-bar")
+from gensim.models import Doc2Vec
+from gensim.models.doc2vec import LabeledSentence
+import multiprocessing
+from sklearn import utils
+from bs4 import BeautifulSoup
+from nltk.tokenize import WordPunctTokenizer
+    
 def load():
-    import re
-    import pandas as pd  
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from tqdm import tqdm
-    tqdm.pandas(desc="progress-bar")
-    from gensim.models import Doc2Vec
-    from gensim.models.doc2vec import LabeledSentence
-    import multiprocessing
-    from sklearn import utils
-    from bs4 import BeautifulSoup
-    from nltk.tokenize import WordPunctTokenizer
-
     ################################################################
     # DATA CLEANING AND PREPARATION
     ################################################################
@@ -51,13 +51,17 @@ def load():
     my_df = pd.read_csv(csv,index_col=0)
     my_df.dropna(inplace=True)
     my_df.reset_index(drop=True,inplace=True)
-
+    
+    print('cleaned tweets')
+    
     x = my_df.text
     y = my_df.target
     from sklearn.cross_validation import train_test_split
     x_train, x_validation_and_test, y_train, y_validation_and_test = train_test_split(x, y, test_size=0.25)
     x_validation, x_test, y_validation, y_test = train_test_split(x_validation_and_test, y_validation_and_test, test_size=.5)
 
+    print('splitted data')
+    
     ################################################################
     # MODEL LOADING
     ################################################################
@@ -70,6 +74,8 @@ def load():
     #train_vecs_ugdbow = get_concat_vectors(model_ug_dbow, x_train, 100)
     #validation_vecs_ugdbow = get_concat_vectors(model_ug_dbow, x_validation, 100)
 
+    print('loaded doc2vec')
+    
     # neural network
     import keras
     global new_model
