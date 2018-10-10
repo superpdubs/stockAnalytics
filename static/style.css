@@ -254,6 +254,7 @@ footer > a:hover {
 /*Graph styles*/
 .chart {
   text-align: center;
+  max-width: 35rem;
 }
 
 /*News display styles*/
@@ -262,6 +263,7 @@ footer > a:hover {
   padding: 0.1rem 1rem;
   border-radius: 0.3rem;
   margin-bottom: 0.7rem;
+  max-width: 35rem;
 }
 
 .headline {
@@ -325,11 +327,11 @@ footer > a:hover {
   min-height: calc(100vh - 7rem);
   flex-direction: column;
   margin-top: calc(3.5rem - 100vh);
+  padding: 0 calc((100vw - 70rem) / 2 + 2rem);
 }
 
 .row {
   display: flex;
-  padding: 0 5rem;
 }
 
 .column {
@@ -352,6 +354,10 @@ footer > a:hover {
   }
 
   #search-popup {
+    padding: 0 2rem;
+  }
+
+  .container {
     padding: 0 2rem;
   }
 
