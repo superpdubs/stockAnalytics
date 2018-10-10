@@ -3,14 +3,6 @@
 {% block title %}{{ company.symbol }} {{ '%.2f'|format(price) }}{% endblock %}
 
 {% block header %}{% include 'header.html' %}
-  <div id="fb-root"></div>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
 {% endblock %}
 
 {% block body_contents %}
@@ -31,15 +23,8 @@
 {% else %}
           <span>Closed: {{ '$%.2f'|format(ohlc.close.price) }}</span>
 {% endif %}
-          <div style="  display: flex;
-                          align-items: center;
-                          justify-content: left;
-                          margin-top: 1rem;
-                          margin-bottom: 1rem;">
-                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                <div class="fb-share-button" data-layout="button"></div>
-            </div>
         </div>
+{% include 'social.html' %}
       </div>
       <div class="chart column">
         <h4>30 Day Performance</h4>

@@ -297,6 +297,17 @@ footer > a:hover {
   margin-bottom: 3rem;
 }
 
+/*Social button styles*/
+
+.social {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.fb-share-button {
+  margin-left: 0.5rem;
+}
+
 /*Layout related styles*/
 .container {
   display: flex;
