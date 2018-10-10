@@ -7,7 +7,7 @@ from validator import *
 from codegenerator import *
 from sendmail import *
 import time
-
+from ml.loading import *
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -98,7 +98,6 @@ def stock(stockname):
     price, close, date, ohlc, company, news = search.iEXManualRequest(stockname.upper())
 
     twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
-
     delta = price - ohlc["open"]["price"]
     percentage = delta / ohlc["open"]["price"] * 100
     diff = 'loss'
@@ -208,5 +207,16 @@ def uname_getter():
     else:
         return thisuser.getName()
 
+def initML():
+    global model_ug_dbow, neural_model
+    model_ug_dbow=loadDoc()
+    print("dd")
+    neural_model=loadNeural()
+
+def setup_app(app):
+   initML()
+setup_app(app)
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, threaded=False)

@@ -9,6 +9,7 @@ import pyEX
 import json
 import requests
 import csv
+import ml.classifier
 
 ########
 # init API key Settings
@@ -41,10 +42,9 @@ def twitterAdvancedSearch(query, resultType, count):
 	queryString = "q={}&result_type={}&count={}&lang=en".format(query, resultType, count)
 	results = api.GetSearch(raw_query=queryString)
 	print([t.text for t in results])
-	with open('resources/tweets.csv','w') as file:
-		writer = csv.writer(file)
-		for t in results:
-			writer.writerow([t.text.replace("\n", " ")])
+	tweets_from_API = [t.text for t in results]
+
+	ml.classifier.classifier(tweets_from_API)
 	return results
 
 # print(twitterAdvancedSearch(query="AAPL", resultType="popular", count=10))
