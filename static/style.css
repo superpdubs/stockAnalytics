@@ -291,6 +291,12 @@ footer > a:hover {
   padding: 1rem;
 }
 
+.feed {
+  max-height: 30rem;
+  overflow-y: auto;
+  margin-bottom: 3rem;
+}
+
 /*Layout related styles*/
 .container {
   display: flex;
@@ -340,6 +346,10 @@ footer > a:hover {
 
   .column {
     flex: unset;
+  }
+
+  .feed {
+    max-height: unset;
   }
 }
 
