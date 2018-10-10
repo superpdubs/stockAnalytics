@@ -5,9 +5,6 @@ import keras
 from gensim.models import Doc2Vec
 
 def load():    
-    ################################################################
-    # MODEL LOADING
-    ################################################################
     # doc2vec 
     global model_ug_dbow
     model_ug_dbow = Doc2Vec.load('d2v_model_ug_dbow.doc2vec')
