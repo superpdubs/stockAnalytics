@@ -291,6 +291,23 @@ footer > a:hover {
   padding: 1rem;
 }
 
+.feed {
+  max-height: 30rem;
+  overflow-y: auto;
+  margin-bottom: 3rem;
+}
+
+/*Social button styles*/
+
+.social {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.fb-share-button {
+  margin-left: 0.5rem;
+}
+
 /*Layout related styles*/
 .container {
   display: flex;
@@ -340,6 +357,10 @@ footer > a:hover {
 
   .column {
     flex: unset;
+  }
+
+  .feed {
+    max-height: unset;
   }
 }
 
