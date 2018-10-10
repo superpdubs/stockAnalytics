@@ -78,6 +78,7 @@ header {
 header > a {
   color: rgb(255,255,255);
   margin: 0.4rem 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
 header > a:hover {
@@ -85,8 +86,9 @@ header > a:hover {
 }
 
 header > div {
-    align-self: flex-end;
-    padding: 1rem 0;
+  align-self: flex-end;
+  padding: 1rem 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
 header > div > span {
@@ -161,6 +163,8 @@ footer > a:hover {
   transition: opacity 0.2s ease-in-out;
   visibility: hidden;
   z-index: 1;
+  max-height: calc(100vh - 3.5rem);
+  overflow-y: auto;
 }
 
 #search-suggestions {
@@ -194,6 +198,12 @@ footer > a:hover {
   justify-content: center;
   height: 70vh;
   align-items: center;
+}
+
+#exit-search {
+  position: absolute;
+  top: 0.75rem;
+  visibility: hidden;
 }
 
 /*Stock display styles*/
