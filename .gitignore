@@ -6,7 +6,5 @@ __pycache__/
 apiKey.py
 
 static/graph/
-
-
-
-
+ml/d2v*
+ml/clean_tweet.csv
