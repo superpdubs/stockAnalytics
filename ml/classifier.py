@@ -7,13 +7,12 @@
 # 3. produce doc2vec representation of tweet
 # 4. input this vector into neural network to classify tweet
 ################################################################
-#test
+
 import re
 import pandas as pd  
 import numpy as np
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-tqdm.pandas(desc="progress-bar")
 from gensim.models import Doc2Vec
 from gensim.models.doc2vec import LabeledSentence
 import multiprocessing
@@ -23,7 +22,7 @@ from nltk.tokenize import WordPunctTokenizer
     
 # retrieve tweet from API and put into a list
 def classifier(tweets_from_API):
- #tweets_from_API = ['@TSLA tesla is such a great stock to buy', 'today was a terrible day @GOOG sad', 'wobcke grumpy #TSLA']
+    #tweets_from_API = ['@TSLA tesla is such a great stock to buy', 'today was a terrible day @GOOG sad', 'wobcke grumpy #TSLA']
     cleaned_tweets = []
     num_tweets = len(tweets_from_API)
 
@@ -31,10 +30,10 @@ def classifier(tweets_from_API):
     cleaned_tweets = [tweet_cleaner(tweet) for tweet in tweets_from_API]
 
     # convert to series 
-    new_tweet = pd.Series(cleaned_tweets)
+    input_tweets = pd.Series(cleaned_tweets)
 
     # feed tweets into doc2vec model
-    infer_vector = [model_ug_dbow.infer_vector(tweet) for tweet in new_tweet]
+    infer_vector = [model_ug_dbow.infer_vector(tweet) for tweet in input_tweets]
     for i in range(0,num_tweets-1):
         if i == 0:
             input_vectors = infer_vector[i]
