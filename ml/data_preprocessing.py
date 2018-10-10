@@ -3,6 +3,10 @@
 # Followed and adapted parts (1-10) of the blog:
 # https://towardsdatascience.com/another-twitter-sentiment-analysis-bb5b01ebad90
 
+##############################################################################
+##### CLEAN THE DATA (TWEETS)
+##############################################################################
+
 import pandas as pd  
 # load the data
 cols = ['sentiment','id','date','query_string','user','text']

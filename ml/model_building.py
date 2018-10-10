@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+# Followed and adapted parts (1-10) of the blog:
+# https://towardsdatascience.com/another-twitter-sentiment-analysis-bb5b01ebad90
+
+##############################################################################
+##### BUILDING DOC2VEC AND NEURAL NETWORK MODELS
+##############################################################################
+
 import pandas as pd  
 import numpy as np
 my_df = pd.read_csv('cleaned_tweets.csv',index_col=0)
@@ -14,8 +22,7 @@ x_validation, x_test, y_validation, y_test = train_test_split(x_validation_and_t
 
 ###########
 # Doc2Vec. 
-# WARNING: takes around an hour to train each Doc2Vec model. 
-# Around total of 2 hours needed for training, then save for future use
+# WARNING: takes around an hour to train
 ###########
 from tqdm import tqdm
 from gensim.models import Doc2Vec
@@ -57,7 +64,10 @@ train_vecs_dbow = get_vectors(model_ug_dbow, x_train, 100)
 validation_vecs_dbow = get_vectors(model_ug_dbow, x_validation, 100)
 model_ug_dbow.save('d2v_model_ug_dbow.doc2vec')
 
-# Neural network
+
+##################
+# Neural network #
+##################
 import keras
 
 from keras.models import Sequential

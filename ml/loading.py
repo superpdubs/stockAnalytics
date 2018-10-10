@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # Script used to load all required data, functions, and models
+
 import keras
 from gensim.models import Doc2Vec
 
@@ -13,9 +14,9 @@ def load():
     print('loaded doc2vec')
     
     # neural network
-    global new_model
-    new_model = keras.models.load_model('my_model.h5')
-    new_model.summary()
+    global neural_model
+    neural_model = keras.models.load_model('my_model.h5')
+    neural_model.summary()
 
 
 

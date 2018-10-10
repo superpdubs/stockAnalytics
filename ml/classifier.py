@@ -8,6 +8,8 @@
 # 4. input this vector into neural network to classify tweet
 ################################################################
 
+import loading
+
 import re
 import pandas as pd  
 import numpy as np
@@ -27,14 +29,14 @@ def classifier(tweets_from_API):
     input_tweets = pd.Series(cleaned_tweets)
 
     # feed tweets into doc2vec model
-    infer_vector = [model_ug_dbow.infer_vector(tweet) for tweet in input_tweets]
+    infer_vector = [loading.model_ug_dbow.infer_vector(tweet) for tweet in input_tweets]
     for i in range(0,num_tweets-1):
         if i == 0:
             input_vectors = infer_vector[i]
         input_vectors = np.append(input_vectors, infer_vector[i])
     
     # classify tweets as good/bad
-    ynew = new_model.predict_classes(input_vectors.reshape(num_tweets,100))
+    ynew = loading.neural_model.predict_classes(input_vectors.reshape(num_tweets,100))
     
     # classification vector of 0s and 1s
     # example output: [[0],[1],[1]]
