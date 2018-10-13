@@ -12,4 +12,10 @@
       <a href="{{ url_for('register') }}" class="button">Register</a>
 {% endif %}
     </div>
+    <button id="exit-search">Close</button>
   </header>
+  <div id="search-popup">
+    <span id="search-hint">Start typing a stock name or symbol</span>
+    <ul id="search-suggestions"></ul>
+  </div>
+  <script async src="{{ url_for('static', filename='js/search.js') }}"></script>

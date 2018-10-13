@@ -78,6 +78,7 @@ header {
 header > a {
   color: rgb(255,255,255);
   margin: 0.4rem 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
 header > a:hover {
@@ -85,8 +86,9 @@ header > a:hover {
 }
 
 header > div {
-    align-self: flex-end;
-    padding: 1rem 0;
+  align-self: flex-end;
+  padding: 1rem 0;
+  transition: opacity 0.2s ease-in-out;
 }
 
 header > div > span {
@@ -161,6 +163,8 @@ footer > a:hover {
   transition: opacity 0.2s ease-in-out;
   visibility: hidden;
   z-index: 1;
+  max-height: calc(100vh - 3.5rem);
+  overflow-y: auto;
 }
 
 #search-suggestions {
@@ -194,6 +198,12 @@ footer > a:hover {
   justify-content: center;
   height: 70vh;
   align-items: center;
+}
+
+#exit-search {
+  position: absolute;
+  top: 0.75rem;
+  visibility: hidden;
 }
 
 /*Stock display styles*/
@@ -244,6 +254,7 @@ footer > a:hover {
 /*Graph styles*/
 .chart {
   text-align: center;
+  max-width: 35rem;
 }
 
 /*News display styles*/
@@ -252,6 +263,7 @@ footer > a:hover {
   padding: 0.1rem 1rem;
   border-radius: 0.3rem;
   margin-bottom: 0.7rem;
+  max-width: 35rem;
 }
 
 .headline {
@@ -315,21 +327,17 @@ footer > a:hover {
   min-height: calc(100vh - 7rem);
   flex-direction: column;
   margin-top: calc(3.5rem - 100vh);
+  padding: 0 calc((100vw - 70rem) / 2 + 2rem);
 }
 
 .row {
   display: flex;
-  padding: 0 5rem;
 }
 
 .column {
   flex: 1;
   padding: 0.5rem;
   overflow: auto;
-}
-
-.content {
-  padding: 0.5rem calc((100vw - 70rem) / 2 + 2rem);;
 }
 
 @media (max-width: 70em ) {
@@ -342,6 +350,10 @@ footer > a:hover {
   }
 
   #search-popup {
+    padding: 0 2rem;
+  }
+
+  .container {
     padding: 0 2rem;
   }
 

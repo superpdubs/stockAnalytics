@@ -5,6 +5,8 @@ var popup = document.getElementById("search-popup");
 var suggestions = document.getElementById("search-suggestions");
 var hint = document.getElementById("search-hint");
 var exitButton = document.getElementById("exit-search");
+var home = document.querySelector("header > a");
+var account = document.querySelector("header > div");
 
 document.querySelectorAll(".symbol-search").forEach(function(element) {
   element.addEventListener("submit", function(element) {
@@ -39,8 +41,8 @@ searchbox.addEventListener("input", function(element) {
         link.addEventListener("click", function(element) {
           element.preventDefault();
           exitButton.style.opacity = "0";
-          exitButton.style.visibility = "hidden";
           suggestions.style.display = "none";
+          searchbox.value = element.target.childNodes[0].textContent;
           var loadingText = document.createElement("span");
           loadingText.setAttribute("id", "search-hint")
           loadingText.textContent = "Loading information for "
@@ -59,21 +61,34 @@ searchbox.addEventListener("input", function(element) {
 });
 searchbox.addEventListener("focus", function(element) {
   popup.style.visibility = "visible";
-  popup.style.transitionDelay = "0.2s"
   popup.style.opacity = "1";
+  exitButton.style.visibility = "visible";
+  exitButton.style.opacity = "1";
   searchbox.style.top = "0.5rem";
+  account.style.opacity = "0";
+  home.style.opacity = "0";
 });
 document.getElementById("exit-search").addEventListener("click", function(element) {
-  popup.style.transitionDelay = "0s"
   popup.style.opacity = "0";
+  exitButton.style.opacity = "0";
+  account.style.visibility = "visible";
+  account.style.opacity = "1";
+  home.style.visibility = "visible";
+  home.style.opacity = "1";
   if (searchBoxTop) {
     searchbox.style.top = searchBoxTop;
   } else {
     searchbox.style.top = "2rem";
   }
 });
-popup.addEventListener("transitionend", function(element) {
+popup.addEventListener("transitionend", hide);
+home.addEventListener("transitionend", hide);
+account.addEventListener("transitionend", hide);
+exitButton.addEventListener("transitionend", hide);
+
+
+function hide(element) {
   if (element.target.style.opacity == "0") {
     element.target.style.visibility = "hidden";
   }
-});
+}
