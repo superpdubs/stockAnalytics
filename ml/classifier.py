@@ -12,7 +12,6 @@ import re
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
-from nltk.tokenize import WordPunctTokenizer
 import app
 
 # retrieve tweet from API and put into a list
@@ -33,13 +32,16 @@ def classifier(tweets_from_API):
         if i == 0:
             input_vectors = infer_vector[i]
         input_vectors = np.append(input_vectors, infer_vector[i])
-
+    
+    # remember to do a dummy prediction after the model is loaded
+    #ynew = app.neural_model.predict_classes(input_vectors.reshape(np.zeros((2,100)),100))
+    
     # classify tweets as good/bad
-    ynew = app.neural_model.predict_classes(input_vectors.reshape(num_tweets,100))
-
+    ynew = app.neural_model.predict_classes(input_vectors.reshape(num_tweets,100))  
+    
     # classification vector of 0s and 1s
-    # example output: [[0],[1],[1]]
-    print(ynew) # I forgot which is which i.e. (0,1)=(good, bad) or vice-versa
+    # example output: [[1],[1],[1]]
+    print('CLASSIFICATION VECTOR:', ynew) # I forgot which is which i.e. (0,1)=(good, bad) or vice-versa
     return ynew
 
 # DATA CLEANING FUNCTION

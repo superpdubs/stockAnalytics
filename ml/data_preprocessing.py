@@ -10,8 +10,8 @@
 import pandas as pd  
 # load the data
 cols = ['sentiment','id','date','query_string','user','text']
-#df = pd.read_csv("C:/Users/Patrick/Desktop/18s2/COMP4920 - Management and Ethics/trainingandtestdata/training.1600000.processed.noemoticon.csv",header=None, names=cols, encoding="ISO-8859-1")
-df = pd.read_csv("/Users/patrick/Documents/GitHub/stockAnalytics/ml/trainingandtestdata/training.1600000.processed.noemoticon.csv",header=None, names=cols, encoding="ISO-8859-1")
+df = pd.read_csv("C:/Users/Patrick/Documents/GitHub/stockAnalytics/ml/training.1600000.processed.noemoticon.csv",header=None, names=cols, encoding="ISO-8859-1")
+#df = pd.read_csv("/Users/patrick/Documents/GitHub/stockAnalytics/ml/training.1600000.processed.noemoticon.csv",header=None, names=cols, encoding="ISO-8859-1")
  
 # dropping useless columns
 df.drop(['id','date','query_string','user'],axis=1,inplace=True) 

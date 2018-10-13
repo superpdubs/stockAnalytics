@@ -10,59 +10,76 @@
 
 import pandas as pd  
 import numpy as np
-my_df = pd.read_csv('cleaned_tweets.csv',index_col=0)
+#my_df = pd.read_csv('cleaned_tweets.csv',index_col=0)
 
 # SPLITTING DATA INTO TRAIN, VALIDATION, TEST
-x = my_df.text
-y = my_df.target
+# clean_df is from data_preprocessing.py
+# for some reason, using read.csv() method produces multiple NaN entries which were not present before 
+x = clean_df.text
+y = clean_df.target
 from sklearn.cross_validation import train_test_split
 x_train, x_validation_and_test, y_train, y_validation_and_test = train_test_split(x, y, test_size=0.1)
 x_validation, x_test, y_validation, y_test = train_test_split(x_validation_and_test, y_validation_and_test, test_size=.5)
 
-
 ###########
 # Doc2Vec. 
 # WARNING: takes around an hour to train
+# Guided by: https://medium.com/@mishra.thedeepak/doc2vec-simple-implementation-example-df2afbbfbad5
 ###########
-from tqdm import tqdm
-from gensim.models import Doc2Vec
-from gensim.models.doc2vec import LabeledSentence
-import multiprocessing
-from sklearn import utils
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from nltk.tokenize import word_tokenize
 
-# unigram model
-def labelize_tweets_ug(tweets,label):
-    result = []
-    prefix = label
-    for i, t in zip(tweets.index, tweets):
-        result.append(LabeledSentence(t.split(), [prefix + '_%s' % i]))
-    return result
-  
+# aggregate all x
 all_x = pd.concat([x_train,x_validation,x_test])
-all_x_w2v = labelize_tweets_ug(all_x, 'all')
 
-# unigram DBOW 
-cores = multiprocessing.cpu_count()
-model_ug_dbow = Doc2Vec(dm=0, size=100, negative=5, min_count=2, workers=cores, alpha=0.065, min_alpha=0.065)
-model_ug_dbow.build_vocab([x for x in tqdm(all_x_w2v)])
+# tag each tweet (or document)
+tagged_tweets = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in enumerate(all_x)]
 
-for epoch in range(30):
-    model_ug_dbow.train(utils.shuffle([x for x in tqdm(all_x_w2v)]), total_examples=len(all_x_w2v), epochs=1)
-    model_ug_dbow.alpha -= 0.002
-    model_ug_dbow.min_alpha = model_ug_dbow.alpha
-    
-def get_vectors(model, corpus, size):
+# build and train doc2vec model
+max_epochs = 30
+size = 100
+alpha = 0.05
+
+# define model
+d2v_model = Doc2Vec(dm=0,
+                        size=size,
+                        alpha=alpha,
+                        min_alpha=0.00025,
+                        min_count=1)
+
+d2v_model.build_vocab(tagged_tweets)
+
+# train the model
+for epoch in range(max_epochs):
+    print('iteration {0}'.format(epoch))
+    d2v_model.train(tagged_tweets,
+                total_examples=d2v_model.corpus_count,
+                epochs=d2v_model.iter)
+    d2v_model.alpha -= 0.0002
+    d2v_model.min_alpha = d2v_model.alpha
+
+d2v_model.save("d2v_model.doc2vec")
+
+# d2v_model.docvecs contains an array of it's doc2vec vectors
+# We are going to split them into their corresponding training and validation sets
+# getting training doc2vec vectors
+def get_train_vectors(model, corpus, size):
+    vecs = np.zeros((len(corpus), size))
+    for i in range(0,1440000):
+        vecs[i] = d2v_model.docvecs[i]
+    return vecs
+
+# getting validation doc2vec vectors
+def get_val_vectors(model, corpus, size):
     vecs = np.zeros((len(corpus), size))
     n = 0
-    for i in corpus.index:
-        prefix = 'all_' + str(i)
-        vecs[n] = model.docvecs[prefix]
+    for i in range(1440001,1520001):
+        vecs[n] = d2v_model.docvecs[i]
         n += 1
     return vecs
-  
-train_vecs_dbow = get_vectors(model_ug_dbow, x_train, 100)
-validation_vecs_dbow = get_vectors(model_ug_dbow, x_validation, 100)
-model_ug_dbow.save('d2v_model_ug_dbow.doc2vec')
+
+train_vecs_d2v = get_train_vectors(d2v_model, x_train, 100)
+val_vecs_d2v = get_val_vectors(d2v_model, x_validation, 100)
 
 
 ##################
@@ -72,23 +89,22 @@ import keras
 
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
-from keras.layers import Flatten
-from keras.layers.embeddings import Embedding
-from keras.preprocessing import sequence
 
 # Initial model: 1 hidden layer with 64 hidden nodes
-model_d2v_01 = Sequential()
-model_d2v_01.add(Dense(64, activation='relu', input_dim=100))
-#model_d2v_01.add(Dropout(0.3))
-model_d2v_01.add(Dense(1, activation='sigmoid'))
-model_d2v_01.compile(optimizer='adam',
+model = Sequential()
+model.add(Dense(64, activation='relu', input_dim=100))
+model.add(Dropout(0.3))
+model.add(Dense(64, activation='relu', input_dim=100))
+model.add(Dropout(0.3))
+model.add(Dense(1, activation='sigmoid'))
+model.compile(optimizer='adam',
               loss='binary_crossentropy',
               metrics=['accuracy'])
 
-model_d2v_01.fit(train_vecs_dbow, y_train,
-                 validation_data=(validation_vecs_dbow, y_validation),
-                 epochs=10, batch_size=32, verbose=2)
+model.fit(train_vecs_d2v, y_train,
+                 validation_data=(val_vecs_d2v, y_validation),
+                 epochs=50, batch_size=32, verbose=2)
 
-model_d2v_01.save('my_model.h5')
+model.save('neural_network.h5')
 
 

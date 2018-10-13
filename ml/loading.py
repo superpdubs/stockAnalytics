@@ -8,7 +8,7 @@ from gensim.models import Doc2Vec
 
 def loadDoc():
     # doc2vec
-    model_ug_dbow = Doc2Vec.load('ml/d2v_model_ug_dbow.doc2vec')
+    model_ug_dbow = Doc2Vec.load('ml/d2v_model.doc2vec')
     model_ug_dbow.delete_temporary_training_data(keep_doctags_vectors=True, keep_inference=True)
 
     print('loaded doc2vec')
@@ -16,7 +16,7 @@ def loadDoc():
 
 def loadNeural():
     # neural network
-    neural_model = keras.models.load_model('ml/my_model.h5')
+    neural_model = keras.models.load_model('ml/neural_network.h5')
     print('testing model:', neural_model.predict(np.zeros((3,100))))
     neural_model.summary()
     return neural_model
