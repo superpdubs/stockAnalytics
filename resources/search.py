@@ -43,8 +43,8 @@ def twitterAdvancedSearch(query, resultType, count):
 	results = api.GetSearch(raw_query=queryString)
 	print([t.text for t in results])
 	tweets_from_API = [t.text for t in results]
-
-	ml.classifier.classifier(tweets_from_API)
+	if tweets_from_API:
+		ml.classifier.classifier(tweets_from_API)
 	return results
 
 # print(twitterAdvancedSearch(query="AAPL", resultType="popular", count=10))
