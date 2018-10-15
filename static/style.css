@@ -67,7 +67,6 @@ header {
   display: flex;
   height: 3.5rem;
   padding: 0 calc((100vw - 70rem) / 2 + 2rem);
-  max-width: 70rem;
   font-size: 2rem;
   color: white;
   background: linear-gradient(45deg, rgb(47,186,204) 0%, rgb(73,214,181) 100%);
@@ -152,17 +151,19 @@ footer > a:hover {
 }
 
 #search-popup {
-  position: sticky;
+  position: fixed;
   top: 3.5rem;
   opacity: 0;
   height: calc(100vh - 3.5rem);
+  width: 100%;
+  box-sizing: border-box;
   background-color: white;
   font-size: 1.5rem;
   color: rgb(30,30,30);
   padding: 0 calc((100vw - 70rem) / 2 + 2rem);
   transition: opacity 0.2s ease-in-out;
   visibility: hidden;
-  z-index: 1;
+  z-index: 100;
   max-height: calc(100vh - 3.5rem);
   overflow-y: auto;
 }
@@ -326,7 +327,6 @@ footer > a:hover {
   flex-wrap: wrap;
   min-height: calc(100vh - 7rem);
   flex-direction: column;
-  margin-top: calc(3.5rem - 100vh);
   padding: 0 calc((100vw - 70rem) / 2 + 2rem);
 }
 
@@ -386,7 +386,6 @@ footer > a:hover {
   }
 
   .container {
-    margin-top: calc(7rem - 100vh);
     min-height: calc(100vh - 10.5rem);
   }
 }
