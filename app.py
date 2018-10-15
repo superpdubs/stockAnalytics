@@ -117,7 +117,7 @@ def register():
 
 @app.route('/stock/<stockname>')
 def stock(stockname):
-    # TODO: serverside validation of stock symbol
+    res = Stock.query.filter_by(symbol=stockname).first_or_404()
     price, close, date, ohlc, company, news = search.iEXManualRequest(stockname.upper())
 
     twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
