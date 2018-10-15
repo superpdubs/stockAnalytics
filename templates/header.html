@@ -16,6 +16,11 @@
   </header>
   <div id="search-popup">
     <span id="search-hint">Start typing a stock name or symbol</span>
+{% if recents != None %}
+{% for stock in recents %}
+    <span>{{ stock }}</span>
+{% endfor %}
+{% endif %}
     <ul id="search-suggestions"></ul>
   </div>
   <script async src="{{ url_for('static', filename='js/search.js') }}"></script>

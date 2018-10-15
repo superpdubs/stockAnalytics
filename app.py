@@ -8,6 +8,7 @@ from codegenerator import *
 from sendmail import *
 import time
 from ml.loading import *
+import collections
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -29,8 +30,13 @@ def index():
 
     uname = uname_getter()
     if uname != None:
-        return render_template('index_loggedin.html', this_uname=uname, msg=message)
-    return render_template('index_loggedout.html', this_uname=uname)
+        return render_template('index_loggedin.html',
+                               this_uname=uname,
+                               msg=message,
+                               recents=session.get('recents'))
+    return render_template('index_loggedout.html',
+                           this_uname=uname,
+                           recents=session.get('recents'))
 
 
 @app.route('/login', methods=['GET','POST'])
@@ -48,8 +54,14 @@ def login():
             thisuid = thisuser.getId()
             session['uid'] = str(thisuid)
             return redirect(url_for('index'))
-        return render_template('login.html', info=msg, this_uname=None)
-    return render_template('login.html', info=None, this_uname=None)
+        return render_template('login.html',
+                               info=msg,
+                               this_uname=None,
+                               recents=session.get('recents'))
+    return render_template('login.html',
+                           info=None,
+                           this_uname=None,
+                           recents=session.get('recents'))
 
 
 @app.route('/logout')
@@ -78,7 +90,10 @@ def register():
             verifyCode = verification.generate_code()
             if mail.sendto(this_email,verifyCode) is not None:
                 msg = 'Registration failed, please try again later'
-                return render_template('register.html', info=msg, this_uname=None)
+                return render_template('register.html',
+                                       info=msg,
+                                       this_uname=None,
+                                       recents=session.get('recents'))
             else:
                 pending_user = PendingUser(email=this_email,
                                            code=verifyCode,
@@ -87,9 +102,17 @@ def register():
                                            user_pass=this_pass)
                 db.session.add(pending_user)
                 db.session.commit()
-                return render_template("checkemail.html", this_uname=None)
-        return render_template('register.html', info=msg, this_uname=None)
-    return render_template('register.html', info=None, this_uname=None)
+                return render_template("checkemail.html",
+                                       this_uname=None,
+                                       recents=session.get('recents'))
+        return render_template('register.html',
+                               info=msg,
+                               this_uname=None,
+                               recents=session.get('recents'))
+    return render_template('register.html',
+                           info=None,
+                           this_uname=None,
+                           recents=session.get('recents'))
 
 
 @app.route('/stock/<stockname>')
@@ -106,6 +129,7 @@ def stock(stockname):
         diff = 'gain'
     else:
         delta = '{:.2f}'.format(delta)
+    add_recents(company.get('symbol'))
     return render_template('stock.html',
                            twitter=twitter,
                            delta=delta,
@@ -117,7 +141,8 @@ def stock(stockname):
                            ohlc=ohlc,
                            news=news,
                            company=company,
-                           this_uname=uname_getter())
+                           this_uname=uname_getter(),
+                           recents=session.get('recents'))
 
 
 @app.route('/check_email')
@@ -186,11 +211,15 @@ def suggestions():
 
 @app.route('/sources')
 def sources():
-    return render_template('sources.html', this_uname=uname_getter())
+    return render_template('sources.html',
+                           this_uname=uname_getter(),
+                           recents=session.get('recents'))
 
 @app.route('/about')
 def about():
-    return render_template('about.html', this_uname=uname_getter())
+    return render_template('about.html',
+                           this_uname=uname_getter(),
+                           recents=session.get('recents'))
 
 
 @app.context_processor
@@ -206,6 +235,13 @@ def uname_getter():
         return None
     else:
         return thisuser.getName()
+
+def add_recents(stock):
+    recents = collections.deque(session.get('recents', default = []), 5)
+    if recents.count(stock) != 0:
+        return
+    recents.append(stock)
+    session['recents'] = list(recents)
 
 def initML():
     global model_ug_dbow, neural_model
