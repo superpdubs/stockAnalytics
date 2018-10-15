@@ -229,6 +229,13 @@ def utility_processor():
 
     return dict(twitterEmbed=twitterEmbed)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('404.html',
+                           this_uname=uname_getter(),
+                           recents=session.get('recents')), 404
+
 def uname_getter():
     thisuser = User.query.filter(User.uid == session.get('uid')).first()
     if thisuser is None:
