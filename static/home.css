@@ -46,3 +46,10 @@ header > a {
 #search-popup {
   transition: opacity 0.2s ease-in-out;
 }
+
+@media (max-width: 40em ) {
+  .container {
+    margin-top: calc(3.5rem - 100vh);
+    min-height: calc(100vh - 7rem);
+  }
+}

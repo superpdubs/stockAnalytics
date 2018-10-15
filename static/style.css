@@ -377,12 +377,16 @@ footer > a:hover {
 }
 
 @media (max-width: 40em ) {
-
   header {
     height: 7rem;
   }
 
   .symbol-search > input{
     width: calc(100vw - 12rem);
+  }
+
+  .container {
+    margin-top: calc(7rem - 100vh);
+    min-height: calc(100vh - 10.5rem);
   }
 }
