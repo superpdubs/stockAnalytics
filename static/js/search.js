@@ -64,9 +64,9 @@ searchbox.addEventListener("focus", function(element) {
   popup.style.opacity = "1";
   exitButton.style.visibility = "visible";
   exitButton.style.opacity = "1";
-  searchbox.style.top = "0.5rem";
   account.style.opacity = "0";
   home.style.opacity = "0";
+  searchbox.setAttribute("id", "active-search");
 });
 document.getElementById("exit-search").addEventListener("click", function(element) {
   popup.style.opacity = "0";
@@ -75,11 +75,7 @@ document.getElementById("exit-search").addEventListener("click", function(elemen
   account.style.opacity = "1";
   home.style.visibility = "visible";
   home.style.opacity = "1";
-  if (searchBoxTop) {
-    searchbox.style.top = searchBoxTop;
-  } else {
-    searchbox.style.top = "2rem";
-  }
+  searchbox.removeAttribute("id");
 });
 popup.addEventListener("transitionend", hide);
 home.addEventListener("transitionend", hide);

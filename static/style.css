@@ -66,7 +66,7 @@ header {
   top: 0;
   display: flex;
   height: 3.5rem;
-  padding: 0 calc((100vw - 70rem) / 2 + 2rem);
+  padding: 0 calc(50vw - 35rem + 2rem);
   font-size: 2rem;
   color: white;
   background: linear-gradient(45deg, rgb(47,186,204) 0%, rgb(73,214,181) 100%);
@@ -117,14 +117,17 @@ footer > a:hover {
 }
 
 /*Search box styles*/
+.symbol-search > input, #active-search {
+  width: 17rem;
+  position: absolute;
+  left: calc(50vw - 35rem + 8rem);
+  top: 0.5rem;
+}
+
 .symbol-search > input {
   color: white;
   font-size: 1.5rem;
-  width: 17rem;
-  position: absolute;
-  left: calc((100vw - 70rem) / 2 + 9rem);
-  top: 0.5rem;
-  transition: top 0.2s ease-in-out, color 0.2s ease-in-out,
+  transition: color 0.2s ease-in-out,
               background-color 0.2s ease-in-out,
               box-shadow 0.2s ease-in-out;
 }
@@ -160,7 +163,7 @@ footer > a:hover {
   background-color: white;
   font-size: 1.5rem;
   color: rgb(30,30,30);
-  padding: 0 calc((100vw - 70rem) / 2 + 2rem);
+  padding: 0 calc(50vw - 35rem + 2rem);
   transition: opacity 0.2s ease-in-out;
   visibility: hidden;
   z-index: 100;
@@ -327,7 +330,7 @@ footer > a:hover {
   flex-wrap: wrap;
   min-height: calc(100vh - 7rem);
   flex-direction: column;
-  padding: 0 calc((100vw - 70rem) / 2 + 2rem);
+  padding: 0 calc(50vw - 35rem + 2rem);
 }
 
 .row {
@@ -345,8 +348,8 @@ footer > a:hover {
     padding: 0 2rem;
   }
 
-  .symbol-search > input{
-    left: 9rem;
+  .symbol-search > input, #active-search {
+    left: 8rem;
   }
 
   #search-popup {
@@ -381,7 +384,7 @@ footer > a:hover {
     height: 7rem;
   }
 
-  .symbol-search > input{
+  .symbol-search > input, #active-search {
     width: calc(100vw - 12rem);
   }
 
