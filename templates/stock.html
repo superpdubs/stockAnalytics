@@ -46,7 +46,11 @@
       <h2>Twitter</h2>
 {% for tweet in twitter %}
 {% if tweet.urls[0] %}
-        <div class="tweet" tweetID="{{ tweet.id }}"></div>
+{% if tweet.classification == 1 %}
+        <div class="tweet positive" tweetID="{{ tweet.id }}"></div>
+{% else %}
+        <div class="tweet negative" tweetID="{{ tweet.id }}"></div>
+{% endif %}
 {% endif %}
 {% endfor %}
       </div>

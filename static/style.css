@@ -288,6 +288,15 @@ footer > a:hover {
   font-size: 0.75rem;
 }
 
+/*Tweet styles*/
+.positive {
+  box-shadow: 0 0 0 0.2rem rgb(0,196,107);
+}
+
+.negative {
+  box-shadow: 0 0 0 0.2rem rgb(245,10,33);
+}
+
 /*Login and register related styles*/
 .content > form {
   display: grid;
