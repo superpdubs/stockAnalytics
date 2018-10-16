@@ -7,6 +7,8 @@ var hint = document.getElementById("search-hint");
 var exitButton = document.getElementById("exit-search");
 var home = document.querySelector("header > a");
 var account = document.querySelector("header > div");
+var recentsList = document.getElementById("recent-stocks");
+var recentsTitle = document.getElementById("recent-title");
 
 document.querySelectorAll(".symbol-search").forEach(function(element) {
   element.addEventListener("submit", function(element) {
@@ -42,6 +44,9 @@ searchbox.addEventListener("input", function(element) {
           element.preventDefault();
           exitButton.style.opacity = "0";
           suggestions.style.display = "none";
+          recentsList.style.display = "none";
+          recentsTitle.style.display = "none";
+          hint.style.display = "none";
           searchbox.value = element.target.childNodes[0].textContent;
           var loadingText = document.createElement("span");
           loadingText.setAttribute("id", "search-hint")
@@ -82,6 +87,25 @@ home.addEventListener("transitionend", hide);
 account.addEventListener("transitionend", hide);
 exitButton.addEventListener("transitionend", hide);
 
+var recents = document.querySelectorAll("#recent-stocks a");
+recents.forEach(function(element) {
+  element.addEventListener("click", function(element) {
+    element.preventDefault();
+    exitButton.style.opacity = "0";
+    suggestions.style.display = "none";
+    recentsList.style.display = "none";
+    recentsTitle.style.display = "none";
+    hint.style.display = "none";
+    searchbox.value = element.target.getAttribute("name");
+    var loadingText = document.createElement("span");
+    loadingText.setAttribute("id", "search-hint")
+    loadingText.textContent = "Loading information for "
+      + element.target.getAttribute("name") + " ("
+      + element.target.getAttribute("stock") + "), shouldn't be long";
+    popup.appendChild(loadingText);
+    window.location = element.target.getAttribute("href");
+  });
+});
 
 function hide(element) {
   if (element.target.style.opacity == "0") {

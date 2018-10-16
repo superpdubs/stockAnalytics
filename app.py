@@ -226,8 +226,10 @@ def about():
 def utility_processor():
     def twitterEmbed(statusId, url):
         return search.twitterEmbed(status_id=statusId, url=url)
+    def symbolToName(symbol):
+        return Stock.query.filter_by(symbol=symbol.upper()).first().name
 
-    return dict(twitterEmbed=twitterEmbed)
+    return dict(twitterEmbed=twitterEmbed, symbolToName=symbolToName)
 
 @app.errorhandler(404)
 def page_not_found(e):

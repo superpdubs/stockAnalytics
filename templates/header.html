@@ -15,12 +15,22 @@
     <button id="exit-search">Close</button>
   </header>
   <div id="search-popup">
-    <span id="search-hint">Start typing a stock name or symbol</span>
-{% if recents != None %}
-{% for stock in recents %}
-    <span>{{ stock }}</span>
-{% endfor %}
-{% endif %}
     <ul id="search-suggestions"></ul>
+{% if recents != None %}
+    <h5 id="recent-title">Recently viewed stocks</h5>
+    <ul id="recent-stocks">
+{% for stock in recents %}
+      <li>
+        <a href="{{ url_for('stock', stockname=stock) }}" stock="{{ stock }}" name="{{ symbolToName(stock) }}">
+          <span>{{ stock }}</span>
+          <span>{{ symbolToName(stock) }}</span>
+        </a>
+      </li>
+{% endfor %}
+    </ul>
+    <span id="search-hint">Start typing a stock name or symbol, or select a recently viewed stock</span>
+{% else %}
+    <span id="search-hint">Start typing a stock name or symbol</span>
+{% endif %}
   </div>
   <script async src="{{ url_for('static', filename='js/search.js') }}"></script>

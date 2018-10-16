@@ -210,6 +210,33 @@ footer > a:hover {
   visibility: hidden;
 }
 
+#recent-title {
+  margin: 1rem 0 0.5rem 0;
+}
+
+#recent-stocks {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(10rem, 1fr));
+  grid-gap: 0.25rem;
+  max-width: 70rem;
+  overflow-x: auto;
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0;
+}
+
+#recent-stocks > li > a {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+}
+
+#recent-stocks > li > a > span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 /*Stock display styles*/
 .stock-info {
   padding: 2rem 0;
