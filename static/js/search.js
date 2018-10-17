@@ -44,8 +44,10 @@ searchbox.addEventListener("input", function(element) {
           element.preventDefault();
           exitButton.style.opacity = "0";
           suggestions.style.display = "none";
-          recentsList.style.display = "none";
-          recentsTitle.style.display = "none";
+          if (recentsList) {
+            recentsList.style.display = "none";
+            recentsTitle.style.display = "none";
+          }
           hint.style.display = "none";
           searchbox.value = element.target.childNodes[0].textContent;
           var loadingText = document.createElement("span");
@@ -93,8 +95,10 @@ recents.forEach(function(element) {
     element.preventDefault();
     exitButton.style.opacity = "0";
     suggestions.style.display = "none";
-    recentsList.style.display = "none";
-    recentsTitle.style.display = "none";
+    if (recentsList) {
+      recentsList.style.display = "none";
+      recentsTitle.style.display = "none";
+    }
     hint.style.display = "none";
     searchbox.value = element.target.getAttribute("name");
     var loadingText = document.createElement("span");
