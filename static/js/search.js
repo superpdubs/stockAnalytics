@@ -100,14 +100,15 @@ recents.forEach(function(element) {
       recentsTitle.style.display = "none";
     }
     hint.style.display = "none";
-    searchbox.value = element.target.getAttribute("name");
+    var link = element.target.parentElement;
+    searchbox.value = link.getAttribute("name");
     var loadingText = document.createElement("span");
     loadingText.setAttribute("id", "search-hint")
     loadingText.textContent = "Loading information for "
-      + element.target.getAttribute("name") + " ("
-      + element.target.getAttribute("stock") + "), shouldn't be long";
+      + link.getAttribute("name") + " ("
+      + link.getAttribute("stock") + "), shouldn't be long";
     popup.appendChild(loadingText);
-    window.location = element.target.getAttribute("href");
+    window.location = link.getAttribute("href");
   });
 });
 
