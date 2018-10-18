@@ -30,10 +30,16 @@ def index():
 
     uname = uname_getter()
     if uname != None:
+        thisuser = User.query.filter(User.uid == session.get('uid')).first()
+        if thisuser.fav_stock_list == None:
+            thisuser.fav_stock_list = ''
+            db.session.commit()
+        favs = thisuser.fav_stock_list.split(',')
         return render_template('index_loggedin.html',
                                this_uname=uname,
                                msg=message,
-                               recents=session.get('recents'))
+                               recents=session.get('recents'),
+                               favs=favs)
     return render_template('index_loggedout.html',
                            this_uname=uname,
                            recents=session.get('recents'))
@@ -185,7 +191,7 @@ def verify_email():
                     lastname=user.lastname,
                     user_pass=user.user_pass,
                     email=user.email,
-                    fav_stock_list=None,
+                    fav_stock_list='',
                     my_stocks=None)
     db.session.add(new_user)
     db.session.delete(user)
@@ -209,6 +215,43 @@ def suggestions():
                 break
     return jsonify(result)
 
+
+@app.route('/add_fav')
+def add_fav():
+    if uname_getter() == None:
+        return jsonify('failed: not logged in')
+    query = request.args.get('fav').upper()
+    stock = Stock.query.filter_by(symbol=query).first()
+    if stock == None:
+        return jsonify('failed: stock invalid')
+    thisuser = User.query.filter(User.uid == session.get('uid')).first()
+    favs = thisuser.fav_stock_list.split(',')
+    if query in favs:
+        return jsonify('failed: already exists')
+    favs.append(query)
+    thisuser.fav_stock_list = ','.join(favs)
+    db.session.commit()
+    return jsonify('success')
+
+
+@app.route('/remove_fav')
+def remove_fav():
+    if uname_getter() == None:
+        return jsonify('failed: not logged in')
+    query = request.args.get('fav').upper()
+    stock = Stock.query.filter_by(symbol=query).first()
+    if stock == None:
+        return jsonify('failed: stock invalid')
+    thisuser = User.query.filter(User.uid == session.get('uid')).first()
+    favs = thisuser.fav_stock_list.split(',')
+    if query not in favs:
+        return jsonify('failed: not in fav list')
+    favs.remove(query)
+    thisuser.fav_stock_list = ','.join(favs)
+    db.session.commit()
+    return jsonify('success')
+
+
 @app.route('/sources')
 def sources():
     return render_template('sources.html',
@@ -227,6 +270,9 @@ def utility_processor():
     def twitterEmbed(statusId, url):
         return search.twitterEmbed(status_id=statusId, url=url)
     def symbolToName(symbol):
+        stock = Stock.query.filter_by(symbol=symbol.upper()).first()
+        if stock == None:
+            return symbol
         return Stock.query.filter_by(symbol=symbol.upper()).first().name
 
     return dict(twitterEmbed=twitterEmbed, symbolToName=symbolToName)
