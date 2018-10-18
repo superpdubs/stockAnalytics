@@ -23,6 +23,11 @@
         </div>
         <span class="lname_status status"></span>
         <div>
+          <label for="email">Email Address</label>
+          <input autocomplete="username" id="email" name="email" type="email">
+        </div>
+        <span class="email_status status"></span>
+        <div>
           <label for="user_pass">Password</label>
           <input id="user_pass" name="user_pass" type="password">
         </div>
@@ -32,11 +37,6 @@
           <input id="confirm" name="confirm" type="password">
         </div>
         <span class="confirm_status status"></span>
-        <div>
-          <label for="email">Email Address</label>
-          <input autocomplete="username" id="email" name="email" type="email">
-        </div>
-        <span class="email_status status"></span>
         <div>
           <a href="{{ url_for('login') }}" class="button">Login</a>
           <button type="submit">Register</button>
