@@ -10,7 +10,7 @@
     <span class="message">{{ msg }}</span>
 {% endif %}
     <h2>Logged in home page placeholder</h2>
-{% if favs != [''] %}
+{% if favs != None %}
     <h5 id="recent-title">Pinned stocks</h5>
     <ul id="recent-stocks">
 {% for stock in favs %}

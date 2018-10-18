@@ -31,10 +31,9 @@ def index():
     uname = uname_getter()
     if uname != None:
         thisuser = User.query.filter(User.uid == session.get('uid')).first()
-        if thisuser.fav_stock_list == None:
-            thisuser.fav_stock_list = ''
-            db.session.commit()
-        favs = thisuser.fav_stock_list.split(',')
+        favs = None
+        if thisuser.fav_stock_list != None:
+            favs = thisuser.fav_stock_list.split(',')
         return render_template('index_loggedin.html',
                                this_uname=uname,
                                msg=message,
@@ -191,7 +190,7 @@ def verify_email():
                     lastname=user.lastname,
                     user_pass=user.user_pass,
                     email=user.email,
-                    fav_stock_list='',
+                    fav_stock_list=None,
                     my_stocks=None)
     db.session.add(new_user)
     db.session.delete(user)
@@ -225,7 +224,9 @@ def add_fav():
     if stock == None:
         return jsonify('failed: stock invalid')
     thisuser = User.query.filter(User.uid == session.get('uid')).first()
-    favs = thisuser.fav_stock_list.split(',')
+    favs = []
+    if thisuser.fav_stock_list != None:
+        favs = thisuser.fav_stock_list.split(',')
     if query in favs:
         return jsonify('failed: already exists')
     favs.append(query)

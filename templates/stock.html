@@ -25,6 +25,21 @@
 {% endif %}
         </div>
 {% include 'social.html' %}
+        <button id="pin_stock">Pin stock</button>
+        <script type="text/javascript">
+          var pinButton = document.getElementById("pin_stock");
+          pinButton.addEventListener("click", function (element) {
+            console.log
+            var pin_xhr = new XMLHttpRequest();
+            pin_xhr.open("GET", root + "/add_fav?fav={{ company.symbol }}");
+            pin_xhr.responseType = "json";
+            pin_xhr.send();
+            pin_xhr.onload = function() {
+              console.log(pin_xhr.response)
+              // TODO: do something with result
+            };
+          });
+        </script>
       </div>
       <div class="chart column">
         <h4>30 Day Performance</h4>
