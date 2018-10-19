@@ -30,15 +30,11 @@ def index():
 
     uname = uname_getter()
     if uname != None:
-        thisuser = User.query.filter(User.uid == session.get('uid')).first()
-        favs = None
-        if thisuser.fav_stock_list != None:
-            favs = thisuser.fav_stock_list.split(',')
         return render_template('index_loggedin.html',
                                this_uname=uname,
                                msg=message,
                                recents=session.get('recents'),
-                               favs=favs)
+                               favs=favs_getter())
     return render_template('index_loggedout.html',
                            this_uname=uname,
                            recents=session.get('recents'))
@@ -244,11 +240,16 @@ def remove_fav():
     if stock == None:
         return jsonify('failed: stock invalid')
     thisuser = User.query.filter(User.uid == session.get('uid')).first()
+    if thisuser.fav_stock_list == None:
+        return jsonify('failed: not in fav list')
     favs = thisuser.fav_stock_list.split(',')
     if query not in favs:
         return jsonify('failed: not in fav list')
     favs.remove(query)
-    thisuser.fav_stock_list = ','.join(favs)
+    if len(favs) == 0:
+        thisuser.fav_stock_list = ''
+    else:
+        thisuser.fav_stock_list = ','.join(favs)
     db.session.commit()
     return jsonify('success: removed')
 
@@ -306,6 +307,15 @@ def add_recents(stock):
         return
     recents.append(stock)
     session['recents'] = list(recents)
+
+def favs_getter():
+    thisuser = User.query.filter(User.uid == session.get('uid')).first()
+    if thisuser == None:
+        return None
+    favs = None
+    if thisuser.fav_stock_list != None and thisuser.fav_stock_list != '':
+        favs = thisuser.fav_stock_list.split(',')
+    return favs
 
 def initML():
     global model_ug_dbow, neural_model
