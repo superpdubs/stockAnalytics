@@ -8,7 +8,7 @@ from gensim.models import Doc2Vec
 
 def loadDoc():
     # doc2vec
-    model_ug_dbow = Doc2Vec.load('ml/d2v_model_ug_dbow.doc2vec')
+    model_ug_dbow = Doc2Vec.load('ml/d2v_model.doc2vec')
     model_ug_dbow.delete_temporary_training_data(keep_doctags_vectors=True, keep_inference=True)
 
     print('loaded doc2vec')

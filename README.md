@@ -1,31 +1,17 @@
 # stockAnalytics
 
-# Topic :
-Twitter/Stock price analytics
+# Summary
+A web application that sources financial stock information about companies, along with news and company history. This data is matched against Twitter posts, which when passed through our sentiment analysis system, will be able to provide an analysis on the current public view and opinion of the searched company.
 
-# Language:
-Python3
+<http://35.229.43.130:5000/>
 
-# Development framework:
-Python/Flask(MVC)
 
-# Set up your package install:
+
+# Getting Started
+```sh
 pip install -r requirements.txt
+```
+Download machine learning files and save in ml folder <https://drive.google.com/drive/u/0/folders/1myzmp4bZMLWFNlJswRwVPUCymPVmjeOS>
 
-# How to set up VirtualEnv and flask for your project:
-http://flask.pocoo.org/docs/1.0/installation/
-
-# Tutorial for python/Flask:
-https://www.youtube.com/watch?v=MwZwr5Tvyxo&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH
-
-# Database ORM(Object Relationship Mapping)
-flask_sqlalchemy based on (MYSQL / SQlite )
-
-# how to set up flask_sqlalchemy:
-pip3 install flask_sqlalchemy
-
-# matplotlib on a headless install
-Change the backend to a "hardcopy" one as described here https://matplotlib.org/faq/usage_faq.html#wx-backends
-
-
-
+# Language & tools
+Python3, Flask, JavaScript, SQLite, tensorflow
