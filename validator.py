@@ -1,7 +1,8 @@
 import validators
 from models import *
+from codegenerator import Encryption
 from app import session
-
+encryption = Encryption()
 
 class RegisterValidator:
     def validate(self, user):
@@ -21,7 +22,8 @@ class LoginValidator:
                 to_match_user = User.query.filter(User.email == user['email']).first()
                 if to_match_user is not None:
                     to_match_Password = to_match_user.user_pass
-                    if user['password'] == to_match_Password:
+                    if user['password'] == encryption.decrpty_Code(to_match_Password):
+
                         message = None
                     else:
                         message = "Email and password doesn't match"
