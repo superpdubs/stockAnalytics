@@ -27,40 +27,11 @@
 {% include 'social.html' %}
 {% if this_uname != None %}
 {% if isFav(company.symbol) == True %}
-        <button class="unpin_stock" stock="{{ company.symbol }}">Unpin stock</button>
+        <button class="pin_stock" pin="unpin" stock="{{ company.symbol }}">Unpin stock</button>
 {% else %}
-        <button class="pin_stock" stock="{{ company.symbol }}">Pin stock</button>
+        <button class="pin_stock" pin="pin" stock="{{ company.symbol }}">Pin stock</button>
 {% endif %}
-        <script type="text/javascript">
-          var pinButtons = document.querySelectorAll(".pin_stock");
-          pinButtons.forEach(function(element) {
-            element.addEventListener("click", function (element) {
-              console.log
-              var pin_xhr = new XMLHttpRequest();
-              pin_xhr.open("GET", root + "/add_fav?fav=" + element.target.getAttribute("stock"));
-              pin_xhr.responseType = "json";
-              pin_xhr.send();
-              pin_xhr.onload = function() {
-                console.log(pin_xhr)
-                // TODO: do something with result
-              };
-            });
-          });
-          var unpinButtons = document.querySelectorAll(".unpin_stock");
-          unpinButtons.forEach(function(element) {
-            element.addEventListener("click", function (element) {
-              console.log
-              var unpin_xhr = new XMLHttpRequest();
-              unpin_xhr.open("GET", root + "/remove_fav?fav=" + element.target.getAttribute("stock"));
-              unpin_xhr.responseType = "json";
-              unpin_xhr.send();
-              unpin_xhr.onload = function() {
-                console.log(unpin_xhr)
-                // TODO: do something with result
-              };
-            });
-          });
-        </script>
+        <script src="{{ url_for('static', filename='js/fav.js') }}"></script>
 {% endif %}
       </div>
       <div class="chart column">

@@ -232,7 +232,7 @@ def add_fav():
     favs.append(query)
     thisuser.fav_stock_list = ','.join(favs)
     db.session.commit()
-    return jsonify('success')
+    return jsonify('success: added')
 
 
 @app.route('/remove_fav')
@@ -250,7 +250,7 @@ def remove_fav():
     favs.remove(query)
     thisuser.fav_stock_list = ','.join(favs)
     db.session.commit()
-    return jsonify('success')
+    return jsonify('success: removed')
 
 
 @app.route('/sources')
