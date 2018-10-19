@@ -275,8 +275,14 @@ def utility_processor():
         if stock == None:
             return symbol
         return Stock.query.filter_by(symbol=symbol.upper()).first().name
+    def isFav(symbol):
+        thisuser = User.query.filter(User.uid == session.get('uid')).first()
+        favs = thisuser.fav_stock_list.split(',')
+        if symbol in favs:
+            return True
+        return False
 
-    return dict(twitterEmbed=twitterEmbed, symbolToName=symbolToName)
+    return dict(twitterEmbed=twitterEmbed, symbolToName=symbolToName, isFav=isFav)
 
 @app.errorhandler(404)
 def page_not_found(e):
