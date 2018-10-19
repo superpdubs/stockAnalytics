@@ -169,6 +169,7 @@ def check_email():
 
 @app.route('/verify_email')
 def verify_email():
+    encryption = Encryption()
     email = request.args.get('email')
     code = request.args.get('code')
     matches = PendingUser.query.filter(PendingUser.email == email)
@@ -188,7 +189,7 @@ def verify_email():
 
     new_user = User(firstname=user.firstname,
                     lastname=user.lastname,
-                    user_pass=user.user_pass,
+                    user_pass=encryption.encrypt_Code(user.user_pass),
                     email=user.email,
                     fav_stock_list=None,
                     my_stocks=None)
