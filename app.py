@@ -302,7 +302,6 @@ def add_recents(stock):
 def initML():
     global model_ug_dbow, neural_model
     model_ug_dbow=loadDoc()
-    print("dd")
     neural_model=loadNeural()
 
 def setup_app(app):
