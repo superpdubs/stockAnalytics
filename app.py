@@ -277,6 +277,8 @@ def utility_processor():
         return Stock.query.filter_by(symbol=symbol.upper()).first().name
     def isFav(symbol):
         thisuser = User.query.filter(User.uid == session.get('uid')).first()
+        if thisuser.fav_stock_list == None:
+            return False
         favs = thisuser.fav_stock_list.split(',')
         if symbol in favs:
             return True
