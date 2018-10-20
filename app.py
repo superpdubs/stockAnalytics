@@ -122,6 +122,13 @@ def stock(stockname):
     price, close, date, ohlc, company, news = search.iEXManualRequest(stockname.upper())
 
     twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
+    overall = 0
+    if len(twitter) > 0:
+        positive = 0
+        for i in range(0, len(twitter)):
+            positive += twitter[i].classification
+        overall = positive / len(twitter)
+
     delta = price - ohlc["open"]["price"]
     percentage = delta / ohlc["open"]["price"] * 100
     diff = 'loss'
@@ -133,6 +140,7 @@ def stock(stockname):
     add_recents(company.get('symbol'))
     return render_template('stock.html',
                            twitter=twitter,
+                           overall=overall,
                            delta=delta,
                            percentage=percentage,
                            diff=diff,
