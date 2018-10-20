@@ -5,7 +5,7 @@
     </form>
     <div>
 {% if this_uname != None %}
-      <span>Welcome, {{ this_uname }}</span>
+      <span>{{ this_uname }}</span>
       <a href="{{ url_for('logout') }}" class="button">Log out</a>
 {% else %}
       <a href="{{ url_for('login') }}" class="button">Login</a>
