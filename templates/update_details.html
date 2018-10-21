@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Update details{% endblock %}
+
+{% block header %}{% include 'header.html' %}
+{% endblock %}
+
+{% block body_contents %}
+{% if info != None %}
+    <span class="message">{{ info }}</span>
+{% endif %}
+    <div class="content">
+      <h1>Update details</h1>
+      <form method="POST" action="{{ url_for('update_details') }}" >
+        <div>
+          <label for="firstname">First name</label>
+          <input id="firstname" name="firstname" type="text" value="{{ fname }}">
+        </div>
+        <span class="fname_status status"></span>
+        <div>
+          <label for="lastname">Last name</label>
+          <input id="lastname" name="lastname" type="text" value="{{ lname }}">
+        </div>
+        <span class="lname_status status"></span>
+        <div>
+          <button id="submit" type="submit">Update</button>
+        </div>
+      </form>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script>
+      $("#firstname").blur(function() {
+        var firstname = this.value;  
+        if (Object.keys(firstname).length > 0) {
+          this.setCustomValidity("");
+          $('.fname_status').html("");
+        } else {
+          this.setCustomValidity("Required");
+          $('.fname_status').html("Required");
+        }
+      });
+
+      $("#lastname").blur(function() {
+        var lastname = this.value;  
+        if (Object.keys(lastname).length > 0) {
+          this.setCustomValidity("");
+          $('.lname_status').html("");
+        } else {
+          this.setCustomValidity("Required");
+          $('.lname_status').html("Required");
+        }
+      });
+    </script>{% endblock %}

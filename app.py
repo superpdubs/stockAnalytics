@@ -86,6 +86,7 @@ def register():
                      'cpass':this_cpass,'email': this_email}
         msg = registervalidator.validate(this_registration);
         if msg is None:
+            encryption = Encryption()
             verification = Verfication()
             mail = VerificationEmail()
             verifyCode = verification.generate_code()
@@ -100,7 +101,7 @@ def register():
                                            code=verifyCode,
                                            firstname=this_firstname,
                                            lastname=this_lastname,
-                                           user_pass=this_pass)
+                                           user_pass=encryption.encrypt_Code(this_pass))
                 db.session.add(pending_user)
                 db.session.commit()
                 return render_template("checkemail.html",
@@ -177,7 +178,6 @@ def check_email():
 
 @app.route('/verify_email')
 def verify_email():
-    encryption = Encryption()
     email = request.args.get('email')
     code = request.args.get('code')
     matches = PendingUser.query.filter(PendingUser.email == email)
@@ -197,7 +197,7 @@ def verify_email():
 
     new_user = User(firstname=user.firstname,
                     lastname=user.lastname,
-                    user_pass=encryption.encrypt_Code(user.user_pass),
+                    user_pass=user.user_pass,
                     email=user.email,
                     fav_stock_list=None,
                     my_stocks=None)
@@ -276,6 +276,76 @@ def sources():
 @app.route('/about')
 def about():
     return render_template('about.html',
+                           this_uname=uname_getter(),
+                           recents=session.get('recents'))
+
+
+@app.route('/account')
+def account():
+    if uname_getter() == None:
+        return redirect(url_for('index'))
+    message = request.args.get('message')
+    return render_template('account.html',
+                           this_uname=uname_getter(),
+                           recents=session.get('recents'),
+                           info=message)
+
+
+@app.route('/update_details', methods=['GET','POST'])
+def update_details():
+    if uname_getter() == None:
+        return redirect(url_for('index'))
+    thisuser = User.query.filter(User.uid == session.get('uid')).first()
+    if request.method == 'POST':
+        this_firstname = request.form.get('firstname')
+        this_lastname = request.form.get('lastname')
+        updateValidator = UpdateValidator()
+        this_registration = {'firstname':this_firstname,'lastname': this_lastname}
+        msg = updateValidator.validate(this_registration)
+        if msg is None:
+            thisuser.firstname = this_firstname;
+            thisuser.lastname = this_lastname;
+            db.session.commit()
+            return redirect(url_for('account',
+                                    message='Details successfully updated'))
+        return render_template('update_details.html',
+                               info=msg,
+                               this_uname=uname_getter(),
+                               recents=session.get('recents'),
+                               fname=thisuser.firstname,
+                               lname=thisuser.lastname)
+    return render_template('update_details.html',
+                           info=None,
+                           this_uname=uname_getter(),
+                           recents=session.get('recents'),
+                           fname=thisuser.firstname,
+                           lname=thisuser.lastname)
+
+
+@app.route('/change_password', methods=['GET','POST'])
+def change_password():
+    if uname_getter() == None:
+        return redirect(url_for('index'))
+    thisuser = User.query.filter(User.uid == session.get('uid')).first()
+    if request.method == 'POST':
+        oldpass = request.form.get('old_pass')
+        password = request.form.get('user_pass')
+        cpass = request.form.get('confirm')
+        passwordValidator = PasswordValidator()
+        this_registration = {'oldpass': oldpass, 'password': password, 'cpass':cpass, 'email':thisuser.email}
+        msg = passwordValidator.validate(this_registration)
+        if msg is None:
+            encryption = Encryption()
+            thisuser.user_pass = encryption.encrypt_Code(password);
+            db.session.commit()
+            return redirect(url_for('account',
+                                    message='Password successfully changed'))
+        return render_template('change_password.html',
+                               info=msg,
+                               this_uname=uname_getter(),
+                               recents=session.get('recents'))
+    return render_template('change_password.html',
+                           info=None,
                            this_uname=uname_getter(),
                            recents=session.get('recents'))
 
