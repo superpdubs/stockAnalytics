@@ -10,19 +10,21 @@
     <span class="message">{{ msg }}</span>
 {% endif %}
     <h2>Hi {{ this_uname }}</h2>
-    <h5 id="recent-title">Pinned stocks</h5>
+    <div class="recents">
+      <h5 id="recent-title">Pinned stocks</h5>
 {% if favs != None %}
-    <ul id="recent-stocks">
+      <ul id="recent-stocks">
 {% for stock in favs %}
-      <li>
-        <a href="{{ url_for('stock', stockname=stock) }}" stock="{{ stock }}" name="{{ symbolToName(stock) }}" stock-link="pending">
-          <span>{{ stock }}</span>
-          <span>{{ symbolToName(stock) }}</span>
-        </a>
-      </li>
+        <li>
+          <a href="{{ url_for('stock', stockname=stock) }}" stock="{{ stock }}" name="{{ symbolToName(stock) }}" stock-link="pending">
+            <span>{{ stock }}</span>
+            <span>{{ symbolToName(stock) }}</span>
+          </a>
+        </li>
 {% endfor %}
-    </ul>
+      </ul>
 {% else %}
-    <p>You haven't pinned any stocks</p>
+      <p>You haven't pinned any stocks</p>
 {% endif %}
+    </div>
       {% endblock %}
