@@ -80,8 +80,10 @@ document.getElementById("exit-search").addEventListener("click", function(elemen
   exitButton.style.opacity = "0";
   account.style.visibility = "visible";
   account.style.opacity = "1";
-  home.style.visibility = "visible";
-  home.style.opacity = "1";
+  if (hideHome == null) {
+    home.style.visibility = "visible";
+    home.style.opacity = "1";
+  }
   searchbox.removeAttribute("id");
 });
 popup.addEventListener("transitionend", hide);
