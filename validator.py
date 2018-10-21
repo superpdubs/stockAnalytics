@@ -43,8 +43,8 @@ class EmailValidator:
         if validators.email(thisemail):
             to_get_email = User.query.filter(User.email == thisemail).first()
             if to_get_email is not None:
-                return "This email already exist"
+                return "Email address taken"
             else:
                 return None
         else:
-            return "Please input a value Email address"
+            return "Invalid email address"
