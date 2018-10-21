@@ -5,7 +5,7 @@
     </form>
     <div>
 {% if this_uname != None %}
-      <span>Welcome, {{ this_uname }}</span>
+      <span><a href="{{ url_for('account') }}" style="color: white;">{{ this_uname }}</a></span>
       <a href="{{ url_for('logout') }}" class="button">Log out</a>
 {% else %}
       <a href="{{ url_for('login') }}" class="button">Login</a>
@@ -21,7 +21,7 @@
     <ul id="recent-stocks">
 {% for stock in recents %}
       <li>
-        <a href="{{ url_for('stock', stockname=stock) }}" stock="{{ stock }}" name="{{ symbolToName(stock) }}">
+        <a href="{{ url_for('stock', stockname=stock) }}" stock="{{ stock }}" name="{{ symbolToName(stock) }}" stock-link="pending">
           <span>{{ stock }}</span>
           <span>{{ symbolToName(stock) }}</span>
         </a>

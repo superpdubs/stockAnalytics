@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block body_contents %}
+{% if info != None %}
+    <span class="message">{{ info }}</span>
+{% endif %}
     <div class="content">
       <h1>Register</h1>
-{% if info != None %}
-      <span class="info">{{ info }}</span>
-{% endif %}
       <form method="POST" action="{{ url_for('register') }}" >
         <div>
           <label for="firstname">First name</label>
@@ -33,104 +33,100 @@
         </div>
         <span class="pass_status status"></span>
         <div>
-          <label for="confirm">Confirm Password</label>
+          <label for="confirm">Retype Password</label>
           <input id="confirm" name="confirm" type="password">
         </div>
         <span class="confirm_status status"></span>
         <div>
           <a href="{{ url_for('login') }}" class="button">Login</a>
-          <button type="submit">Register</button>
+          <button id="submit" type="submit">Register</button>
         </div>
       </form>
     </div>
 
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.3.1.min.js') }}"></script>
-  <script>
-      var emailchecked = false;
-      var fnamechecked = false;
-      var lnamechecked = false;
-      var passchecked = false;
-      var cpasschecked = false;
-
-      $("#email").blur(function(){
-       email= document.getElementById("email").value;  
-        if(Object.keys(email).length > 0) {
-            $.ajax({
-                type: 'get',
-                url: '{{ url_for('check_email') }}',
-                data: {this_email: email},
-                dataType: 'json',
-                success: function (data) {
-                    if (data.eval == 1) {
-                        $('.email_status').html(data.msg);
-                        $("#btn_code").attr('disabled',false);
-                        emailchecked = true;
-                    } else {
-                        $('.email_status').html(data.msg);
-                        emailchecked = false;
-                        $("#btn_code").attr('disabled',true);
-                    }
-                }
-            });
-        }else{
-            $('.email_status').html("");
+    <script>
+      $("#firstname").blur(function() {
+        var firstname = this.value;  
+        if (Object.keys(firstname).length > 0) {
+          this.setCustomValidity("");
+          $('.fname_status').html("");
+        } else {
+          this.setCustomValidity("Required");
+          $('.fname_status').html("Required");
         }
-      }) 
+      });
 
-      $("#firstname").blur(function(){
-       var firstname= document.getElementById("firstname").value;
-       if(Object.keys(firstname).length > 0){
-           $('.fname_status').html("Passed!");
-           fnamechecked = true;
-       }else{
-            $('.fname_status').html("");
-            fnamechecked = false;
-       } }) 
-
-      $("#lastname").blur(function(){
-       var lastname= document.getElementById("lastname").value;
-       if(Object.keys(lastname).length > 0){
-           $('.lname_status').html("Passed!");
-           lnamechecked = true;
-       }else{
-            $('.lname_status').html("");
-            lnamechecked = false;
-       } }) 
-
-      $("#user_pass").blur(function(){
-       var password= document.getElementById("user_pass").value;
-       if(Object.keys(password).length > 0){
-           if( 6<= Object.keys(password).length){
-               if(Object.keys(password).length>11){
-                   $('.pass_status').html("Length of password should be 6-11 characters");
-                   passchecked = false;
-               }else{
-                   $('.pass_status').html("This password could be used");
-                    passchecked = true;
-               }
-           }else{
-               $('.pass_status').html("Length of password should be 6-11 characters");
-                passchecked = false;
-           }
-       }else{
-            $('.pass_status').html("");
-             passchecked = false;
-       } }) 
-
-      $("#confirm").blur(function(){
-       var cpassword= document.getElementById("confirm").value;
-       var password= document.getElementById("user_pass").value;
-       if(Object.keys(cpassword).length>0){
-           if(cpassword==password){
-                $('.confirm_status').html("");
-                cpasschecked = true;
-           }else{
-                $('.confirm_status').html("This doesn't match your original password");
-                cpasschecked = false;
-           }
-       }else{
-            $('.confirm_status').html(" ");
-            cpasschecked = false;
+      $("#lastname").blur(function() {
+        var lastname = this.value;  
+        if (Object.keys(lastname).length > 0) {
+          this.setCustomValidity("");
+          $('.lname_status').html("");
+        } else {
+          this.setCustomValidity("Required");
+          $('.lname_status').html("Required");
         }
-      })
+      });
+
+      $("#email").blur(function() {
+        var email = this.value;  
+        if (Object.keys(email).length > 0) {
+          $.ajax({
+            type: 'get',
+            url: '{{ url_for('check_email') }}',
+            data: {this_email: email},
+            dataType: 'json',
+            success: function (data) {
+              if (data.eval == 1) {
+                $('.email_status').html("");
+                document.getElementById("email").setCustomValidity("");
+              } else {
+                $('.email_status').html(data.msg);
+                document.getElementById("email").setCustomValidity(data.msg);
+              }
+            }
+          });
+        } else{
+          this.setCustomValidity("Required");
+          $('.email_status').html("Required");
+        }
+      });
+
+      $("#user_pass").blur(function() {
+        var password= this.value;
+        if (Object.keys(password).length > 0) {
+          if (Object.keys(password).length >= 6) {
+            if (Object.keys(password).length > 11) {
+              this.setCustomValidity("Length must be 6-11 characters");
+              $('.pass_status').html("Length must be 6-11 characters");
+            } else {
+              this.setCustomValidity("");
+              $('.pass_status').html("");
+            }
+          } else {
+            $('.pass_status').html("Length must be 6-11 characters");
+            this.setCustomValidity("Length must be 6-11 characters");
+          }
+        } else {
+          $('.pass_status').html("Required");
+          this.setCustomValidity("Required");
+        }
+      }); 
+
+      $("#confirm").blur(function() {
+        var cpassword = this.value;
+        var password = document.getElementById("user_pass").value;
+        if (Object.keys(cpassword).length > 0) {
+          if (cpassword == password) {
+            $('.confirm_status').html("");
+            this.setCustomValidity("");
+          } else {
+            $('.confirm_status').html("Doesn't match password");
+            this.setCustomValidity("Doesn't match password");
+          }
+        } else {
+          $('.confirm_status').html("Required");
+          this.setCustomValidity("Required");
+        }
+      });
     </script>{% endblock %}

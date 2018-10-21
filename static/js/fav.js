@@ -1,7 +1,6 @@
 var pinButtons = document.querySelectorAll(".pin_stock");
 pinButtons.forEach(function(element) {
   element.addEventListener("click", function (element) {
-    console.log
     var pin_xhr = new XMLHttpRequest();
     if (element.target.getAttribute("pin") == "pin") {
       pin_xhr.open("GET", root + "/add_fav?fav=" + element.target.getAttribute("stock"));

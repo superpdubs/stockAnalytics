@@ -5,6 +5,7 @@
   {% block head %}{% endblock %}
   <title>{% block title %}{% endblock %} - fetch</title>
   <script type="text/javascript">var root = {{ request.script_root|tojson|safe }};</script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/loading.js') }}"></script>
 </head>
 <body>
 {% block header %}{% endblock %}
@@ -12,5 +13,8 @@
 {% block body_contents %}{% endblock %}
   </div>
 {% include 'footer.html' %}
+	<script type="text/javascript">
+		initStockLinks();
+	</script>
 </body>
 </html>

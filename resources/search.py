@@ -47,15 +47,8 @@ def twitterAdvancedSearch(query, resultType, count):
 	classification = [];
 	if tweets_from_API:
 		classification = ml.classifier.classifier(tweets_from_API)
-	if len(classification)>0:
-		positive,negative=0,0
-		for i in range(0, len(classification)):
-			if(classification[i][0]==0):
-				positive+=1
-			elif(classification[i][0]==1):
-				negative+=1
-			results[i].classification = classification[i][0]
-		print("{:.1%}".format(positive/(positive+negative)))
+	for i in range(0, len(classification)):
+		results[i].classification = classification[i][0]
 	return results
 
 # print(twitterAdvancedSearch(query="AAPL", resultType="popular", count=10))

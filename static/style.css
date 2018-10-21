@@ -208,6 +208,7 @@ footer > a:hover {
   position: absolute;
   top: 0.75rem;
   visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
 }
 
 #recent-title {
@@ -349,6 +350,10 @@ footer > a:hover {
   margin-bottom: 3rem;
 }
 
+.recents {
+  font-size: 1.5rem;
+}
+
 /*Social button styles*/
 
 .social {
@@ -377,6 +382,7 @@ footer > a:hover {
   flex: 1;
   padding: 0.5rem;
   overflow: auto;
+  min-height: 10rem;
 }
 
 @media (max-width: 70em ) {
