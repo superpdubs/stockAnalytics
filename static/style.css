@@ -378,6 +378,7 @@ footer > a:hover {
   flex: 1;
   padding: 0.5rem;
   overflow: auto;
+  min-height: 10rem;
 }
 
 @media (max-width: 70em ) {

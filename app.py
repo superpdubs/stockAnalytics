@@ -120,6 +120,8 @@ def register():
 def stock(stockname):
     res = Stock.query.filter_by(symbol=stockname).first_or_404()
     price, close, date, ohlc, company, news = search.iEXManualRequest(stockname.upper())
+    if len(news) == 0:
+        news = None
 
     twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
     overall = 0
