@@ -66,7 +66,20 @@ searchbox.addEventListener("input", function(element) {
     }
   }
 });
-searchbox.addEventListener("focus", function(element) {
+searchbox.addEventListener("focus", showPopup);
+document.getElementById("exit-search").addEventListener("click", hidePopup);
+popup.addEventListener("transitionend", hide);
+home.addEventListener("transitionend", hide);
+account.addEventListener("transitionend", hide);
+exitButton.addEventListener("transitionend", hide);
+
+function hide(element) {
+  if (element.target.style.opacity == "0") {
+    element.target.style.visibility = "hidden";
+  }
+}
+
+function showPopup() {
   popup.style.visibility = "visible";
   popup.style.opacity = "1";
   exitButton.style.visibility = "visible";
@@ -74,48 +87,16 @@ searchbox.addEventListener("focus", function(element) {
   account.style.opacity = "0";
   home.style.opacity = "0";
   searchbox.setAttribute("id", "active-search");
-});
-document.getElementById("exit-search").addEventListener("click", function(element) {
+}
+
+function hidePopup() {
   popup.style.opacity = "0";
   exitButton.style.opacity = "0";
   account.style.visibility = "visible";
   account.style.opacity = "1";
-  if (hideHome == null) {
+  if (typeof hideHome === "undefined") {
     home.style.visibility = "visible";
     home.style.opacity = "1";
   }
   searchbox.removeAttribute("id");
-});
-popup.addEventListener("transitionend", hide);
-home.addEventListener("transitionend", hide);
-account.addEventListener("transitionend", hide);
-exitButton.addEventListener("transitionend", hide);
-
-var recents = document.querySelectorAll("#recent-stocks a");
-recents.forEach(function(element) {
-  element.addEventListener("click", function(element) {
-    element.preventDefault();
-    exitButton.style.opacity = "0";
-    suggestions.style.display = "none";
-    if (recentsList) {
-      recentsList.style.display = "none";
-      recentsTitle.style.display = "none";
-    }
-    hint.style.display = "none";
-    var link = element.target.parentElement;
-    searchbox.value = link.getAttribute("name");
-    var loadingText = document.createElement("span");
-    loadingText.setAttribute("id", "search-hint")
-    loadingText.textContent = "Loading information for "
-      + link.getAttribute("name") + " ("
-      + link.getAttribute("stock") + "), shouldn't be long";
-    popup.appendChild(loadingText);
-    window.location = link.getAttribute("href");
-  });
-});
-
-function hide(element) {
-  if (element.target.style.opacity == "0") {
-    element.target.style.visibility = "hidden";
-  }
 }

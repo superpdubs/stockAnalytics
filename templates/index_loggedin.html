@@ -15,7 +15,7 @@
     <ul id="recent-stocks">
 {% for stock in favs %}
       <li>
-        <a href="{{ url_for('stock', stockname=stock) }}" stock="{{ stock }}" name="{{ symbolToName(stock) }}">
+        <a href="{{ url_for('stock', stockname=stock) }}" stock="{{ stock }}" name="{{ symbolToName(stock) }}" stock-link="pending">
           <span>{{ stock }}</span>
           <span>{{ symbolToName(stock) }}</span>
         </a>
