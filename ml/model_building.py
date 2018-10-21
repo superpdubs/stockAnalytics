@@ -88,6 +88,14 @@ val_vecs_d2v = get_val_vectors(d2v_model, x_validation, 100)
 ##################
 # Neural network #
 ##################
+# Neural network architecture
+# -Take in a 100-dimensional vector produced by doc2vec model
+# -One hidden layer with 64 nodes (reasonably minimal complexity)
+# -30% dropout to make the model more generalisable and forcing it to learn what it 'needs' to
+# -Output layer is a sigmoid layer with binary output (pos/neg)
+# -Adams optimizer is used (good algo for basic, starter neural network)
+# -binary crossentropy for the loss function since we are doing binary ouputs, not specific percentage sentiment
+#################################
 import keras
 
 from keras.models import Sequential
