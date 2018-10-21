@@ -124,7 +124,7 @@ def stock(stockname):
         news = None
 
     twitter = search.twitterAdvancedSearch(query="%24"+stockname, resultType="popular", count=20)
-    overall = 0
+    overall = None
     if len(twitter) > 0:
         positive = 0
         for i in range(0, len(twitter)):

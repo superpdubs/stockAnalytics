@@ -24,7 +24,11 @@
           <span>Closed: {{ '$%.2f'|format(ohlc.close.price) }}</span>
 {% endif %}
         </div>
+{% if overall != None %}
         <span>Overall sentiment: {{ "{:.1%}".format(overall) }}</span>
+{% else %}
+        <span>Overall sentiment: Unavailable</span>
+{% endif %}
 {% include 'social.html' %}
 {% if this_uname != None %}
 {% if isFav(company.symbol) == True %}
