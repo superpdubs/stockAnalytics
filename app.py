@@ -128,6 +128,8 @@ def stock(stockname):
         for i in range(0, len(twitter)):
             positive += twitter[i].classification
         overall = positive / len(twitter)
+    else:
+        twitter = None
 
     delta = price - ohlc["open"]["price"]
     percentage = delta / ohlc["open"]["price"] * 100

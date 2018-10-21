@@ -52,7 +52,8 @@
 {% endfor %}
       </div>
       <div class="column twitter">
-      <h2>Twitter</h2>
+        <h2>Twitter</h2>
+{% if twitter != None %}
 {% for tweet in twitter %}
 {% if tweet.urls[0] %}
 {% if tweet.classification == 1 %}
@@ -62,6 +63,9 @@
 {% endif %}
 {% endif %}
 {% endfor %}
+{% else %}
+        <span>No recent tweets available</span>
+{% endif %}
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
